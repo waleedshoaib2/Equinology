@@ -7,17 +7,17 @@ const Facilities = () => {
     {
       title: "Luxury Stables",
       description: "Our stable designs blend luxury with functionality, creating spaces that prioritize horse comfort while making a stunning architectural statement.",
-      image: "https://images.unsplash.com/photo-1551969014-7d2c4cddf0b6?ixlib=rb-4.0.3&auto=format&fit=crop&q=80&w=1200"
+      image: "https://images.unsplash.com/photo-1518484233463-f6ddb68400ec?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
     },
     {
       title: "Indoor Arenas",
       description: "State-of-the-art indoor arenas designed for optimal training conditions year-round, with perfect footing, lighting, and climate control.",
-      image: "https://images.unsplash.com/photo-1566068256639-2f4e8a2dc218?ixlib=rb-4.0.3&auto=format&fit=crop&q=80&w=1200"
+      image: "https://images.unsplash.com/photo-1506696495449-78c912b30e10?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
     },
     {
       title: "Equestrian Estates",
       description: "Comprehensive estate planning that harmoniously integrates equestrian facilities with luxury residences and natural landscapes.",
-      image: "https://images.unsplash.com/photo-1534307671554-9a6d81f4d629?ixlib=rb-4.0.3&auto=format&fit=crop&q=80&w=1200"
+      image: "https://plus.unsplash.com/premium_photo-1664304525253-156489378204?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
     }
   ];
 
