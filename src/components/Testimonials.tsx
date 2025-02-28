@@ -28,8 +28,8 @@ const Testimonials = () => {
   ];
 
   return (
-    <section id="testimonials" className="py-24 bg-[#2A2118] relative">
-      <div className="absolute inset-0 bg-gradient-to-b from-[#3B2F1E]/50 to-[#2A2118]"></div>
+    <section id="testimonials" className="py-24 bg-[#0A0A0A] relative">
+      <div className="absolute inset-0 bg-gradient-to-b from-[#111111]/50 to-[#0A0A0A]"></div>
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="text-center mb-16">
@@ -40,7 +40,7 @@ const Testimonials = () => {
             transition={{ duration: 0.6 }}
             className="text-3xl sm:text-4xl font-bold mb-4"
           >
-            <span className="bg-gradient-to-r from-[#D4B483] to-[#8C7851] bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-[#3CAAFF] to-[#00E0FF] bg-clip-text text-transparent">
               Client Testimonials
             </span>
           </motion.h2>
@@ -49,7 +49,7 @@ const Testimonials = () => {
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-[#E6CCAB] max-w-2xl mx-auto"
+            className="text-[#ABABAB] max-w-2xl mx-auto"
           >
             Hear what our clients have to say about their experience working with Equinology.
           </motion.p>
@@ -63,17 +63,17 @@ const Testimonials = () => {
               whileInView={{ opacity: 1, y: 0 }}
               viewport={{ once: true }}
               transition={{ duration: 0.6, delay: index * 0.2 }}
-              className="bg-gradient-to-br from-[#3B2F1E]/80 to-[#2A2118]/80 p-8 rounded-2xl border border-[#5F4B32]/20 relative"
+              className="bg-gradient-to-br from-[#111111]/80 to-[#0A0A0A]/80 p-8 rounded-2xl border border-[#222222]/20 relative"
             >
-              <Quote className="absolute top-6 right-6 w-10 h-10 text-[#D4B483]/20" />
+              <Quote className="absolute top-6 right-6 w-10 h-10 text-[#3CAAFF]/20" />
               
               <div className="flex items-center mb-6">
                 {[...Array(testimonial.rating)].map((_, i) => (
-                  <Star key={i} className="w-4 h-4 text-[#D4B483] fill-current" />
+                  <Star key={i} className="w-4 h-4 text-[#3CAAFF] fill-current" />
                 ))}
               </div>
               
-              <p className="text-[#E6CCAB] mb-6 italic">"{testimonial.quote}"</p>
+              <p className="text-[#ABABAB] mb-6 italic">"{testimonial.quote}"</p>
               
               <div className="flex items-center">
                 <div className="w-12 h-12 rounded-full overflow-hidden mr-4">
@@ -84,8 +84,8 @@ const Testimonials = () => {
                   />
                 </div>
                 <div>
-                  <h4 className="text-[#F2EAD3] font-medium">{testimonial.author}</h4>
-                  <p className="text-sm text-[#A89076]">{testimonial.position}</p>
+                  <h4 className="text-[#F5F5F7] font-medium">{testimonial.author}</h4>
+                  <p className="text-sm text-[#777777]">{testimonial.position}</p>
                 </div>
               </div>
             </motion.div>

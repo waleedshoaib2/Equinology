@@ -22,8 +22,8 @@ const Facilities = () => {
   ];
 
   return (
-    <section id="facilities" className="py-24 bg-[#2A2118] relative">
-      <div className="absolute inset-0 bg-gradient-to-b from-[#2A2118] via-[#2A2118] to-[#3B2F1E]/30"></div>
+    <section id="facilities" className="py-24 bg-[#0A0A0A] relative">
+      <div className="absolute inset-0 bg-gradient-to-b from-[#0A0A0A] via-[#0A0A0A] to-[#111111]/30"></div>
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="text-center mb-16">
@@ -34,7 +34,7 @@ const Facilities = () => {
             transition={{ duration: 0.6 }}
             className="text-3xl sm:text-4xl font-bold mb-4"
           >
-            <span className="bg-gradient-to-r from-[#D4B483] to-[#8C7851] bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-[#3CAAFF] to-[#00E0FF] bg-clip-text text-transparent">
               Featured Facilities
             </span>
           </motion.h2>
@@ -43,7 +43,7 @@ const Facilities = () => {
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-[#E6CCAB] max-w-2xl mx-auto"
+            className="text-[#ABABAB] max-w-2xl mx-auto"
           >
             Explore our signature facility designs that combine functionality, beauty, and a deep understanding of equestrian needs.
           </motion.p>
@@ -74,7 +74,7 @@ const Facilities = () => {
                       className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-700 ease-in-out"
                     />
                   </div>
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#2A2118] via-transparent to-transparent opacity-80"></div>
+                  <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-transparent to-transparent opacity-80"></div>
                 </motion.div>
               </div>
               
@@ -84,7 +84,7 @@ const Facilities = () => {
                   whileInView={{ opacity: 1, x: 0 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.6 }}
-                  className="text-2xl sm:text-3xl font-bold mb-4 text-[#F2EAD3]"
+                  className="text-2xl sm:text-3xl font-bold mb-4 text-[#F5F5F7]"
                 >
                   {facility.title}
                 </motion.h3>
@@ -93,7 +93,7 @@ const Facilities = () => {
                   whileInView={{ opacity: 1 }}
                   viewport={{ once: true }}
                   transition={{ duration: 0.6, delay: 0.2 }}
-                  className="text-[#E6CCAB] mb-6 text-lg"
+                  className="text-[#ABABAB] mb-6 text-lg"
                 >
                   {facility.description}
                 </motion.p>
@@ -103,7 +103,7 @@ const Facilities = () => {
                   viewport={{ once: true }}
                   transition={{ duration: 0.6, delay: 0.4 }}
                   whileHover={{ x: 5 }}
-                  className="flex items-center text-[#D4B483] hover:text-[#F2EAD3] transition-colors duration-300 group"
+                  className="flex items-center text-[#3CAAFF] hover:text-[#F5F5F7] transition-colors duration-300 group"
                 >
                   <span>Learn more</span>
                   <ArrowRight className="ml-2 w-4 h-4 group-hover:ml-3 transition-all duration-300" />
