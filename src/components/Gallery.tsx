@@ -39,8 +39,8 @@ const Gallery = () => {
   ];
 
   return (
-    <section id="gallery" className="py-24 bg-[#3B2F1E] relative">
-      <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1IiBoZWlnaHQ9IjUiPgo8cmVjdCB3aWR0aD0iNSIgaGVpZ2h0PSI1IiBmaWxsPSIjMzAyNTE4Ij48L3JlY3Q+CjxwYXRoIGQ9Ik0wIDVMNSAwWk02IDRMNCA2Wk0tMSAxTDEgLTFaIiBzdHJva2U9IiM0MTM1MjUiIHN0cm9rZS13aWR0aD0iMSI+PC9wYXRoPgo8L3N2Zz4=')] opacity-30"></div>
+    <section id="gallery" className="py-24 bg-[#111111] relative">
+      <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1IiBoZWlnaHQ9IjUiPgo8cmVjdCB3aWR0aD0iNSIgaGVpZ2h0PSI1IiBmaWxsPSIjMDgwODA4Ij48L3JlY3Q+CjxwYXRoIGQ9Ik0wIDVMNSAwWk02IDRMNCA2Wk0tMSAxTDEgLTFaIiBzdHJva2U9IiMxNTE1MTUiIHN0cm9rZS13aWR0aD0iMSI+PC9wYXRoPgo8L3N2Zz4=')] opacity-30"></div>
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="text-center mb-16">
@@ -51,7 +51,7 @@ const Gallery = () => {
             transition={{ duration: 0.6 }}
             className="text-3xl sm:text-4xl font-bold mb-4"
           >
-            <span className="bg-gradient-to-r from-[#D4B483] to-[#8C7851] bg-clip-text text-transparent">
+            <span className="bg-gradient-to-r from-[#3CAAFF] to-[#00E0FF] bg-clip-text text-transparent">
               Project Gallery
             </span>
           </motion.h2>
@@ -60,7 +60,7 @@ const Gallery = () => {
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-[#E6CCAB] max-w-2xl mx-auto"
+            className="text-[#ABABAB] max-w-2xl mx-auto"
           >
             Browse our portfolio of completed projects showcasing the elegance and functionality of our equestrian facility designs.
           </motion.p>
@@ -91,12 +91,12 @@ const Gallery = () => {
                   className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-110"
                 />
               </div>
-              <div className="absolute inset-0 bg-gradient-to-t from-[#2A2118] via-[#2A2118]/30 to-transparent opacity-0 group-hover:opacity-80 transition-opacity duration-300"></div>
+              <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-[#0A0A0A]/30 to-transparent opacity-0 group-hover:opacity-80 transition-opacity duration-300"></div>
               <div className="absolute bottom-0 left-0 p-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                <span className="inline-block px-3 py-1 bg-[#D4B483]/20 backdrop-blur-sm rounded-full text-xs text-[#F2EAD3] mb-2">
+                <span className="inline-block px-3 py-1 bg-[#3CAAFF]/20 backdrop-blur-sm rounded-full text-xs text-[#F5F5F7] mb-2">
                   {image.category}
                 </span>
-                <h3 className="text-[#F2EAD3] font-medium">{image.alt}</h3>
+                <h3 className="text-[#F5F5F7] font-medium">{image.alt}</h3>
               </div>
             </motion.div>
           ))}

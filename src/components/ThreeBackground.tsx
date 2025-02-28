@@ -19,7 +19,7 @@ function AnimatedSphere() {
   return (
     <Sphere ref={sphereRef} args={[1.5, 64, 64]} position={[1, 0, -1]}>
       <meshPhongMaterial
-        color="#5F4B32"
+        color="#3CAAFF"
         opacity={0.08}
         transparent
         wireframe

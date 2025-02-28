@@ -2,14 +2,13 @@ import React from 'react';
 import { ArrowRight, Star, Compass } from 'lucide-react';
 import { motion } from 'framer-motion';
 import ThreeBackground from './ThreeBackground';
-import VideoBackground from './VideoBackground';
+import image from "../images/Hero-Image.webp"
 
 const Hero = () => {
   return (
     <div className="relative min-h-screen overflow-hidden">
       {/* Background with gradient */}
-      <VideoBackground />
-      <div className="absolute inset-0 bg-gradient-to-br from-[#2A2118]/50 via-[#3B2F1E]/30 to-[#2A2118]/50 z-30">
+      <div className="absolute inset-0 bg-gradient-to-br from-[#0A0A0A]/50 via-[#111111]/30 to-[#0A0A0A]/50 z-30">
         <ThreeBackground />
       </div>
 
@@ -27,10 +26,10 @@ const Hero = () => {
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.2 }}
-              className="inline-flex items-center space-x-2 bg-[#3B2F1E]/50 backdrop-blur-sm px-4 py-2 rounded-full border border-[#8C7851]/30"
+              className="inline-flex items-center space-x-2 bg-[#111111]/50 backdrop-blur-sm px-4 py-2 rounded-full border border-[#3CAAFF]/30"
             >
-              <Compass className="w-4 h-4 text-[#D4B483]" />
-              <span className="text-sm text-[#E6CCAB]">Equestrian Excellence</span>
+              <Compass className="w-4 h-4 text-[#3CAAFF]" />
+              <span className="text-sm text-[#ABABAB]">Equestrian Excellence</span>
             </motion.div>
 
             {/* Main heading */}
@@ -40,12 +39,12 @@ const Hero = () => {
               transition={{ delay: 0.4 }}
               className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight"
             >
-              <span className="block text-[#F2EAD3]">Elevate Your</span>
+              <span className="block text-[#F5F5F7]">Elevate Your</span>
               <motion.span 
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.6 }}
-                className="block mt-2 bg-gradient-to-r from-[#D4B483] to-[#8C7851] bg-clip-text text-transparent"
+                className="block mt-2 bg-gradient-to-r from-[#3CAAFF] to-[#00E0FF] bg-clip-text text-transparent"
               >
                 Equestrian Vision
               </motion.span>
@@ -56,7 +55,7 @@ const Hero = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.8 }}
-              className="text-lg text-[#E6CCAB] max-w-3xl"
+              className="text-lg text-[#ABABAB] max-w-3xl"
             >
               We blend timeless equestrian tradition with innovative design to create 
               extraordinary experiences for horse enthusiasts, breeders, and equestrian facilities.
@@ -72,7 +71,7 @@ const Hero = () => {
               <motion.button 
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="inline-flex items-center px-8 py-3 rounded-full bg-gradient-to-r from-[#8C7851] to-[#5F4B32] text-[#F2EAD3] font-medium hover:shadow-lg hover:shadow-[#8C7851]/25 transition-all duration-300"
+                className="inline-flex items-center px-8 py-3 rounded-full bg-gradient-to-r from-[#3CAAFF] to-[#00E0FF] text-[#0A0A0A] font-medium hover:shadow-lg hover:shadow-[#3CAAFF]/25 transition-all duration-300"
               >
                 Explore Services
                 <ArrowRight className="ml-2 w-5 h-5" />
@@ -80,7 +79,7 @@ const Hero = () => {
               <motion.button 
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                className="inline-flex items-center px-8 py-3 rounded-full border border-[#8C7851]/30 hover:border-[#8C7851]/60 text-[#E6CCAB] hover:text-[#F2EAD3] transition-colors duration-300"
+                className="inline-flex items-center px-8 py-3 rounded-full border border-[#3CAAFF]/30 hover:border-[#3CAAFF]/60 text-[#ABABAB] hover:text-[#F5F5F7] transition-colors duration-300"
               >
                 Our Portfolio
               </motion.button>
@@ -91,7 +90,7 @@ const Hero = () => {
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 1.2 }}
-              className="pt-8 border-t border-[#5F4B32]/30"
+              className="pt-8 border-t border-[#222222]/30"
             >
               <div className="flex items-center justify-center lg:justify-start space-x-8">
                 <div>
@@ -108,23 +107,23 @@ const Hero = () => {
                         animate={{ opacity: 1, scale: 1 }}
                         transition={{ delay: 1.4 + i * 0.1 }}
                       >
-                        <Star className="w-5 h-5 text-[#D4B483] fill-current" />
+                        <Star className="w-5 h-5 text-[#3CAAFF] fill-current" />
                       </motion.div>
                     ))}
                   </motion.div>
-                  <p className="mt-2 text-sm text-[#A89076]">Trusted by 200+ equestrian facilities</p>
+                  <p className="mt-2 text-sm text-[#777777]">Trusted by 200+ equestrian facilities</p>
                 </div>
-                <div className="h-12 w-px bg-[#5F4B32]/30"></div>
+                <div className="h-12 w-px bg-[#222222]/30"></div>
                 <div>
                   <motion.p 
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 1.6 }}
-                    className="text-2xl font-bold text-[#F2EAD3]"
+                    className="text-2xl font-bold text-[#F5F5F7]"
                   >
                     25+
                   </motion.p>
-                  <p className="text-sm text-[#A89076]">Years of excellence</p>
+                  <p className="text-sm text-[#777777]">Years of excellence</p>
                 </div>
               </div>
             </motion.div>
@@ -142,14 +141,14 @@ const Hero = () => {
                 initial={{ scale: 0.8 }}
                 animate={{ scale: 1 }}
                 transition={{ duration: 0.8 }}
-                className="aspect-w-5 aspect-h-3 rounded-2xl overflow-hidden bg-gradient-to-br from-[#8C7851]/10 to-[#5F4B32]/10 backdrop-blur-3xl"
+                className="aspect-w-5 aspect-h-3 rounded-2xl overflow-hidden bg-gradient-to-br from-[#3CAAFF]/10 to-[#00E0FF]/10 backdrop-blur-3xl"
               >
                 <img
-                  src="https://images.unsplash.com/photo-1553284965-83fd3e82fa5a?ixlib=rb-4.0.3&auto=format&fit=crop&q=80&w=1000"
+                 src = {image}
                   alt="Elegant Horse"
                   className="object-cover w-full h-full rounded-2xl mix-blend-luminosity opacity-80"
                 />
-                <div className="absolute inset-0 bg-gradient-to-tr from-[#2A2118] via-transparent to-transparent"></div>
+                <div className="absolute inset-0 bg-gradient-to-tr from-[#0A0A0A] via-transparent to-transparent"></div>
               </motion.div>
               
               {/* Decorative elements */}
@@ -163,7 +162,7 @@ const Hero = () => {
                   repeat: Infinity,
                   ease: "easeInOut"
                 }}
-                className="absolute -top-4 -right-4 w-72 h-72 bg-[#8C7851]/10 rounded-full blur-3xl"
+                className="absolute -top-4 -right-4 w-72 h-72 bg-[#3CAAFF]/10 rounded-full blur-3xl"
               />
               <motion.div 
                 animate={{ 
@@ -176,7 +175,7 @@ const Hero = () => {
                   ease: "easeInOut",
                   delay: 2
                 }}
-                className="absolute -bottom-4 -left-4 w-72 h-72 bg-[#5F4B32]/10 rounded-full blur-3xl"
+                className="absolute -bottom-4 -left-4 w-72 h-72 bg-[#00E0FF]/10 rounded-full blur-3xl"
               />
             </div>
           </motion.div>
