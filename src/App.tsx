@@ -8,6 +8,7 @@ import Gallery from './components/Gallery';
 import Testimonials from './components/Testimonials';
 import Contact from './components/Contact';
 import ServicesPage from './pages/ServicesPage';
+import ContactPage from './pages/ContactPage';
 
 function App() {
   return (
@@ -26,7 +27,7 @@ function App() {
             </>
           } />
           <Route path="/services" element={<ServicesPage />} />
-          {/* Add other routes here as needed */}
+          <Route path = "/contact" element={<ContactPage />} />
         </Routes>
         <Footer />
       </div>
