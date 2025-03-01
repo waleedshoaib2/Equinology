@@ -2,7 +2,7 @@ import { useState, useEffect } from "react";
 import { Menu, X, ChevronRight, Compass } from "lucide-react";
 import { motion, AnimatePresence, useScroll } from "framer-motion";
 import NavItems from './NavItems'; // Correct the import path
-
+import logo from '../images/logo.webp'
 const Header = () => {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const [scrollProgress, setScrollProgress] = useState(0);
@@ -40,12 +40,12 @@ const Header = () => {
         boxShadow: scrollProgress > 0.1 ? `0 4px 20px rgba(0, 0, 0, ${scrollProgress * 0.2})` : 'none'
       }}
     >
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center h-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center h-20">
         <a href="/" className="flex items-center">
-          <Compass className="w-8 h-8 mr-2 text-[#3CAAFF]" />
-          <span className="text-2xl font-light tracking-wider bg-gradient-to-r from-[#3CAAFF] to-[#00E0FF] bg-clip-text text-transparent">
+          <img src={logo} className="mt-4 w-60 h-60 mr-2 text-[#3CAAFF]" />
+          {/* <span className="text-2xl font-light tracking-wider bg-gradient-to-r from-[#3CAAFF] to-[#00E0FF] bg-clip-text text-transparent">
             EQUINOLOGY
-          </span>
+          </span> */}
         </a>
 
         <NavItems navItems={navItems} isMenuOpen={isMenuOpen} setIsMenuOpen={setIsMenuOpen} />
