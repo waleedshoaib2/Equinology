@@ -730,7 +730,7 @@ const ContactPage = () => (
   <div className="min-h-screen">
     <ContactHero />
     
-    <div className="max-w-7xl mx-auto px-4 py-12">
+    <div className="my-20 max-w-7xl mx-auto px-4 py-20">
       <ContactInfo />
       <ContactForm />
     </div>
