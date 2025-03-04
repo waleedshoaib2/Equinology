@@ -13,7 +13,7 @@ import ContactPage from './pages/ContactPage';
 function App() {
   return (
     <Router>
-      <div className="min-h-screen bg-[#0A0A0A] text-[#F5F5F7]">
+      <div className=" bg-[#0A0A0A] text-[#F5F5F7]">
         <Header />
         <Routes>
           <Route path="/" element={
