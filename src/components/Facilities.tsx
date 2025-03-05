@@ -1,8 +1,11 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const Facilities = () => {
+  const navigate = useNavigate();
+
   const facilities = [
     {
       title: "Luxury Stables",
@@ -104,6 +107,7 @@ const Facilities = () => {
                   transition={{ duration: 0.6, delay: 0.4 }}
                   whileHover={{ x: 5 }}
                   className="flex items-center text-[#3CAAFF] hover:text-[#F5F5F7] transition-colors duration-300 group"
+                  onClick={() => navigate('/services')}
                 >
                   <span>Learn more</span>
                   <ArrowRight className="ml-2 w-4 h-4 group-hover:ml-3 transition-all duration-300" />

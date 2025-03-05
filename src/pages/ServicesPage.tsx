@@ -1,43 +1,43 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { ChevronRight, Code, Palette, ShoppingBag, Camera, Globe, MessageSquare, Users, Shield, Zap, Award, Heart } from 'lucide-react';
-import StarBackground from '../components/background/StarBackground';
-import Footer from '../components/Footer';
 
-// HeroSection component
+import { ChevronRight, Code, Palette, ShoppingBag, Camera, Globe, MessageSquare, Users, Award, Heart } from 'lucide-react';
+
 const HeroSection = () => {
+  const handleScroll = () => {
+    const servicesSection = document.getElementById("services");
+    if (servicesSection) {
+      servicesSection.scrollIntoView({ behavior: "smooth" });
+    }
+  };
+
   return (
     <section className="relative min-h-screen flex items-center justify-center">
-      <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
-        <motion.h1
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          className="text-4xl sm:text-6xl font-light text-white mb-6 tracking-wide"
-        >
+      <div className="relative z-10 text-center px-4 max-w-4xl mx-auto flex flex-col items-center">
+        <h1 className="text-4xl sm:text-6xl font-light text-white tracking-wide">
           <span className="bg-gradient-to-r from-blue-400 to-cyan-300 bg-clip-text text-transparent">
             Equestrian Web Design
           </span>
-        </motion.h1>
-        
-        <motion.p
-          initial={{ opacity: 0 }}
-          animate={{ opacity: 1 }}
-          className="mt-8 text-gray-400 max-w-2xl mx-auto text-lg"
-        >
-          Crafting sophisticated digital experiences for the equestrian world, 
-          where timeless elegance meets modern technology.
-        </motion.p>
-        
-        <motion.div className="mt-10">
-          <button className="px-8 py-3 bg-transparent border border-blue-400/30 text-blue-300 rounded-full font-light tracking-wide group flex items-center justify-center gap-2">
+        </h1>
+
+        {/* Centering the button using flex */}
+        <div className="flex justify-center my-6">
+          <button
+            onClick={handleScroll}
+            className="px-8 py-3 bg-transparent border border-blue-400/30 text-blue-300 rounded-full font-light tracking-wide group flex items-center justify-center gap-2"
+          >
             Explore Our Services
             <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
           </button>
-        </motion.div>
+        </div>
+
+        <p className="text-gray-400 max-w-2xl mx-auto text-lg">
+          Crafting sophisticated digital experiences for the equestrian world, 
+          where timeless elegance meets modern technology.
+        </p>
       </div>
     </section>
   );
 };
+
 
 // BrandingIdentitySection component
 const BrandingIdentitySection = () => {
@@ -129,7 +129,7 @@ const ServicesSection = () => {
   ];
 
   return (
-    <section className="py-32 px-4 bg-[#0A0A0A]">
+    <section id="services" className="py-32 px-4 bg-[#0A0A0A]">
       <div className="max-w-7xl mx-auto">
         <h2 className="text-4xl font-light text-center mb-16">
           <span className="bg-gradient-to-r from-[#3CAAFF] to-[#00E0FF] bg-clip-text text-transparent">
@@ -139,10 +139,7 @@ const ServicesSection = () => {
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {services.map((service, index) => (
-            <div
-              key={index}
-              className="p-6 rounded-xl bg-[#111111] border border-[#222222]/20 hover:border-[#3CAAFF]/30 transition-colors"
-            >
+            <div key={index} className="p-6 rounded-xl bg-[#111111] border border-[#222222]/20 hover:border-[#3CAAFF]/30 transition-colors">
               <div className="text-[#3CAAFF] mb-4">
                 {service.icon}
               </div>
@@ -156,97 +153,13 @@ const ServicesSection = () => {
   );
 };
 
-// WhyChooseUs component
-const WhyChooseUs = () => {
-  const features = [
-    {
-      title: "Security First",
-      description: "Enterprise-grade security measures to protect your digital assets.",
-      icon: <Shield className="w-6 h-6" />
-    },
-    {
-      title: "Lightning Fast",
-      description: "Optimized performance for quick loading and smooth user experience.",
-      icon: <Zap className="w-6 h-6" />
-    },
-    {
-      title: "Award Winning",
-      description: "Recognized excellence in equestrian web design and development.",
-      icon: <Award className="w-6 h-6" />
-    },
-    {
-      title: "24/7 Support",
-      description: "Round-the-clock support for your digital presence needs.",
-      icon: <Heart className="w-6 h-6" />
-    }
-  ];
-
-  return (
-    <section className="py-32 px-4 bg-[#111111]   relative z-10">
-      <div className="max-w-7xl mx-auto">
-        <h2 className="text-4xl font-light text-center mb-16">
-          <span className="bg-gradient-to-r from-[#3CAAFF] to-[#00E0FF] bg-clip-text text-transparent">
-            Why Choose Us
-          </span>
-        </h2>
-
-        <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-8">
-          {features.map((feature, index) => (
-            <motion.div
-              key={index}
-              className="p-6 rounded-xl bg-[#0A0A0A] border border-[#222222]/20 hover:border-[#3CAAFF]/30 transition-colors"
-              initial={{ opacity: 0, y: 20 }}
-              animate={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.2 }}
-            >
-              <div className="text-[#3CAAFF] mb-4 flex justify-center">
-                {feature.icon}
-              </div>
-              <h3 className="text-xl font-light text-[#3CAAFF] mb-3 text-center">{feature.title}</h3>
-              <p className="text-[#ABABAB] text-sm text-center">{feature.description}</p>
-            </motion.div>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-};
-
-// CTASection component
-const CTASection = () => {
-  return (
-    <section className="py-32 px-4 bg-[#111111] relative overflow-hidden">
-      <div className="absolute inset-0 bg-gradient-to-b from-[#3CAAFF]/5 to-transparent" />
-      
-      <div className="max-w-4xl mx-auto relative">
-        <div className="text-center">
-          <h2 className="text-4xl font-light mb-6">
-            Ready to <span className="bg-gradient-to-r from-[#3CAAFF] to-[#00E0FF] bg-clip-text text-transparent">
-              Transform
-            </span> Your Equestrian Business?
-          </h2>
-          <p className="text-[#ABABAB] text-lg mb-10">
-            Let's create something extraordinary together. Contact us today to begin your journey.
-          </p>
-          <button className="px-8 py-3 bg-[#3CAAFF] text-white rounded-full font-light tracking-wide group flex items-center gap-2 mx-auto hover:bg-[#3CAAFF]/90 transition-colors">
-            Get Started
-            <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
-          </button>
-        </div>
-      </div>
-    </section>
-  );
-};
-
 function ServicesPage() {
   return (
     <div className="bg-[#0A0A0A] text-[#F5F5F7]">
-      <StarBackground />
+      {/* <StarBackground /> */}
       <HeroSection />
       <BrandingIdentitySection />
       <ServicesSection />
-      <WhyChooseUs />
-      <CTASection />
     </div>
   );
 }
