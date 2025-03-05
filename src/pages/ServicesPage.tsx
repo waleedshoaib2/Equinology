@@ -1,7 +1,6 @@
 
 import { ChevronRight, Code, Palette, ShoppingBag, Camera, Globe, MessageSquare, Users, Award, Heart } from 'lucide-react';
 
-
 const HeroSection = () => {
   const handleScroll = () => {
     const servicesSection = document.getElementById("services");
@@ -12,15 +11,15 @@ const HeroSection = () => {
 
   return (
     <section className="relative min-h-screen flex items-center justify-center">
-      <div className="relative z-10 text-center px-4 max-w-4xl mx-auto">
-        <h1 className="text-4xl sm:text-6xl font-light text-white mb-6 tracking-wide">
+      <div className="relative z-10 text-center px-4 max-w-4xl mx-auto flex flex-col items-center">
+        <h1 className="text-4xl sm:text-6xl font-light text-white tracking-wide">
           <span className="bg-gradient-to-r from-blue-400 to-cyan-300 bg-clip-text text-transparent">
             Equestrian Web Design
           </span>
         </h1>
 
-        {/* Moved Button Below Heading */}
-        <div className="mb-6">
+        {/* Centering the button using flex */}
+        <div className="flex justify-center my-6">
           <button
             onClick={handleScroll}
             className="px-8 py-3 bg-transparent border border-blue-400/30 text-blue-300 rounded-full font-light tracking-wide group flex items-center justify-center gap-2"
@@ -38,6 +37,7 @@ const HeroSection = () => {
     </section>
   );
 };
+
 
 // BrandingIdentitySection component
 const BrandingIdentitySection = () => {
