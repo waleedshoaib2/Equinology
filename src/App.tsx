@@ -23,7 +23,7 @@ function App() {
               <Facilities />
               {/* <Gallery /> */}
               <Testimonials />
-              <Contact />
+              {/* <Contact /> */}
             </>
           } />
           <Route path="/services" element={<ServicesPage />} />
