@@ -5,22 +5,22 @@ import { Star, Quote } from 'lucide-react';
 const Testimonials = () => {
   const testimonials = [
     {
-      quote: "Equinology transformed our vision into reality. Their attention to detail and understanding of equestrian needs resulted in a facility that exceeds all our expectations.",
-      author: "Sarah Johnson",
+      quote: "Henry at Equinology really understood what I needed. My previous website had a checkout and basket feature, which didn’t make sense for selling horses. He helped create a system that actually worked for my business. It was great to work with someone who understands the equestrian world.",
+      author: "Sarah",
       position: "Dressage Facility Owner",
       rating: 5,
       image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&auto=format&fit=crop&q=80&w=200"
     },
     {
       quote: "Working with the Equinology team was a seamless experience from concept to completion. They created a space that perfectly balances luxury and functionality.",
-      author: "Michael Thompson",
+      author: "Michael",
       position: "Equestrian Estate Developer",
       rating: 5,
       image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&q=80&w=200"
     },
     {
-      quote: "The innovative design solutions provided by Equinology have significantly improved the efficiency of our breeding operation while creating a stunning aesthetic.",
-      author: "Elizabeth Carter",
+      quote: "It was great to work with a UK-based team who really understands the equestrian world. I didn’t have to keep explaining things, which made the process so much easier. The pricing was also clear and reasonable, with no unexpected costs.",
+      author: "Elizabeth",
       position: "Thoroughbred Breeder",
       rating: 5,
       image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&auto=format&fit=crop&q=80&w=200"

@@ -5,33 +5,33 @@ const Services = () => {
   const services = [
     {
       icon: <PenTool className="w-10 h-10 text-[#3CAAFF]" />,
-      title: "Equestrian Facility Design",
-      description: "Comprehensive design services for state-of-the-art equestrian facilities, from initial concept to detailed planning."
+      title: "Equestrian Web Design",
+      description: "As equestrian specialists, we speak your language. Our tailored web design services blend deep horse industry insight with innovative technology, expertly guiding your project from concept to completion."
     },
     {
       icon: <Layout className="w-10 h-10 text-[#3CAAFF]" />,
-      title: "Stable Architecture",
-      description: "Innovative stable designs that prioritize horse welfare, operational efficiency, and aesthetic excellence."
+      title: "Software Development",
+      description: "As equestrian experts, we can develop specialised software that reflects real horse-world knowledge, combining intuitive design and practical functionality to support your equestrian business."
     },
     {
       icon: <Compass className="w-10 h-10 text-[#3CAAFF]" />,
-      title: "Arena Planning",
-      description: "Expert planning for indoor and outdoor arenas with optimal footing, lighting, and spectator accommodations."
+      title: "Detailed Planning",
+      description: "Our in depth planning before every project execution turns your equestrian vision into reality. We carefully map each step—from inspiring concepts to precise timelines—giving you clarity, confidence, and a clear path to the success of your online presence."
     },
     {
       icon: <Lightbulb className="w-10 h-10 text-[#3CAAFF]" />,
-      title: "Equine Wellness Spaces",
-      description: "Specialized designs for rehabilitation areas, hydrotherapy facilities, and other equine wellness spaces."
+      title: "Full Transparency",
+      description: "We provide clear, upfront pricing with no hidden fees, extra costs, or confusing technical jargon—giving you total peace of mind and certainty from start to finish."
     },
     {
       icon: <Ruler className="w-10 h-10 text-[#3CAAFF]" />,
-      title: "Property Development",
-      description: "Full-scale property development services for equestrian estates, including landscape integration and infrastructure."
+      title: "Full-Scale Customisation",
+      description: "Your equestrian business deserves more than a basic template. We handcraft every aspect of your site—no shortcuts, no pre-made themes—just fully bespoke design, uniquely tailored to your vision and ambitions."
     },
     {
       icon: <Users className="w-10 h-10 text-[#3CAAFF]" />,
-      title: "Consultation Services",
-      description: "Expert consultation on facility improvements, operational efficiency, and sustainable equestrian practices."
+      title: "Consultation",
+      description: "Our consultations are straightforward and realistic—we say 'no' as openly as we say 'yes'. Expect clear guidance, honest feedback, and achievable outcomes, all provided through a free, no-obligation quote."
     }
   ];
 

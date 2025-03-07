@@ -8,18 +8,18 @@ const Facilities = () => {
 
   const facilities = [
     {
-      title: "Luxury Stables",
-      description: "Our stable designs blend luxury with functionality, creating spaces that prioritize horse comfort while making a stunning architectural statement.",
-      image: "https://images.unsplash.com/photo-1518484233463-f6ddb68400ec?q=80&w=1374&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+      title: "Photography Websites",
+      description: "Sell and showcase your equestrian photography with high-resolution galleries, secure image purchasing, instant downloads, and seamless client access.",
+      image: "https://i.postimg.cc/zXFSVZW7/temp-Image83v-NOK.avif"
     },
     {
-      title: "Indoor Arenas",
-      description: "State-of-the-art indoor arenas designed for optimal training conditions year-round, with perfect footing, lighting, and climate control.",
+      title: "Classifieds Websites",
+      description: "Whether you need a full classified platform or a custom site for your horse sales business, we create tailored solutions with search filters, detailed listings, high-quality media, and direct buyer enquiries.",
       image: "https://images.unsplash.com/photo-1506696495449-78c912b30e10?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
     },
     {
-      title: "Equestrian Estates",
-      description: "Comprehensive estate planning that harmoniously integrates equestrian facilities with luxury residences and natural landscapes.",
+      title: "Riding School Websites",
+      description: "Manage bookings, showcase your facilities, and attract new clients with a professional, user-friendly website. Include class schedules, rider registration, pricing, and easy contact options.",
       image: "https://plus.unsplash.com/premium_photo-1664304525253-156489378204?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
     }
   ];
@@ -38,7 +38,7 @@ const Facilities = () => {
             className="text-3xl sm:text-4xl font-bold mb-4"
           >
             <span className="bg-gradient-to-r from-[#3CAAFF] to-[#00E0FF] bg-clip-text text-transparent">
-              Featured Facilities
+              Our Services
             </span>
           </motion.h2>
           <motion.p 
@@ -48,7 +48,7 @@ const Facilities = () => {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="text-[#ABABAB] max-w-2xl mx-auto"
           >
-            Explore our signature facility designs that combine functionality, beauty, and a deep understanding of equestrian needs.
+            Explore our tailored services designed specifically for equestrian businesses. See what's possible for your project.
           </motion.p>
         </div>
 
