@@ -40,6 +40,11 @@ const Footer = () => {
             </ul>
           </div>
         </div>
+
+        {/* Copyright Section */}
+        <div className="mt-8 text-center text-sm text-[#777777]">
+          <p>&copy; {new Date().getFullYear()} Equinology. All rights reserved.</p>
+        </div>
       </div>
     </footer>
   );
