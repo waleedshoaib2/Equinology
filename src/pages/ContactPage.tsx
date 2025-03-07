@@ -88,11 +88,11 @@ const scrollToContactForm = () => {
 };
 const ContactHero = () => (
   
-  <section className="relative min-h-[70vh] flex items-center justify-center overflow-hidden">
+  <section className="relative min-h-[100vh] flex items-center justify-center overflow-hidden">
     <video autoPlay loop muted className="absolute top-0 left-0 w-full h-full object-cover opacity-40">
       <source src="/contact-bg.mp4" type="video/mp4" />
     </video>
-    <div className="absolute inset-0 bg-gradient-to-b from-background/90 via-background/50 to-background flex flex-col items-center justify-center text-center px-6">
+    <div className="absolute inset-0 bg-black flex flex-col items-center justify-center text-center px-6 mb-4">
       <motion.div
         initial={{ opacity: 0 }}
         animate={{ opacity: 1 }}
