@@ -38,52 +38,62 @@ const HeroSection = () => {
   );
 };
 
-
-// BrandingIdentitySection component
 const BrandingIdentitySection = () => {
   const items = [
     {
       title: "Logo Design",
-      desc: "Our expert designers craft memorable, unique logos that capture the essence of your equestrian brand.",
-      image: "https://images.unsplash.com/photo-1516876437184-593fda40c7ce?ixlib=rb-4.0.3&auto=format&fit=crop&q=80&w=600",
-      icon: <Palette className="w-6 h-6" />
+      desc: "We create unique, eye-catching logos that capture the essence of your equestrian brand. Whether you run a livery yard, riding school, equestrian photography business, or any other equestrian venture, we design highly technical logos that seamlessly intertwine text and icons or opt for a more simplistic, elegant approach tailored to your brand.",
+      image: "https://png.pngtree.com/png-clipart/20230927/original/pngtree-horse-logo-png-image_13157891.png",
+      icon: <Palette className="w-8 h-8 text-[#3CAAFF]" />
     },
     {
       title: "Brand Collateral",
-      desc: "We design business cards, letterheads, and digital assets that ensure your brand maintains a consistent, sophisticated presence.",
+      desc: "We design high-quality business cards, signage, and digital assets tailored to the equestrian industry. Our branding materials ensure a cohesive and professional presence across print and digital platforms, maintaining a consistent identity for your equestrian business.",
       image: "https://images.unsplash.com/photo-1586717791821-3f44a563fa4c?ixlib=rb-4.0.3&auto=format&fit=crop&q=80&w=600",
-      icon: <Award className="w-6 h-6" />
+      icon: <Award className="w-8 h-8 text-[#3CAAFF]" />
     },
     {
       title: "Visual Identity",
-      desc: "Comprehensive visual identity systems that establish your brand's unique presence in the equestrian world.",
+      desc: "A strong visual identity sets your brand apart. We develop cohesive branding systems, including color palettes, typography, and imagery, ensuring that your equestrian business maintains a professional and recognizable presence across all platforms.",
       image: "https://images.unsplash.com/photo-1634942537034-2531766767d1?ixlib=rb-4.0.3&auto=format&fit=crop&q=80&w=600",
-      icon: <Heart className="w-6 h-6" />
+      icon: <Heart className="w-8 h-8 text-[#3CAAFF]" />
     }
   ];
 
   return (
-    <section className="py-32 px-4 relative overflow-hidden">
+    <section className="py-32 px-4 relative bg-[#0A0A0A] overflow-hidden">
       <div className="max-w-7xl mx-auto">
-        <h2 className="text-4xl font-light text-center mb-16">
+        <h2 className="text-5xl font-semibold text-center mb-16 text-white tracking-wide">
           <span className="bg-gradient-to-r from-[#3CAAFF] to-[#00E0FF] bg-clip-text text-transparent">
             Branding & Identity
           </span>
         </h2>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-12">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-16">
           {items.map((item, index) => (
-            <div key={index} className="relative rounded-xl overflow-hidden group">
-              <div className="relative">
-                <img src={item.image} alt={item.title} className="w-full h-64 object-cover transition-transform duration-300 group-hover:scale-105" />
-                <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent" />
+            <div 
+              key={index} 
+              className="relative group overflow-hidden rounded-xl shadow-lg border border-[#222] bg-[#111] transition-transform duration-500 hover:scale-105 hover:shadow-2xl hover:border-[#3CAAFF]/50"
+            >
+              {/* Image with hover grayscale effect */}
+              <div className="relative overflow-hidden">
+                <img
+                  src={item.image}
+                  alt={item.title}
+                  className="w-full h-80 object-cover rounded-t-xl transition-all duration-500 grayscale group-hover:grayscale-0 group-hover:scale-110"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
               </div>
-              <div className="absolute bottom-0 left-0 right-0 p-6">
-                <div className="flex items-center gap-3 text-[#3CAAFF] mb-2">
+
+              {/* Content Section */}
+              <div className="p-8 flex flex-col items-start">
+                <div className="flex items-center gap-3 mb-4">
                   {item.icon}
-                  <h3 className="text-xl font-light">{item.title}</h3>
+                  <h3 className="text-2xl font-medium text-white tracking-wide">{item.title}</h3>
                 </div>
-                <p className="text-[#ABABAB] text-sm">{item.desc}</p>
+                <p className="text-[#ABABAB] text-lg leading-relaxed">
+                  {item.desc}
+                </p>
               </div>
             </div>
           ))}
@@ -92,7 +102,6 @@ const BrandingIdentitySection = () => {
     </section>
   );
 };
-
 // ServicesSection component
 const ServicesSection = () => {
   const services = [

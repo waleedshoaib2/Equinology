@@ -1,10 +1,10 @@
-import React from 'react';
 import { ArrowRight, Star, Compass } from 'lucide-react';
 import { motion } from 'framer-motion';
 import ThreeBackground from './ThreeBackground';
 import image from "../images/Hero-Image.webp"
-
+import { useNavigate } from 'react-router-dom';
 const Hero = () => {
+  const navigate = useNavigate();
   return (
     <div className="relative min-h-screen overflow-hidden">
       {/* Background with gradient */}
@@ -15,14 +15,14 @@ const Hero = () => {
       {/* Content */}
       <div className="relative z-40 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-16">
         <div className="text-center lg:text-left lg:grid lg:grid-cols-2 lg:gap-8 items-center">
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
             className="space-y-8"
           >
             {/* Badge */}
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, scale: 0.8 }}
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: 0.2 }}
@@ -33,14 +33,14 @@ const Hero = () => {
             </motion.div>
 
             {/* Main heading */}
-            <motion.h1 
+            <motion.h1
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4 }}
               className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight"
             >
               <span className="block text-[#F5F5F7]">Elevate Your</span>
-              <motion.span 
+              <motion.span
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.6 }}
@@ -51,24 +51,24 @@ const Hero = () => {
             </motion.h1>
 
             {/* Description */}
-            <motion.p 
+            <motion.p
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.8 }}
               className="text-lg text-[#ABABAB] max-w-3xl"
             >
-              We blend timeless equestrian tradition with innovative design to create 
+              We blend timeless equestrian tradition with innovative design to create
               extraordinary experiences for horse enthusiasts, breeders, and equestrian facilities.
             </motion.p>
 
             {/* CTA buttons */}
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 1 }}
               className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
             >
-              <motion.button 
+              <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
                 className="inline-flex items-center px-8 py-3 rounded-full bg-gradient-to-r from-[#3CAAFF] to-[#00E0FF] text-[#0A0A0A] font-medium hover:shadow-lg hover:shadow-[#3CAAFF]/25 transition-all duration-300"
@@ -76,17 +76,18 @@ const Hero = () => {
                 Explore Services
                 <ArrowRight className="ml-2 w-5 h-5" />
               </motion.button>
-              <motion.button 
+              <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
+                onClick={() => navigate('/contact')}
                 className="inline-flex items-center px-8 py-3 rounded-full border border-[#3CAAFF]/30 hover:border-[#3CAAFF]/60 text-[#ABABAB] hover:text-[#F5F5F7] transition-colors duration-300"
               >
-                Our Portfolio
+                Contact Us
               </motion.button>
             </motion.div>
 
             {/* Social proof */}
-            <motion.div 
+            <motion.div
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 1.2 }}
@@ -94,7 +95,7 @@ const Hero = () => {
             >
               <div className="flex items-center justify-center lg:justify-start space-x-8">
                 <div>
-                  <motion.div 
+                  <motion.div
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 1.4 }}
@@ -115,7 +116,7 @@ const Hero = () => {
                 </div>
                 <div className="h-12 w-px bg-[#222222]/30"></div>
                 <div>
-                  <motion.p 
+                  <motion.p
                     initial={{ opacity: 0 }}
                     animate={{ opacity: 1 }}
                     transition={{ delay: 1.6 }}
@@ -130,46 +131,46 @@ const Hero = () => {
           </motion.div>
 
           {/* Hero image/illustration */}
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0, x: 20 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
             className="mt-12 lg:mt-0 relative"
           >
             <div className="relative mx-auto max-w-[500px]">
-              <motion.div 
+              <motion.div
                 initial={{ scale: 0.8 }}
                 animate={{ scale: 1 }}
                 transition={{ duration: 0.8 }}
                 className="aspect-w-5 aspect-h-3 rounded-2xl overflow-hidden bg-gradient-to-br from-[#3CAAFF]/10 to-[#00E0FF]/10 backdrop-blur-3xl"
               >
                 <img
-                 src = {image}
+                  src={image}
                   alt="Elegant Horse"
                   className="object-cover w-full h-full rounded-2xl mix-blend-luminosity opacity-80"
                 />
                 <div className="absolute inset-0 bg-gradient-to-tr from-[#0A0A0A] via-transparent to-transparent"></div>
               </motion.div>
-              
+
               {/* Decorative elements */}
-              <motion.div 
-                animate={{ 
+              <motion.div
+                animate={{
                   scale: [1, 1.2, 1],
                   opacity: [0.1, 0.2, 0.1]
                 }}
-                transition={{ 
+                transition={{
                   duration: 4,
                   repeat: Infinity,
                   ease: "easeInOut"
                 }}
                 className="absolute -top-4 -right-4 w-72 h-72 bg-[#3CAAFF]/10 rounded-full blur-3xl"
               />
-              <motion.div 
-                animate={{ 
+              <motion.div
+                animate={{
                   scale: [1, 1.2, 1],
                   opacity: [0.1, 0.2, 0.1]
                 }}
-                transition={{ 
+                transition={{
                   duration: 4,
                   repeat: Infinity,
                   ease: "easeInOut",

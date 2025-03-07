@@ -3,6 +3,49 @@
 import { motion } from 'framer-motion';
 import { useState } from 'react';
 import { toast } from "sonner";
+import { useRef } from 'react';
+import emailjs from "@emailjs/browser";
+
+const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  if (!validateForm()) {
+    return;
+  }
+
+  setIsSubmitting(true);
+
+  try {
+    const response = await emailjs.send(
+      "your_service_id", // Replace with your EmailJS Service ID
+      "your_template_id", // Replace with your EmailJS Template ID
+      {
+        to_email: "equilinkbackend@gmail.com", // Fixed recipient
+        from_name: formData.name,
+        from_email: formData.email,
+        phone: formData.phone,
+        subject: formData.subject,
+        message: formData.message,
+      },
+      "-5yP8cK-LV1O9ynqM" // Replace with your EmailJS Public Key
+    );
+
+    if (response.status === 200) {
+      setIsSubmitting(false);
+      setIsSuccess(true);
+      toast.success("Message sent successfully! We'll get back to you soon.");
+      setFormData({ name: "", email: "", phone: "", subject: "", message: "" });
+
+      setTimeout(() => setIsSuccess(false), 3000);
+    } else {
+      throw new Error("Failed to send message.");
+    }
+  } catch (error) {
+    setIsSubmitting(false);
+    toast.error("Something went wrong. Please try again later.");
+  }
+};
+
 
 // Animation variants
 const fadeInUp = {
@@ -40,8 +83,11 @@ const pulse = {
     }
   }
 };
-
+const scrollToContactForm = () => {
+  document.getElementById("contact-form").scrollIntoView({ behavior: "smooth" });
+};
 const ContactHero = () => (
+  
   <section className="relative min-h-[70vh] flex items-center justify-center overflow-hidden">
     <video autoPlay loop muted className="absolute top-0 left-0 w-full h-full object-cover opacity-40">
       <source src="/contact-bg.mp4" type="video/mp4" />
@@ -60,7 +106,7 @@ const ContactHero = () => (
         transition={{ duration: 0.8 }}
         className="relative z-10 max-w-3xl"
       >
-        <div className="mb-4 px-4 py-1.5 text-sm font-medium border border-primary/20 bg-primary/5 rounded-full inline-flex items-center">
+        <div className="mt-10 px-4 py-1.5 text-sm font-medium border border-primary/20 bg-primary/5 rounded-full inline-flex items-center">
           <motion.span
             animate={{ opacity: [0.5, 1, 0.5] }}
             transition={{ duration: 2, repeat: Infinity }}
@@ -94,14 +140,14 @@ const ContactHero = () => (
           transition={{ duration: 0.8, delay: 0.6 }}
           className="mt-8 flex flex-wrap gap-4 justify-center"
         >
-          <button className="px-6 py-3 bg-primary text-primary-foreground rounded-md font-medium text-sm flex items-center group">
+          <button onClick={scrollToContactForm} className="px-6 py-3 bg-primary text-primary-foreground rounded-md font-medium text-sm flex items-center group">
             Get Started
             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1">
               <path d="M5 12h14"></path>
               <path d="m12 5 7 7-7 7"></path>
             </svg>
           </button>
-          <button className="px-6 py-3 bg-transparent border border-input rounded-md font-medium text-sm">
+          <button onClick={scrollToContactForm} className="px-6 py-3 bg-transparent border border-input rounded-md font-medium text-sm">
             Learn More
           </button>
         </motion.div>
@@ -198,449 +244,138 @@ const ContactInfo = () => {
 };
 
 const ContactForm = () => {
-  const [activeTab, setActiveTab] = useState("contact");
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isSuccess, setIsSuccess] = useState(false);
   const [formData, setFormData] = useState({
     name: "",
     email: "",
     phone: "",
     subject: "",
-    message: ""
+    message: "",
   });
+
   const [errors, setErrors] = useState({});
-  
+  const [isSubmitting, setIsSubmitting] = useState(false);
+  const [isSuccess, setIsSuccess] = useState(false);
+
+  // Handle Input Change
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-    
+    setFormData((prev) => ({ ...prev, [name]: value }));
+
     // Clear error when user types
     if (errors[name]) {
-      setErrors(prev => ({ ...prev, [name]: null }));
+      setErrors((prev) => ({ ...prev, [name]: null }));
     }
   };
-  
+
+  // Form Validation
   const validateForm = () => {
     const newErrors = {};
-    
-    if (!formData.name || formData.name.length < 2) {
-      newErrors.name = "Name must be at least 2 characters.";
-    }
-    
-    if (!formData.email || !/^\S+@\S+\.\S+$/.test(formData.email)) {
-      newErrors.email = "Please enter a valid email address.";
-    }
-    
-    if (!formData.subject || formData.subject.length < 5) {
-      newErrors.subject = "Subject must be at least 5 characters.";
-    }
-    
-    if (!formData.message || formData.message.length < 10) {
-      newErrors.message = "Message must be at least 10 characters.";
-    }
-    
+    if (!formData.name || formData.name.length < 2) newErrors.name = "Name must be at least 2 characters.";
+    if (!formData.email || !/^\S+@\S+\.\S+$/.test(formData.email)) newErrors.email = "Enter a valid email address.";
+    if (!formData.subject || formData.subject.length < 5) newErrors.subject = "Subject must be at least 5 characters.";
+    if (!formData.message || formData.message.length < 10) newErrors.message = "Message must be at least 10 characters.";
+
     setErrors(newErrors);
     return Object.keys(newErrors).length === 0;
   };
-  
-  const handleSubmit = (e) => {
+
+  // Handle Form Submit
+  const handleSubmit = async (e) => {
     e.preventDefault();
-    
-    if (!validateForm()) {
-      return;
-    }
-    
+    if (!validateForm()) return;
+
     setIsSubmitting(true);
-    
-    // Simulate API call
-    setTimeout(() => {
-      console.log(formData);
+
+    try {
+      const response = await emailjs.send(
+        "service_n07aajg", // Replace with your EmailJS Service ID
+        "template_pv63fm6", // Replace with your EmailJS Template ID
+        {
+          to_email: "equilinkbackend@gmail.com", // Fixed recipient
+          from_name: formData.name,
+          from_email: formData.email,
+          phone: formData.phone,
+          subject: formData.subject,
+          message: formData.message,
+        },
+        "-5yP8cK-LV1O9ynqM" // Replace with your EmailJS Public Key
+      );
+
+      if (response.status === 200) {
+        setIsSubmitting(false);
+        setIsSuccess(true);
+        toast.success("Message sent successfully! We'll get back to you soon.");
+        setFormData({ name: "", email: "", phone: "", subject: "", message: "" });
+        setTimeout(() => setIsSuccess(false), 3000);
+      } else {
+        throw new Error("Failed to send message.");
+      }
+    } catch (error) {
       setIsSubmitting(false);
-      setIsSuccess(true);
-      toast.success("Message sent successfully! We'll get back to you soon.");
-      setFormData({
-        name: "",
-        email: "",
-        phone: "",
-        subject: "",
-        message: ""
-      });
-      
-      // Reset success state after 3 seconds
-      setTimeout(() => setIsSuccess(false), 3000);
-    }, 1500);
+      toast.error("Something went wrong. Please try again later.");
+    }
   };
-  
+
   return (
-    <section className="py-16 px-4 relative">
-      <div className="max-w-6xl mx-auto relative z-10">
+    <section id="contact-form" className="py-16 px-4 relative">
+      <div className="max-w-6xl mx-auto">
         <div className="text-center mb-12">
-          <motion.h2 
-            className="text-3xl md:text-4xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-primary to-blue-400"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8 }}
-          >
+          <motion.h2 className="text-3xl md:text-4xl font-bold bg-clip-text text-transparent bg-gradient-to-r from-primary to-blue-400"
+            initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ duration: 0.8 }}>
             Get In Touch
           </motion.h2>
-          <motion.p
-            className="text-muted-foreground max-w-2xl mx-auto"
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.8, delay: 0.2 }}
-          >
+          <motion.p className="text-muted-foreground max-w-2xl mx-auto"
+            initial={{ opacity: 0 }} whileInView={{ opacity: 1 }} viewport={{ once: true }} transition={{ duration: 0.8, delay: 0.2 }}>
             Have a question or want to work together? Fill out the form below and we'll get back to you as soon as possible.
           </motion.p>
         </div>
-        
-        <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-          <div className="lg:col-span-2">
-            <div className="w-full">
-              <div className="grid w-full grid-cols-2 mb-8 border rounded-lg overflow-hidden">
-                <button 
-                  className={`py-3 px-4 text-center font-medium text-sm ${activeTab === "contact" ? "bg-primary text-primary-foreground" : "bg-transparent"}`}
-                  onClick={() => setActiveTab("contact")}
-                >
-                  Contact Us
-                </button>
-                <button 
-                  className={`py-3 px-4 text-center font-medium text-sm ${activeTab === "support" ? "bg-primary text-primary-foreground" : "bg-transparent"}`}
-                  onClick={() => setActiveTab("support")}
-                >
-                  Support
-                </button>
-              </div>
-              
-              <div className={`space-y-4 ${activeTab === "contact" ? "block" : "hidden"}`}>
-                <div className="border border-border/50 bg-card/50 backdrop-blur-sm rounded-lg overflow-hidden">
-                  <div className="p-6 border-b border-border/50">
-                    <h3 className="text-xl font-semibold">Send us a message</h3>
-                    <p className="text-muted-foreground text-sm">
-                      Fill out the form below and we'll get back to you within 24 hours.
-                    </p>
-                  </div>
-                  <div className="p-6">
-                    {isSuccess ? (
-                      <motion.div
-                        initial={{ opacity: 0, scale: 0.8 }}
-                        animate={{ opacity: 1, scale: 1 }}
-                        className="flex flex-col items-center justify-center py-12 text-center"
-                      >
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-16 w-16 text-green-500 mb-4">
-                          <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
-                          <path d="m9 11 3 3L22 4"></path>
-                        </svg>
-                        <h3 className="text-2xl font-bold mb-2">Message Sent!</h3>
-                        <p className="text-muted-foreground mb-6">
-                          Thank you for reaching out. We'll get back to you shortly.
-                        </p>
-                        <button 
-                          onClick={() => setIsSuccess(false)}
-                          className="px-4 py-2 bg-primary text-primary-foreground rounded-md font-medium text-sm"
-                        >
-                          Send Another Message
-                        </button>
-                      </motion.div>
-                    ) : (
-                      <form onSubmit={handleSubmit} className="space-y-6">
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                          <div>
-                            <label className="block text-sm font-medium mb-1">Name</label>
-                            <div className="relative">
-                              <div className="absolute left-3 top-3 text-muted-foreground">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4">
-                                  <path d="M19 21v-2a4 4 0 0 0-4-4H9a4 4 0 0 0-4 4v2"></path>
-                                  <circle cx="12" cy="7" r="4"></circle>
-                                </svg>
-                              </div>
-                              <input 
-                                type="text" 
-                                name="name"
-                                placeholder="Your name" 
-                                className="w-full pl-10 pr-4 py-2 border border-input rounded-md bg-background"
-                                value={formData.name}
-                                onChange={handleChange}
-                              />
-                            </div>
-                            {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name}</p>}
-                          </div>
-                          <div>
-                            <label className="block text-sm font-medium mb-1">Email</label>
-                            <div className="relative">
-                              <div className="absolute left-3 top-3 text-muted-foreground">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4">
-                                  <rect width="20" height="16" x="2" y="4" rx="2"></rect>
-                                  <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
-                                </svg>
-                              </div>
-                              <input 
-                                type="email" 
-                                name="email"
-                                placeholder="Your email" 
-                                className="w-full pl-10 pr-4 py-2 border border-input rounded-md bg-background"
-                                value={formData.email}
-                                onChange={handleChange}
-                              />
-                            </div>
-                            {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
-                          </div>
-                        </div>
-                        
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                          <div>
-                            <label className="block text-sm font-medium mb-1">Phone (Optional)</label>
-                            <div className="relative">
-                              <div className="absolute left-3 top-3 text-muted-foreground">
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4">
-                                  <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
-                                </svg>
-                              </div>
-                              <input 
-                                type="tel" 
-                                name="phone"
-                                placeholder="Your phone number" 
-                                className="w-full pl-10 pr-4 py-2 border border-input rounded-md bg-background"
-                                value={formData.phone}
-                                onChange={handleChange}
-                              />
-                            </div>
-                          </div>
-                          <div>
-                            <label className="block text-sm font-medium mb-1">Subject</label>
-                            <input 
-                              type="text" 
-                              name="subject"
-                              placeholder="What is this regarding?" 
-                              className="w-full px-4 py-2 border border-input rounded-md bg-background"
-                              value={formData.subject}
-                              onChange={handleChange}
-                            />
-                            {errors.subject && <p className="text-red-500 text-xs mt-1">{errors.subject}</p>}
-                          </div>
-                        </div>
-                        
-                        <div>
-                          <label className="block text-sm font-medium mb-1">Message</label>
-                          <div className="relative">
-                            <div className="absolute left-3 top-3 text-muted-foreground">
-                              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-4 w-4">
-                                <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"></path>
-                              </svg>
-                            </div>
-                            <textarea 
-                              name="message"
-                              placeholder="Your message" 
-                              className="w-full pl-10 pr-4 py-2 border border-input rounded-md bg-background min-h-[120px] resize-none"
-                              value={formData.message}
-                              onChange={handleChange}
-                            ></textarea>
-                          </div>
-                          {errors.message && <p className="text-red-500 text-xs mt-1">{errors.message}</p>}
-                        </div>
-                        
-                        <button 
-                          type="submit" 
-                          className="w-full py-3 bg-primary text-primary-foreground rounded-md font-medium text-sm flex items-center justify-center"
-                          disabled={isSubmitting}
-                        >
-                          {isSubmitting ? (
-                            <>
-                              <motion.div
-                                animate={{ rotate: 360 }}
-                                transition={{ duration: 1, repeat: Infinity, ease: "linear" }}
-                                className="mr-2 h-4 w-4 border-2 border-current border-t-transparent rounded-full"
-                              />
-                              Sending...
-                            </>
-                          ) : (
-                            <>
-                              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="mr-2 h-4 w-4">
-                                <path d="m22 2-7 20-4-9-9-4Z"></path>
-                                <path d="M22 2 11 13"></path>
-                              </svg>
-                              Send Message
-                            </>
-                          )}
-                        </button>
-                      </form>
-                    )}
-                  </div>
-                </div>
-              </div>
-              
-              <div className={`space-y-4 ${activeTab === "support" ? "block" : "hidden"}`}>
-                <div className="border border-border/50 bg-card/50 backdrop-blur-sm rounded-lg overflow-hidden">
-                  <div className="p-6 border-b border-border/50">
-                    <h3 className="text-xl font-semibold">Need help with something?</h3>
-                    <p className="text-muted-foreground text-sm">
-                      Our support team is here to help with any issues you might have.
-                    </p>
-                  </div>
-                  <div className="p-6">
-                    <form onSubmit={handleSubmit} className="space-y-6">
-                      <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-                        <div>
-                          <label className="block text-sm font-medium mb-1">Name</label>
-                          <input 
-                            type="text" 
-                            name="name"
-                            placeholder="Your name" 
-                            className="w-full px-4 py-2 border border-input rounded-md bg-background"
-                            value={formData.name}
-                            onChange={handleChange}
-                          />
-                          {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name}</p>}
-                        </div>
-                        <div>
-                          <label className="block text-sm font-medium mb-1">Email</label>
-                          <input 
-                            type="email" 
-                            name="email"
-                            placeholder="Your email" 
-                            className="w-full px-4 py-2 border border-input rounded-md bg-background"
-                            value={formData.email}
-                            onChange={handleChange}
-                          />
-                          {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
-                        </div>
-                      </div>
-                      
-                      <div>
-                        <label className="block text-sm font-medium mb-1">Issue Type</label>
-                        <input 
-                          type="text" 
-                          name="subject"
-                          placeholder="Technical issue, billing question, etc." 
-                          className="w-full px-4 py-2 border border-input rounded-md bg-background"
-                          value={formData.subject}
-                          onChange={handleChange}
-                        />
-                        {errors.subject && <p className="text-red-500 text-xs mt-1">{errors.subject}</p>}
-                      </div>
-                      
-                      <div>
-                        <label className="block text-sm font-medium mb-1">Describe your issue</label>
-                        <textarea 
-                          name="message"
-                          placeholder="Please provide as much detail as possible" 
-                          className="w-full px-4 py-2 border border-input rounded-md bg-background min-h-[120px] resize-none"
-                          value={formData.message}
-                          onChange={handleChange}
-                        ></textarea>
-                        {errors.message && <p className="text-red-500 text-xs mt-1">{errors.message}</p>}
-                      </div>
-                      
-                      <button 
-                        type="submit" 
-                        className="w-full py-3 bg-primary text-primary-foreground rounded-md font-medium text-sm"
-                        disabled={isSubmitting}
-                      >
-                        {isSubmitting ? "Submitting..." : "Submit Support Request"}
-                      </button>
-                    </form>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          
-          <div className="lg:col-span-1">
-            <div className="h-full border border-border/50 bg-card/50 backdrop-blur-sm rounded-lg overflow-hidden">
-              <div className="p-6 border-b border-border/50">
-                <h3 className="text-xl font-semibold">Contact Information</h3>
-                <p className="text-muted-foreground text-sm">
-                  Reach out to us through any of these channels
-                </p>
-              </div>
-              <div className="p-6 space-y-6">
-                <div className="space-y-4">
-                  {[
-                    { 
-                      icon: (
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5">
-                          <rect width="20" height="16" x="2" y="4" rx="2"></rect>
-                          <path d="m22 7-8.97 5.7a1.94 1.94 0 0 1-2.06 0L2 7"></path>
-                        </svg>
-                      ), 
-                      label: "Email", 
-                      value: "contact@example.com" 
-                    },
-                    { 
-                      icon: (
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5">
-                          <path d="M22 16.92v3a2 2 0 0 1-2.18 2 19.79 19.79 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6 19.79 19.79 0 0 1-3.07-8.67A2 2 0 0 1 4.11 2h3a2 2 0 0 1 2 1.72 12.84 12.84 0 0 0 .7 2.81 2 2 0 0 1-.45 2.11L8.09 9.91a16 16 0 0 0 6 6l1.27-1.27a2 2 0 0 1 2.11-.45 12.84 12.84 0 0 0 2.81.7A2 2 0 0 1 22 16.92z"></path>
-                        </svg>
-                      ), 
-                      label: "Phone", 
-                      value: "+1 (555) 123-4567" 
-                    },
-                    { 
-                      icon: (
-                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-5 w-5">
-                          <path d="M20 10c0 6-8 12-8 12s-8-6-8-12a8 8 0 0 1 16 0Z"></path>
-                          <circle cx="12" cy="10" r="3"></circle>
-                        </svg>
-                      ), 
-                      label: "Address", 
-                      value: "123 Business Ave, Suite 100, San Francisco, CA 94107" 
-                    }
-                  ].map((item, i) => (
-                    <motion.div 
-                      key={i}
-                      initial={{ opacity: 0, x: -10 }}
-                      whileInView={{ opacity: 1, x: 0 }}
-                      transition={{ delay: i * 0.1 }}
-                      className="flex items-start"
-                    >
-                      <div className="mr-3 mt-0.5 flex h-8 w-8 items-center justify-center rounded-full bg-primary/10 text-primary">
-                        {item.icon}
-                      </div>
-                      <div>
-                        <p className="font-medium">{item.label}</p>
-                        <p className="text-muted-foreground">{item.value}</p>
-                      </div>
-                    </motion.div>
-                  ))}
-                </div>
-                
-                <div className="h-px bg-border/50 my-6"></div>
-                
+
+        <div className="max-w-4xl mx-auto">
+          {isSuccess ? (
+            <motion.div initial={{ opacity: 0, scale: 0.8 }} animate={{ opacity: 1, scale: 1 }} className="flex flex-col items-center text-center py-12">
+              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor"
+                strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="h-16 w-16 text-green-500 mb-4">
+                <path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"></path>
+                <path d="m9 11 3 3L22 4"></path>
+              </svg>
+              <h3 className="text-2xl font-bold mb-2">Message Sent!</h3>
+              <p className="text-muted-foreground mb-6">Thank you for reaching out. We'll get back to you shortly.</p>
+              <button onClick={() => setIsSuccess(false)} className="px-4 py-2 bg-primary text-primary-foreground rounded-md font-medium text-sm">
+                Send Another Message
+              </button>
+            </motion.div>
+          ) : (
+            <form onSubmit={handleSubmit} className="space-y-6">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
-                  <h4 className="text-sm font-medium mb-3">Business Hours</h4>
-                  <ul className="space-y-2 text-sm">
-                    <li className="flex justify-between">
-                      <span className="text-muted-foreground">Monday - Friday</span>
-                      <span>9:00 AM - 5:00 PM</span>
-                    </li>
-                    <li className="flex justify-between">
-                      <span className="text-muted-foreground">Saturday</span>
-                      <span>10:00 AM - 2:00 PM</span>
-                    </li>
-                    <li className="flex justify-between">
-                      <span className="text-muted-foreground">Sunday</span>
-                      <span>Closed</span>
-                    </li>
-                  </ul>
+                  <label className="block text-sm font-medium mb-1">Name</label>
+                  <input type="text" name="name" className="w-full px-4 py-2 border rounded-md bg-background" value={formData.name} onChange={handleChange} />
+                  {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name}</p>}
                 </div>
-                
-                <div className="h-px bg-border/50 my-6"></div>
-                
                 <div>
-                  <h4 className="text-sm font-medium mb-3">Follow Us</h4>
-                  <div className="flex space-x-3">
-                    {["Twitter", "LinkedIn", "Facebook", "Instagram"].map((social, i) => (
-                      <button key={i} className="h-9 w-9 rounded-full border border-input flex items-center justify-center">
-                        <span className="sr-only">{social}</span>
-                        {/* Icon would go here */}
-                      </button>
-                    ))}
-                  </div>
+                  <label className="block text-sm font-medium mb-1">Email</label>
+                  <input type="email" name="email" className="w-full px-4 py-2 border rounded-md bg-background" value={formData.email} onChange={handleChange} />
+                  {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
                 </div>
               </div>
-            </div>
-          </div>
+
+              <div>
+                <label className="block text-sm font-medium mb-1">Subject</label>
+                <input type="text" name="subject" className="w-full px-4 py-2 border rounded-md bg-background" value={formData.subject} onChange={handleChange} />
+                {errors.subject && <p className="text-red-500 text-xs mt-1">{errors.subject}</p>}
+              </div>
+
+              <div>
+                <label className="block text-sm font-medium mb-1">Message</label>
+                <textarea name="message" className="w-full px-4 py-2 border rounded-md bg-background min-h-[120px]" value={formData.message} onChange={handleChange}></textarea>
+                {errors.message && <p className="text-red-500 text-xs mt-1">{errors.message}</p>}
+              </div>
+
+              <button type="submit" className="w-full py-3 bg-primary text-primary-foreground rounded-md font-medium text-sm" disabled={isSubmitting}>
+                {isSubmitting ? "Sending..." : "Send Message"}
+              </button>
+            </form>
+          )}
         </div>
       </div>
     </section>
@@ -648,6 +383,8 @@ const ContactForm = () => {
 };
 
 const FAQ = () => {
+  const [openIndex, setOpenIndex] = useState(null);
+
   const faqs = [
     {
       question: "How quickly can I expect a response?",
@@ -667,8 +404,12 @@ const FAQ = () => {
     }
   ];
 
+  const toggleFAQ = (index) => {
+    setOpenIndex(openIndex === index ? null : index);
+  };
+
   return (
-    <section className="py-16 px-4 bg-muted/30">
+    <section className="py-16 px-4 bg-black">
       <div className="max-w-4xl mx-auto">
         <motion.div
           initial={{ opacity: 0 }}
@@ -681,45 +422,52 @@ const FAQ = () => {
             Find answers to common questions about working with us.
           </p>
         </motion.div>
-        
+
         <motion.div
-          variants={staggerContainer}
           initial="hidden"
           whileInView="visible"
           viewport={{ once: true }}
           className="space-y-4"
         >
           {faqs.map((faq, index) => (
-            <motion.div
-              key={index}
-              variants={fadeInUp}
-              custom={index}
-            >
-              <div className="border border-border/50 hover:border-primary/20 transition-all duration-300 rounded-lg overflow-hidden">
-                <div className="p-6 border-b border-border/50">
-                  <h3 className="text-xl font-semibold">{faq.question}</h3>
-                </div>
-                <div className="p-6">
+            <div key={index} className="border border-border/50 hover:border-primary/20 transition-all duration-300 rounded-lg overflow-hidden">
+              {/* Question */}
+              <button
+                onClick={() => toggleFAQ(index)}
+                className="w-full text-left p-6 flex justify-between items-center focus:outline-none"
+              >
+                <h3 className="text-xl font-semibold">{faq.question}</h3>
+                <motion.svg
+                  animate={{ rotate: openIndex === index ? 180 : 0 }}
+                  transition={{ duration: 0.3 }}
+                  xmlns="http://www.w3.org/2000/svg"
+                  width="24"
+                  height="24"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  className="text-primary"
+                >
+                  <path d="M6 9l6 6 6-6"></path>
+                </motion.svg>
+              </button>
+
+              {/* Answer (Collapsible) */}
+              <motion.div
+                initial={{ height: 0, opacity: 0 }}
+                animate={{ height: openIndex === index ? "auto" : 0, opacity: openIndex === index ? 1 : 0 }}
+                transition={{ duration: 0.3 }}
+                className="overflow-hidden"
+              >
+                <div className="p-6 border-t border-border/50">
                   <p className="text-muted-foreground">{faq.answer}</p>
                 </div>
-              </div>
-            </motion.div>
+              </motion.div>
+            </div>
           ))}
-        </motion.div>
-        
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ delay: 0.4 }}
-          className="mt-12 text-center"
-        >
-          <p className="mb-4 text-muted-foreground">
-            Still have questions? We're here to help.
-          </p>
-          <button className="px-6 py-3 bg-primary text-primary-foreground rounded-md font-medium text-sm">
-            Contact Support
-          </button>
         </motion.div>
       </div>
     </section>
