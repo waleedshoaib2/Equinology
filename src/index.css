@@ -5,6 +5,7 @@
 @layer base {
   html {
     scroll-behavior: smooth;
+    background-color: #0A0A0A;
   }
   
   body {
@@ -19,8 +20,8 @@
 }
 
 /* Smooth scroll for Safari */
-@supports (-webkit-overflow-scrolling: touch) {
+/* @supports (-webkit-overflow-scrolling: touch) {
   body {
     -webkit-overflow-scrolling: touch;
   }
-}
+} */
