@@ -349,31 +349,36 @@ const ContactForm = () => {
               <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
                 <div>
                   <label className="block text-sm font-medium mb-1">Name</label>
-                  <input type="text" name="name" className="w-full px-4 py-2 border rounded-md bg-background" value={formData.name} onChange={handleChange} />
+                  <input type="text" name="name" className="w-full px-4 py-2 border border-gray-600 rounded-md bg-[#1a1a1a] text-white focus:ring-0 focus:border-gray-400" value={formData.name} onChange={handleChange} />
                   {errors.name && <p className="text-red-500 text-xs mt-1">{errors.name}</p>}
                 </div>
                 <div>
                   <label className="block text-sm font-medium mb-1">Email</label>
-                  <input type="email" name="email" className="w-full px-4 py-2 border rounded-md bg-background" value={formData.email} onChange={handleChange} />
+                  <input type="email" name="email" className="w-full px-4 py-2 border border-gray-600 rounded-md bg-[#1a1a1a] text-white focus:ring-0 focus:border-gray-400" value={formData.email} onChange={handleChange} />
                   {errors.email && <p className="text-red-500 text-xs mt-1">{errors.email}</p>}
                 </div>
               </div>
 
               <div>
                 <label className="block text-sm font-medium mb-1">Subject</label>
-                <input type="text" name="subject" className="w-full px-4 py-2 border rounded-md bg-background" value={formData.subject} onChange={handleChange} />
+                <input type="text" name="subject" className="w-full px-4 py-2 border border-gray-600 rounded-md bg-[#1a1a1a] text-white focus:ring-0 focus:border-gray-400" value={formData.subject} onChange={handleChange} />
                 {errors.subject && <p className="text-red-500 text-xs mt-1">{errors.subject}</p>}
               </div>
 
               <div>
                 <label className="block text-sm font-medium mb-1">Message</label>
-                <textarea name="message" className="w-full px-4 py-2 border rounded-md bg-background min-h-[120px]" value={formData.message} onChange={handleChange}></textarea>
+                <textarea name="message" className="w-full px-4 py-2 border border-gray-600 rounded-md bg-[#1a1a1a] text-white focus:ring-0 focus:border-gray-400" value={formData.message} onChange={handleChange}></textarea>
                 {errors.message && <p className="text-red-500 text-xs mt-1">{errors.message}</p>}
               </div>
 
-              <button type="submit" className="w-full py-3 bg-primary text-primary-foreground rounded-md font-medium text-sm" disabled={isSubmitting}>
-                {isSubmitting ? "Sending..." : "Send Message"}
-              </button>
+              <button 
+  type="submit" 
+  className="w-full py-3 bg-[#1E3A8A] hover:bg-[#1E40AF] text-white rounded-md font-medium text-sm transition-all duration-200"
+  disabled={isSubmitting}
+>
+  {isSubmitting ? "Sending..." : "Send Message"}
+</button>
+
             </form>
           )}
         </div>
