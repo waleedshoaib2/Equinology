@@ -46,13 +46,13 @@ const BrandingIdentitySection = () => {
     },
     {
       title: "Brand Collateral",
-      desc: "We design high-quality business cards, signage, and digital assets tailored to the equestrian industry. Our branding materials ensure a cohesive and professional presence across print and digital platforms, maintaining a consistent identity for your equestrian business.",
+      desc: "We design high-quality business cards, signage, and digital assets tailored to the equestrian industry. Our branding materials ensure a sophsticated and professional presence across print and digital platforms, maintaining a consistent identity for your equestrian business.",
       image: "https://images.unsplash.com/photo-1586717791821-3f44a563fa4c?ixlib=rb-4.0.3&auto=format&fit=crop&q=80&w=600",
       icon: <Award className="w-8 h-8 text-[#3CAAFF]" />
     },
     {
       title: "Visual Identity",
-      desc: "A strong visual identity sets your brand apart. We develop cohesive branding systems, including color palettes, typography, and imagery, ensuring that your equestrian business maintains a professional and recognizable presence across all platforms.",
+      desc: "A strong visual identity sets your brand apart. We develop sophsticated branding systems, including color palettes, typography, and imagery, ensuring that your equestrian business maintains a professional and recognizable presence across all platforms.",
       image: "https://images.unsplash.com/photo-1634942537034-2531766767d1?ixlib=rb-4.0.3&auto=format&fit=crop&q=80&w=600",
       icon: <Heart className="w-8 h-8 text-[#3CAAFF]" />
     }
@@ -142,14 +142,23 @@ const ServicesSection = () => {
           </span>
         </h2>
 
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-16">
           {services.map((service, index) => (
-            <div key={index} className="p-6 rounded-2xl bg-gradient-to-br from-[#111111] to-[#1a1a1a] border border-[#222222] shadow-md transition-transform duration-300 hover:scale-105 hover:shadow-xl hover:border-[#3CAAFF]/50">
-              <div className="text-[#3CAAFF] mb-4">
-                {service.icon}
+            <div 
+              key={index} 
+              className="relative group overflow-hidden rounded-2xl shadow-xl border border-[#222] bg-gradient-to-br from-[#111111] to-[#1a1a1a] transition-transform duration-300 hover:scale-105 hover:shadow-2xl hover:border-[#3CAAFF]/50"
+            >
+              <div className="p-8 flex flex-col items-start">
+                <div className="flex items-center gap-3 mb-4">
+                  <div className="bg-[#0A0A0A]/50 p-4 rounded-xl inline-block mb-6 group-hover:bg-[#111111] transition-colors duration-300">
+                    {service.icon}
+                  </div>
+                  <h3 className="text-2xl font-medium text-white tracking-wide">{service.title}</h3>
+                </div>
+                <p className="text-[#ABABAB] text-lg leading-relaxed">
+                  {service.description}
+                </p>
               </div>
-              <h3 className="text-xl font-light text-[#3CAAFF] mb-3">{service.title}</h3>
-              <p className="text-[#ABABAB]">{service.description}</p>
             </div>
           ))}
         </div>

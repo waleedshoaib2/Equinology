@@ -13,7 +13,7 @@ const Facilities = () => {
       image: "https://i.postimg.cc/zXFSVZW7/temp-Image83v-NOK.avif"
     },
     {
-      title: "Classifieds Websites",
+      title: "Equine Sales Platforms",
       description: "Whether you need a full classified platform or a custom site for your horse sales business, we create tailored solutions with search filters, detailed listings, high-quality media, and direct buyer enquiries.",
       image: "https://images.unsplash.com/photo-1506696495449-78c912b30e10?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
     },
