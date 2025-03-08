@@ -392,7 +392,7 @@ const FAQ = () => {
 
   const faqs = [
     {
-      question: "How quickly can I expect a response?",
+      question: "How quickly can I expect a response to be?",
       answer: "We typically respond to all inquiries within 24 hours during business days. For urgent matters, please call our support line directly."
     },
     {
