@@ -166,7 +166,7 @@ const ContactInfo = () => {
       ),
       title: "Call Us",
       description: "We're available Mon-Fri, 9am-5pm",
-      value: "+1 (555) 123-4567",
+      value: "+44 7493 303857",
       action: "Call now"
     },
     {
@@ -178,7 +178,7 @@ const ContactInfo = () => {
       ),
       title: "Email Us",
       description: "We'll respond within 24 hours",
-      value: "contact@example.com",
+      value: "enquiries@equinology.co.uk",
       action: "Send email"
     },
     {
@@ -190,7 +190,7 @@ const ContactInfo = () => {
       ),
       title: "Visit Us",
       description: "Come say hello at our office",
-      value: "123 Business Ave, Suite 100, San Francisco, CA 94107",
+      value: "Battle, East Sussex",
       action: "Get directions"
     }
   ];

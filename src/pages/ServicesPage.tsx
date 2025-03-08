@@ -1,4 +1,5 @@
 import { ChevronRight, Code, Palette, ShoppingBag, Camera, Globe, MessageSquare, Users, Award, Heart } from 'lucide-react';
+import { useNavigate } from 'react-router-dom';
 
 const HeroSection = () => {
   const handleScroll = () => {
@@ -103,32 +104,32 @@ const ServicesSection = () => {
   const services = [
     {
       title: 'Custom Web Development',
-      description: 'Bespoke websites tailored for equestrian businesses with modern design and functionality.',
+      description: 'As equestrian specialists, we speak your language. Our personal web design knowledge allows for us to help build your perfect personal website tailored to your own specific needs.',
       icon: <Code className="w-6 h-6" />
     },
     {
-      title: 'E-Commerce Solutions',
-      description: 'Custom online stores for selling equestrian products and services with secure payment processing.',
+      title: 'Equine Sales Platforms',
+      description: 'We build custom equine sales platforms that connect buyers and sellers seamlessly. Our solutions include advanced search filters, detailed listings, high-quality media, and direct enquiries. Whether you need a full marketplace or a tailored website, we create fast, mobile-friendly, and easy-to-use platforms to showcase horses and drive sales.',
       icon: <ShoppingBag className="w-6 h-6" />
     },
     {
-      title: 'Photography & Media',
-      description: 'Professional photography and media services specialized for equestrian businesses.',
+      title: 'Software Development',
+      description: `We don't just offer specialist websites, we also create specific software that reflects real horse-world knowledge to support your equestrian business, this can include anything from booking systems for riding schools to client management systems to support your business.`,
       icon: <Camera className="w-6 h-6" />
     },
     {
-      title: 'Digital Marketing',
-      description: 'Comprehensive digital marketing strategies to grow your equestrian business online.',
+      title: 'Feedback',
+      description: "Our discussions are straightforward and realistic—we say 'no' as openly as we say 'yes'. Expect clear guidance, honest feedback, and achievable outcomes, all provided through a free, no-obligation quote.",
       icon: <Globe className="w-6 h-6" />
     },
     {
-      title: 'Social Media Management',
-      description: 'Expert social media management to build and engage your equestrian community.',
+      title: 'Continued Support',
+      description: `We provide ongoing support to keep your equine sales platform running smoothly. From updates and technical assistance to optimising performance, we're here to ensure your website stays fast, secure, and effective. Whether you need tweaks, new features, or general maintenance, we're always available to help.`,
       icon: <MessageSquare className="w-6 h-6" />
     },
     {
-      title: 'Event Coverage',
-      description: 'Professional coverage of equestrian events with live streaming capabilities.',
+      title: 'SEO Optimisation',
+      description: `SEO (Search Engine Optimisation) helps your equine business get noticed online by improving your website's ranking on search engines like Google. This makes it easier for horse buyers, sellers, and enthusiasts to find you. A well-optimised website attracts the right audience, increases enquiries, and boosts sales. It ensures your site is fast, mobile-friendly, and easy to navigate, creating a better experience for visitors. Whether you're selling horses, tack, or offering equestrian services, SEO helps you reach more people and grow your business.`,
       icon: <Users className="w-6 h-6" />
     }
   ];
@@ -136,7 +137,7 @@ const ServicesSection = () => {
   return (
     <section id="services" className="py-32 px-4 bg-[#0A0A0A]">
       <div className="max-w-7xl mx-auto">
-        <h2 className="text-4xl font-light text-center mb-16">
+        <h2 className="text-5xl font-semibold text-center mb-16 text-white tracking-wide">
           <span className="bg-gradient-to-r from-[#3CAAFF] to-[#00E0FF] bg-clip-text text-transparent">
             Our Services
           </span>
@@ -168,11 +169,27 @@ const ServicesSection = () => {
 };
 
 function ServicesPage() {
+  const navigate = useNavigate();
+
   return (
     <div className="bg-[#0A0A0A] text-[#F5F5F7]">
       <HeroSection />
       <BrandingIdentitySection />
       <ServicesSection />
+      <div className="text-center mt-16">
+        <button 
+          onClick={() => {
+            navigate('/contact');
+            setTimeout(() => window.scrollTo(0, 0), 100);
+          }}
+          className="inline-flex items-center px-10 py-4 rounded-full bg-gradient-to-r from-[#3CAAFF] to-[#00E0FF] text-[#0A0A0A] font-medium text-lg hover:shadow-lg hover:shadow-[#3CAAFF]/25 transition-all duration-300"
+        >
+          Contact Us Now
+          <svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="ml-2 h-6 w-6 transition-transform group-hover:translate-x-1">
+            <path d="M22 16.92V19a2 2 0 0 1-2.18 2 19.86 19.86 0 0 1-8.63-3.07 19.5 19.5 0 0 1-6-6A19.86 19.86 0 0 1 3 4.18 2 2 0 0 1 5 2h2.09a2 2 0 0 1 2 1.72c.12.81.31 1.6.56 2.36a2 2 0 0 1-.45 2.11L8.21 9.79a16 16 0 0 0 6 6l1.5-1.5a2 2 0 0 1 2.11-.45c.76.25 1.55.44 2.36.56a2 2 0 0 1 1.72 2z"></path>
+          </svg>
+        </button>
+      </div>
     </div>
   );
 }
