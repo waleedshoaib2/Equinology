@@ -1,4 +1,3 @@
-
 import { ChevronRight, Code, Palette, ShoppingBag, Camera, Globe, MessageSquare, Users, Award, Heart } from 'lucide-react';
 
 const HeroSection = () => {
@@ -18,7 +17,6 @@ const HeroSection = () => {
           </span>
         </h1>
 
-        {/* Centering the button using flex */}
         <div className="flex justify-center my-6">
           <button
             onClick={handleScroll}
@@ -73,19 +71,17 @@ const BrandingIdentitySection = () => {
           {items.map((item, index) => (
             <div 
               key={index} 
-              className="relative group overflow-hidden rounded-xl shadow-lg border border-[#222] bg-[#111] transition-transform duration-500 hover:scale-105 hover:shadow-2xl hover:border-[#3CAAFF]/50"
+              className="relative group overflow-hidden rounded-2xl shadow-xl border border-[#222] bg-gradient-to-br from-[#111111] to-[#1a1a1a] transition-transform duration-300 hover:scale-105 hover:shadow-2xl hover:border-[#3CAAFF]/50"
             >
-              {/* Image with hover grayscale effect */}
               <div className="relative overflow-hidden">
                 <img
                   src={item.image}
                   alt={item.title}
-                  className="w-full h-80 object-cover rounded-t-xl transition-all duration-500 grayscale group-hover:grayscale-0 group-hover:scale-110"
+                  className="w-full h-80 object-cover rounded-t-2xl transition-all duration-500 grayscale group-hover:grayscale-0 group-hover:scale-110"
                 />
                 <div className="absolute inset-0 bg-gradient-to-t from-black/80 to-transparent"></div>
               </div>
 
-              {/* Content Section */}
               <div className="p-8 flex flex-col items-start">
                 <div className="flex items-center gap-3 mb-4">
                   {item.icon}
@@ -102,7 +98,7 @@ const BrandingIdentitySection = () => {
     </section>
   );
 };
-// ServicesSection component
+
 const ServicesSection = () => {
   const services = [
     {
@@ -148,7 +144,7 @@ const ServicesSection = () => {
 
         <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8">
           {services.map((service, index) => (
-            <div key={index} className="p-6 rounded-xl bg-[#111111] border border-[#222222]/20 hover:border-[#3CAAFF]/30 transition-colors">
+            <div key={index} className="p-6 rounded-2xl bg-gradient-to-br from-[#111111] to-[#1a1a1a] border border-[#222222] shadow-md transition-transform duration-300 hover:scale-105 hover:shadow-xl hover:border-[#3CAAFF]/50">
               <div className="text-[#3CAAFF] mb-4">
                 {service.icon}
               </div>
@@ -165,7 +161,6 @@ const ServicesSection = () => {
 function ServicesPage() {
   return (
     <div className="bg-[#0A0A0A] text-[#F5F5F7]">
-      {/* <StarBackground /> */}
       <HeroSection />
       <BrandingIdentitySection />
       <ServicesSection />

@@ -29,7 +29,7 @@ const Hero = () => {
               className="inline-flex items-center space-x-2 bg-[#111111]/50 backdrop-blur-sm px-4 py-2 rounded-full border border-[#3CAAFF]/30"
             >
               <Compass className="w-4 h-4 text-[#3CAAFF]" />
-              <span className="text-sm text-[#ABABAB]">Equestrian Excellence</span>
+              <span className="text-sm text-[#ABABAB]">Equestrian Experts</span>
             </motion.div>
 
             {/* Main heading */}
@@ -57,8 +57,7 @@ const Hero = () => {
               transition={{ delay: 0.8 }}
               className="text-lg text-[#ABABAB] max-w-3xl"
             >
-              We blend timeless equestrian tradition with innovative design to create
-              extraordinary experiences for horse enthusiasts, breeders, and equestrian facilities.
+              Get in touch today for a no-obligation, one-to-one consultation about your bespoke website. Depending on the project, we aim to deliver your perfect website within approximately a week. We won’t consider it complete until you’re 100% satisfied, and we offer a transparent, fixed price.
             </motion.p>
 
             {/* CTA buttons */}
@@ -113,7 +112,7 @@ const Hero = () => {
                       </motion.div>
                     ))}
                   </motion.div>
-                  <p className="mt-2 text-sm text-[#777777]">Trusted by 200+ equestrian facilities</p>
+                  <p className="mt-2 text-sm text-[#777777]">Trusted by 100+ equestrians</p>
                 </div>
                 <div className="h-12 w-px bg-[#222222]/30"></div>
                 <div>
@@ -123,7 +122,7 @@ const Hero = () => {
                     transition={{ delay: 1.6 }}
                     className="text-2xl font-bold text-[#F5F5F7]"
                   >
-                    25+
+                    6
                   </motion.p>
                   <p className="text-sm text-[#777777]">Years of excellence</p>
                 </div>
