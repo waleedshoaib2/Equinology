@@ -57,7 +57,7 @@ const Hero = () => {
               transition={{ delay: 0.8 }}
               className="text-lg text-[#ABABAB] max-w-3xl"
             >
-              Get in touch today for a no-obligation, one-to-one consultation about your bespoke website. Depending on the project, we aim to deliver your perfect website within approximately a week. We won't consider it complete until you're 100% satisfied, and we offer a transparent, fixed and affordabl price. No business is complete without a professional website
+              Get in touch today for a no-obligation, one-to-one consultation about your bespoke website. Depending on the project, we aim to deliver your perfect website within approximately a week. We won't consider it complete until you're 100% satisfied, and we offer a transparent, fixed and affordable price. No business is complete without a professional website
             </motion.p>
 
             {/* CTA buttons */}
