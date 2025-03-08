@@ -6,12 +6,12 @@ const Services = () => {
     {
       icon: <PenTool className="w-10 h-10 text-[#3CAAFF]" />,
       title: "Equestrian Web Design",
-      description: "As equestrian specialists, we speak your language. Our tailored web design services blend deep horse industry insight with innovative technology, expertly guiding your project from concept to completion."
+      description: "As equestrian specialists, we speak your language. Our personal web design knowledge allows for us to help build your perfect personal website tailored to your own specific needs."
     },
     {
       icon: <Layout className="w-10 h-10 text-[#3CAAFF]" />,
       title: "Software Development",
-      description: "As equestrian experts, we can develop specialised software that reflects real horse-world knowledge, combining intuitive design and practical functionality to support your equestrian business."
+      description: "We don't just offer specialist websites, we also create  specific software that reflects real horse-world knowledge to support your equestrian business, this can include anything from booking systems for riding schools to client management systems to support your business."
     },
     {
       icon: <Compass className="w-10 h-10 text-[#3CAAFF]" />,
@@ -25,13 +25,13 @@ const Services = () => {
     },
     {
       icon: <Ruler className="w-10 h-10 text-[#3CAAFF]" />,
-      title: "Full-Scale Customisation",
-      description: "Your equestrian business deserves more than a basic template. We handcraft every aspect of your site—no shortcuts, no pre-made themes—just fully bespoke design, uniquely tailored to your vision and ambitions."
+      title: "Personal Touch",
+      description: "Your equestrian business deserves more than a basic template. We handcraft every aspect of your site—no shortcuts, no pre-made themes—just fully bespoke design, uniquely tailored to your vision and equestrian needs."
     },
     {
       icon: <Users className="w-10 h-10 text-[#3CAAFF]" />,
-      title: "Consultation",
-      description: "Our consultations are straightforward and realistic—we say 'no' as openly as we say 'yes'. Expect clear guidance, honest feedback, and achievable outcomes, all provided through a free, no-obligation quote."
+      title: "Feedback",
+      description: "Our discussions are straightforward and realistic—we say 'no' as openly as we say 'yes'. Expect clear guidance, honest feedback, and achievable outcomes, all provided through a free, no-obligation quote."
     }
   ];
 
@@ -78,7 +78,7 @@ const Services = () => {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="text-[#ABABAB] max-w-2xl mx-auto"
           >
-            We offer a comprehensive range of design and consulting services tailored to the unique needs of equestrian facilities and horse enthusiasts.
+            We offer an extensive range of design and personalised services tailored to the unique needs of equestrians.
           </motion.p>
         </div>
 

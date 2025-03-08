@@ -5,7 +5,7 @@ import { Star, Quote } from 'lucide-react';
 const Testimonials = () => {
   const testimonials = [
     {
-      quote: "Henry at Equinology really understood what I needed. My previous website had a checkout and basket feature, which didn’t make sense for selling horses. He helped create a system that actually worked for my business. It was great to work with someone who understands the equestrian world.",
+      quote: "Henry at Equinology really understood what I needed. My previous website had a checkout and basket feature, which didn't make sense for selling horses. He helped create a system that actually worked for my business. It was great to work with someone who understands the equestrian world.",
       author: "Sarah",
       position: "Dressage Facility Owner",
       rating: 5,
@@ -19,7 +19,7 @@ const Testimonials = () => {
       image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&q=80&w=200"
     },
     {
-      quote: "It was great to work with a UK-based team who really understands the equestrian world. I didn’t have to keep explaining things, which made the process so much easier. The pricing was also clear and reasonable, with no unexpected costs.",
+      quote: "It was great to work with a UK-based team who really understands the equestrian world. I didn't have to keep explaining things, which made the process so much easier. The pricing was also clear and reasonable, with no unexpected costs.",
       author: "Elizabeth",
       position: "Thoroughbred Breeder",
       rating: 5,
@@ -76,16 +76,8 @@ const Testimonials = () => {
               <p className="text-[#ABABAB] mb-6 italic">"{testimonial.quote}"</p>
               
               <div className="flex items-center">
-                <div className="w-12 h-12 rounded-full overflow-hidden mr-4">
-                  <img 
-                    src={testimonial.image} 
-                    alt={testimonial.author} 
-                    className="w-full h-full object-cover"
-                  />
-                </div>
                 <div>
                   <h4 className="text-[#F5F5F7] font-medium">{testimonial.author}</h4>
-                  <p className="text-sm text-[#777777]">{testimonial.position}</p>
                 </div>
               </div>
             </motion.div>

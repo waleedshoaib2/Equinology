@@ -39,14 +39,14 @@ const Hero = () => {
               transition={{ delay: 0.4 }}
               className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight"
             >
-              <span className="block text-[#F5F5F7]">Elevate Your</span>
+              <span className="block text-[#F5F5F7]">Begin Your</span>
               <motion.span
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.6 }}
                 className="block mt-2 bg-gradient-to-r from-[#3CAAFF] to-[#00E0FF] bg-clip-text text-transparent"
               >
-                Equestrian Vision
+                Equestrian Website 
               </motion.span>
             </motion.h1>
 
@@ -57,7 +57,7 @@ const Hero = () => {
               transition={{ delay: 0.8 }}
               className="text-lg text-[#ABABAB] max-w-3xl"
             >
-              Get in touch today for a no-obligation, one-to-one consultation about your bespoke website. Depending on the project, we aim to deliver your perfect website within approximately a week. We won’t consider it complete until you’re 100% satisfied, and we offer a transparent, fixed price.
+              Get in touch today for a no-obligation, one-to-one consultation about your bespoke website. Depending on the project, we aim to deliver your perfect website within approximately a week. We won't consider it complete until you're 100% satisfied, and we offer a transparent, fixed and affordabl price. No business is complete without a professional website
             </motion.p>
 
             {/* CTA buttons */}
@@ -70,19 +70,19 @@ const Hero = () => {
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                onClick={() => navigate('/services')}
+                onClick={() => navigate('/contact')}
                 className="inline-flex items-center px-8 py-3 rounded-full bg-gradient-to-r from-[#3CAAFF] to-[#00E0FF] text-[#0A0A0A] font-medium hover:shadow-lg hover:shadow-[#3CAAFF]/25 transition-all duration-300"
               >
-                Explore Services
+                Contact Us
                 <ArrowRight className="ml-2 w-5 h-5" />
               </motion.button>
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                onClick={() => navigate('/contact')}
+                onClick={() => navigate('/services')}
                 className="inline-flex items-center px-8 py-3 rounded-full border border-[#3CAAFF]/30 hover:border-[#3CAAFF]/60 text-[#ABABAB] hover:text-[#F5F5F7] transition-colors duration-300"
               >
-                Contact Us
+                Explore Services
               </motion.button>
             </motion.div>
 
@@ -125,6 +125,18 @@ const Hero = () => {
                     6
                   </motion.p>
                   <p className="text-sm text-[#777777]">Years of excellence</p>
+                </div>
+                <div className="h-12 w-px bg-[#222222]/30"></div>
+                <div>
+                  <motion.p
+                    initial={{ opacity: 0 }}
+                    animate={{ opacity: 1 }}
+                    transition={{ delay: 1.8 }}
+                    className="text-2xl font-bold text-[#F5F5F7]"
+                  >
+                    £200
+                  </motion.p>
+                  <p className="text-sm text-[#777777]">Prices starting from</p>
                 </div>
               </div>
             </motion.div>
