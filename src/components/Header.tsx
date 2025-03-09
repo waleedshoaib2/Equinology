@@ -45,7 +45,6 @@ const Header = () => {
   const navItems = [
     { label: "About", action: () => handleNavigation("about") },
     { label: "Services", action: () => handleNavigation("services") },
-    { label: "Facilities", action: () => handleNavigation("facilities") },
     { label: "Testimonials", action: () => handleNavigation("testimonials") },
   ];
 
