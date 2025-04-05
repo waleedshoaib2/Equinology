@@ -1,6 +1,6 @@
-import React, { useState } from 'react';
-import { motion, AnimatePresence } from 'framer-motion';
-import { X } from 'lucide-react';
+import React, { useState } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { X } from "lucide-react";
 
 const Gallery = () => {
   const [selectedImage, setSelectedImage] = useState<string | null>(null);
@@ -9,42 +9,42 @@ const Gallery = () => {
     {
       src: "https://images.unsplash.com/photo-1534307671554-9a6d81f4d629?ixlib=rb-4.0.3&auto=format&fit=crop&q=80&w=800",
       alt: "Luxury Equestrian Estate",
-      category: "Estate"
+      category: "Estate",
     },
     {
       src: "https://images.unsplash.com/photo-1551969014-7d2c4cddf0b6?ixlib=rb-4.0.3&auto=format&fit=crop&q=80&w=800",
       alt: "Modern Stable Interior",
-      category: "Stable"
+      category: "Stable",
     },
     {
       src: "https://images.unsplash.com/photo-1553284965-83fd3e82fa5a?ixlib=rb-4.0.3&auto=format&fit=crop&q=80&w=800",
       alt: "Elegant Horse Portrait",
-      category: "Lifestyle"
+      category: "Lifestyle",
     },
     {
       src: "https://images.unsplash.com/photo-1566068256639-2f4e8a2dc218?ixlib=rb-4.0.3&auto=format&fit=crop&q=80&w=800",
       alt: "Indoor Arena",
-      category: "Arena"
+      category: "Arena",
     },
     {
       src: "https://images.unsplash.com/photo-1450052590821-8bf91254a353?ixlib=rb-4.0.3&auto=format&fit=crop&q=80&w=800",
       alt: "Horse Training",
-      category: "Training"
+      category: "Training",
     },
     {
       src: "https://images.unsplash.com/photo-1599053581540-248ea75b59cb?ixlib=rb-4.0.3&auto=format&fit=crop&q=80&w=800",
       alt: "Equestrian Facility",
-      category: "Facility"
-    }
+      category: "Facility",
+    },
   ];
 
   return (
-    <section id="gallery" className="py-24 bg-[#111111] relative">
+    <section id="gallery" className="py-24 bg-black relative ">
       <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1IiBoZWlnaHQ9IjUiPgo8cmVjdCB3aWR0aD0iNSIgaGVpZ2h0PSI1IiBmaWxsPSIjMDgwODA4Ij48L3JlY3Q+CjxwYXRoIGQ9Ik0wIDVMNSAwWk02IDRMNCA2Wk0tMSAxTDEgLTFaIiBzdHJva2U9IiMxNTE1MTUiIHN0cm9rZS13aWR0aD0iMSI+PC9wYXRoPgo8L3N2Zz4=')] opacity-30"></div>
-      
+
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="text-center mb-16">
-          <motion.h2 
+          <motion.h2
             initial={{ opacity: 0, y: -20 }}
             whileInView={{ opacity: 1, y: 0 }}
             viewport={{ once: true }}
@@ -55,18 +55,19 @@ const Gallery = () => {
               Project Gallery
             </span>
           </motion.h2>
-          <motion.p 
+          <motion.p
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
             viewport={{ once: true }}
             transition={{ duration: 0.6, delay: 0.2 }}
             className="text-[#ABABAB] max-w-2xl mx-auto"
           >
-            Browse our portfolio of completed projects showcasing the elegance and functionality of our equestrian facility designs.
+            Browse our portfolio of completed projects showcasing the elegance
+            and functionality of our equestrian facility designs.
           </motion.p>
         </div>
 
-        <motion.div 
+        <motion.div
           initial={{ opacity: 0 }}
           whileInView={{ opacity: 1 }}
           viewport={{ once: true }}
@@ -85,9 +86,9 @@ const Gallery = () => {
               onClick={() => setSelectedImage(image.src)}
             >
               <div className="aspect-w-4 aspect-h-3">
-                <img 
-                  src={image.src} 
-                  alt={image.alt} 
+                <img
+                  src={image.src}
+                  alt={image.alt}
                   className="object-cover w-full h-full transition-transform duration-500 group-hover:scale-110"
                 />
               </div>
@@ -106,7 +107,7 @@ const Gallery = () => {
       {/* Lightbox */}
       <AnimatePresence>
         {selectedImage && (
-          <motion.div 
+          <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
@@ -129,9 +130,9 @@ const Gallery = () => {
               className="relative max-w-5xl max-h-[80vh]"
               onClick={(e) => e.stopPropagation()}
             >
-              <img 
-                src={selectedImage} 
-                alt="Enlarged gallery image" 
+              <img
+                src={selectedImage}
+                alt="Enlarged gallery image"
                 className="max-w-full max-h-[80vh] object-contain"
               />
             </motion.div>

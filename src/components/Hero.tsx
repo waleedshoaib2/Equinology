@@ -1,14 +1,14 @@
-import { ArrowRight, Star, Compass } from 'lucide-react';
-import { motion } from 'framer-motion';
-import ThreeBackground from './ThreeBackground';
-import image from "../images/Hero-Image.webp"
-import { useNavigate } from 'react-router-dom';
+import { ArrowRight, Star, Compass } from "lucide-react";
+import { motion } from "framer-motion";
+import ThreeBackground from "./ThreeBackground";
+import image from "../images/Hero-Image.webp";
+import { useNavigate } from "react-router-dom";
 const Hero = () => {
   const navigate = useNavigate();
   return (
     <div className="relative min-h-screen overflow-hidden">
       {/* Background with gradient */}
-      <div className="absolute inset-0 bg-gradient-to-br from-[#0A0A0A]/50 via-[#111111]/30 to-[#0A0A0A]/50 z-30">
+      <div className="absolute inset-0 bg-gradient-to-br from-[#000000] via-[#000000] to-[#000000] z-30">
         <ThreeBackground />
       </div>
 
@@ -46,7 +46,7 @@ const Hero = () => {
                 transition={{ delay: 0.6 }}
                 className="block mt-2 bg-gradient-to-r from-[#3CAAFF] to-[#00E0FF] bg-clip-text text-transparent"
               >
-                Equestrian Website 
+                Equestrian Website
               </motion.span>
             </motion.h1>
 
@@ -57,7 +57,12 @@ const Hero = () => {
               transition={{ delay: 0.8 }}
               className="text-lg text-[#ABABAB] max-w-3xl"
             >
-              Get in touch today for a no-obligation, one-to-one consultation about your bespoke website. Depending on the project, we aim to deliver your perfect website within approximately a week. We won't consider it complete until you're 100% satisfied, and we offer a transparent, fixed and affordable price. No business is complete without a professional website
+              Get in touch today for a no-obligation, one-to-one consultation
+              about your bespoke website. Depending on the project, we aim to
+              deliver your perfect website within approximately a week. We won't
+              consider it complete until you're 100% satisfied, and we offer a
+              transparent, fixed and affordable price. No business is complete
+              without a professional website
             </motion.p>
 
             {/* CTA buttons */}
@@ -70,7 +75,7 @@ const Hero = () => {
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                onClick={() => navigate('/contact')}
+                onClick={() => navigate("/contact")}
                 className="inline-flex items-center px-8 py-3 rounded-full bg-gradient-to-r from-[#3CAAFF] to-[#00E0FF] text-[#0A0A0A] font-medium hover:shadow-lg hover:shadow-[#3CAAFF]/25 transition-all duration-300"
               >
                 Contact Us
@@ -79,7 +84,7 @@ const Hero = () => {
               <motion.button
                 whileHover={{ scale: 1.05 }}
                 whileTap={{ scale: 0.95 }}
-                onClick={() => navigate('/services')}
+                onClick={() => navigate("/services")}
                 className="inline-flex items-center px-8 py-3 rounded-full border border-[#3CAAFF]/30 hover:border-[#3CAAFF]/60 text-[#ABABAB] hover:text-[#F5F5F7] transition-colors duration-300"
               >
                 Explore Services
@@ -112,7 +117,9 @@ const Hero = () => {
                       </motion.div>
                     ))}
                   </motion.div>
-                  <p className="mt-2 text-sm text-[#777777]">Trusted by 100+ equestrians</p>
+                  <p className="mt-2 text-sm text-[#777777]">
+                    Trusted by 100+ equestrians
+                  </p>
                 </div>
                 <div className="h-12 w-px bg-[#222222]/30"></div>
                 <div>
@@ -168,25 +175,25 @@ const Hero = () => {
               <motion.div
                 animate={{
                   scale: [1, 1.2, 1],
-                  opacity: [0.1, 0.2, 0.1]
+                  opacity: [0.1, 0.2, 0.1],
                 }}
                 transition={{
                   duration: 4,
                   repeat: Infinity,
-                  ease: "easeInOut"
+                  ease: "easeInOut",
                 }}
                 className="absolute -top-4 -right-4 w-72 h-72 bg-[#3CAAFF]/10 rounded-full blur-3xl"
               />
               <motion.div
                 animate={{
                   scale: [1, 1.2, 1],
-                  opacity: [0.1, 0.2, 0.1]
+                  opacity: [0.1, 0.2, 0.1],
                 }}
                 transition={{
                   duration: 4,
                   repeat: Infinity,
                   ease: "easeInOut",
-                  delay: 2
+                  delay: 2,
                 }}
                 className="absolute -bottom-4 -left-4 w-72 h-72 bg-[#00E0FF]/10 rounded-full blur-3xl"
               />

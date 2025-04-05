@@ -1,91 +1,181 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { Star, Quote } from 'lucide-react';
-
-const Testimonials = () => {
-  const testimonials = [
-    {
-      quote: "Henry at Equinology really understood what I needed. My previous website had a checkout and basket feature, which didn't make sense for selling horses. He helped create a system that actually worked for my business. It was great to work with someone who understands the equestrian world.",
-      author: "Sarah",
-      position: "Dressage Facility Owner",
-      rating: 5,
-      image: "https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-4.0.3&auto=format&fit=crop&q=80&w=200"
-    },
-    {
-      quote: "Working with the Equinology team was a seamless experience from concept to completion. They created a space that perfectly balances luxury and functionality.",
-      author: "Michael",
-      position: "Equestrian Estate Developer",
-      rating: 5,
-      image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&q=80&w=200"
-    },
-    {
-      quote: "It was great to work with a UK-based team who really understands the equestrian world. I didn't have to keep explaining things, which made the process so much easier. The pricing was also clear and reasonable, with no unexpected costs.",
-      author: "Elizabeth",
-      position: "Thoroughbred Breeder",
-      rating: 5,
-      image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&auto=format&fit=crop&q=80&w=200"
-    }
-  ];
-
+import React, { useState, useEffect } from "react";
+import { motion, AnimatePresence } from "framer-motion";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+const testimonials = [
+  {
+    id: 1,
+    name: "ANIA",
+    role: "FASHION DIRECTOR",
+    time: "2 hours ago",
+    image:
+      "https://petapixel.com/assets/uploads/2022/02/Petapixel-Article-Images-5-800x600.jpg",
+    review:
+      "This service is absolutely amazing! The design is cutting-edge and the experience unforgettable.",
+  },
+  {
+    id: 2,
+    name: "SMIKEE",
+    role: "CREATIVE LEAD",
+    time: "1 day ago",
+    image:
+      "https://cdn.shopify.com/s/files/1/1619/4221/files/S0001_e811c10b-062a-4a66-8310-e19ad434506b.jpg?v=1656063829",
+    review:
+      "A true masterpiece! Their attention to detail and creative vision is unparalleled in the industry.",
+  },
+  {
+    id: 3,
+    name: "KANTY",
+    role: "PRODUCT DESIGNER",
+    time: "3 days ago",
+    image:
+      "https://www.katebackdrop.com/cdn/shop/products/59409850_10205453216046251_6233943853875855360_o.jpg?v=1687278612",
+    review:
+      "Innovative and brilliant. This team transformed our vision into reality with ease and flair.",
+  },
+];
+const variants = {
+  enter: (direction) => ({
+    x: direction > 0 ? 500 : -500,
+    opacity: 0,
+  }),
+  center: {
+    x: 0,
+    opacity: 1,
+  },
+  exit: (direction) => ({
+    x: direction > 0 ? -500 : 500,
+    opacity: 0,
+  }),
+};
+export default function TestimonialCarousel() {
+  const [[index, direction], setIndex] = useState([0, 0]);
+  // Auto-rotate every 5 seconds
+  useEffect(() => {
+    const timer = setInterval(() => {
+      setIndex(([i]) => {
+        const newIndex = i === testimonials.length - 1 ? 0 : i + 1;
+        return [newIndex, 1];
+      });
+    }, 5000);
+    return () => clearInterval(timer);
+  }, []);
+  const handleNext = () => {
+    setIndex(([i]) => {
+      const newIndex = i === testimonials.length - 1 ? 0 : i + 1;
+      return [newIndex, 1];
+    });
+  };
+  const handlePrev = () => {
+    setIndex(([i]) => {
+      const newIndex = i === 0 ? testimonials.length - 1 : i - 1;
+      return [newIndex, -1];
+    });
+  };
+  const handleSelect = (newIndex) => {
+    setIndex(([i]) => [newIndex, newIndex > i ? 1 : -1]);
+  };
+  // For vertical tabs
+  const prevIndex = index === 0 ? testimonials.length - 1 : index - 1;
+  const nextIndex = index === testimonials.length - 1 ? 0 : index + 1;
   return (
-    <section id="testimonials" className="py-24 bg-[#0A0A0A] relative">
-      <div className="absolute inset-0 bg-gradient-to-b from-[#111111]/50 to-[#0A0A0A]"></div>
-      
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="text-center mb-16">
-          <motion.h2 
-            initial={{ opacity: 0, y: -20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6 }}
-            className="text-3xl sm:text-4xl font-bold mb-4"
+    <div className="relative w-full min-h-screen flex flex-col items-center justify-center py-16 bg-black text-white overflow-hidden">
+      {/* Container with horizontal spacing so the tabs aren't squished */}
+      <div className="relative flex items-center justify-center space-x-8 mt-20">
+        {/* Left Vertical Tab (Previous) */}
+        <div className="hidden md:flex flex-col space-y-4 items-center">
+          <button
+            onClick={() => handleSelect(prevIndex)}
+            className={`h-[150px] w-[60px] bg-black text-white flex flex-col items-center justify-center
+              rounded-md transition-all border border-gray-800
+              ${
+                index === prevIndex
+                  ? "opacity-100"
+                  : "opacity-70 hover:opacity-90"
+              }`}
           >
-            <span className="bg-gradient-to-r from-[#3CAAFF] to-[#00E0FF] bg-clip-text text-transparent">
-              Client Testimonials
+            <span className="text-sm font-bold tracking-widest rotate-90 transform">
+              {testimonials[prevIndex].name}
             </span>
-          </motion.h2>
-          <motion.p 
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true }}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            className="text-[#ABABAB] max-w-2xl mx-auto"
-          >
-            Hear what our clients have to say about their experience working with Equinology.
-          </motion.p>
+          </button>
         </div>
-
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-          {testimonials.map((testimonial, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 30 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true }}
-              transition={{ duration: 0.6, delay: index * 0.2 }}
-              className="bg-gradient-to-br from-[#111111]/80 to-[#0A0A0A]/80 p-8 rounded-2xl border border-[#222222]/20 relative"
-            >
-              <Quote className="absolute top-6 right-6 w-10 h-10 text-[#3CAAFF]/20" />
-              
-              <div className="flex items-center mb-6">
-                {[...Array(testimonial.rating)].map((_, i) => (
-                  <Star key={i} className="w-4 h-4 text-[#3CAAFF] fill-current" />
-                ))}
-              </div>
-              
-              <p className="text-[#ABABAB] mb-6 italic">"{testimonial.quote}"</p>
-              
-              <div className="flex items-center">
-                <div>
-                  <h4 className="text-[#F5F5F7] font-medium">{testimonial.author}</h4>
-                </div>
-              </div>
-            </motion.div>
-          ))}
+        {/* Main Carousel Card (wider width, consistent height for the image) */}
+        <AnimatePresence initial={false} custom={direction} mode="wait">
+          <motion.div
+            key={testimonials[index].id}
+            custom={direction}
+            variants={variants}
+            initial="enter"
+            animate="center"
+            exit="exit"
+            transition={{ type: "spring", stiffness: 200, damping: 30 }}
+            className="bg-black rounded-lg overflow-hidden shadow-xl border border-gray-800 relative
+                       w-[800px] max-w-full" // wider card
+          >
+            <img
+              src={testimonials[index].image}
+              alt={testimonials[index].name}
+              className="w-full h-[450px] object-cover" // consistent image height
+            />
+            <div className="p-6">
+              <p className="text-lg italic mb-2">
+                "{testimonials[index].review}"
+              </p>
+              <h3 className="text-2xl font-bold">{testimonials[index].name}</h3>
+              <p className="text-sm font-medium">{testimonials[index].role}</p>
+              <p className="text-xs opacity-75 mt-1">
+                {testimonials[index].time}
+              </p>
+            </div>
+            {/* Navigation Arrows on the card */}
+            <div className="flex justify-between absolute top-1/2 left-0 right-0 -translate-y-1/2 px-4">
+              <button
+                onClick={handlePrev}
+                className="bg-black/50 hover:bg-black/80 p-2 rounded-full shadow-md border border-gray-700"
+                aria-label="Previous testimonial"
+              >
+                <ChevronLeft className="h-5 w-5 text-white" />
+              </button>
+              <button
+                onClick={handleNext}
+                className="bg-black/50 hover:bg-black/80 p-2 rounded-full shadow-md border border-gray-700"
+                aria-label="Next testimonial"
+              >
+                <ChevronRight className="h-5 w-5 text-white" />
+              </button>
+            </div>
+          </motion.div>
+        </AnimatePresence>
+        {/* Right Vertical Tab (Next) */}
+        <div className="hidden md:flex flex-col space-y-4 items-center">
+          <button
+            onClick={() => handleSelect(nextIndex)}
+            className={`h-[150px] w-[60px] bg-black text-white flex flex-col items-center justify-center
+              rounded-md transition-all border border-gray-800
+              ${
+                index === nextIndex
+                  ? "opacity-100"
+                  : "opacity-70 hover:opacity-90"
+              }`}
+          >
+            <span className="text-sm font-bold tracking-widest rotate-90 transform">
+              {testimonials[nextIndex].name}
+            </span>
+          </button>
         </div>
       </div>
-    </section>
+      {/* Pagination Dots */}
+      <div className="flex justify-center mt-8">
+        {testimonials.map((_, idx) => (
+          <button
+            key={idx}
+            onClick={() => handleSelect(idx)}
+            className={`h-2 rounded-full mx-1 transition-all ${
+              index === idx ? "bg-white w-4" : "bg-gray-600 w-2"
+            }`}
+            aria-label={`Go to slide ${idx + 1}`}
+          />
+        ))}
+      </div>
+    </div>
   );
-};
-
-export default Testimonials;
+}
