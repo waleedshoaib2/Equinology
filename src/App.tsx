@@ -14,22 +14,23 @@ import BlogPage from './pages/BlogPage';
 function App() {
   return (
     <Router>
-      <div className=" bg-[#0A0A0A] text-[#F5F5F7]">
+      <div className="bg-gradient-to-b from-[#0A0A0A] via-[#101010] to-[#0A0A0A] text-[#F5F5F7]">
         <Header />
         <Routes>
           <Route path="/" element={
-            <>
+            <main>
               <Hero />
               <Services />
               <Facilities />
               {/* <Gallery /> */}
               <Testimonials />
               {/* <Contact /> */}
-            </>
+            </main>
           } />
-          <Route path="/services" element={<ServicesPage />} />
-          <Route path="/contact" element={<ContactPage />} />
-          <Route path="/blog" element={<BlogPage />} />
+          <Route path="/services" element={<main><ServicesPage /></main>} />
+          <Route path="/contact" element={<main><ContactPage /></main>} />
+          <Route path="/blog/:slug" element={<main><BlogPage /></main>} />
+          <Route path="/blog" element={<main><BlogPage /></main>} />
         </Routes>
         <Footer />
       </div>

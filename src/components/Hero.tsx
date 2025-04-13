@@ -3,8 +3,10 @@ import { motion } from 'framer-motion';
 import ThreeBackground from './ThreeBackground';
 import image from "../images/Hero-Image.webp"
 import { useNavigate } from 'react-router-dom';
+
 const Hero = () => {
   const navigate = useNavigate();
+  
   return (
     <div className="relative min-h-screen overflow-hidden">
       {/* Background with gradient */}
@@ -37,16 +39,16 @@ const Hero = () => {
               initial={{ opacity: 0, y: 20 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: 0.4 }}
-              className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight"
+              className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight relative"
             >
-              <span className="block text-[#F5F5F7]">Bringing Ideas</span>
+              <span className="block text-[#F5F5F7]">Transform Ideas</span>
               <motion.span
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.6 }}
-                className="block mt-2 bg-gradient-to-r from-[#3CAAFF] to-[#00E0FF] bg-clip-text text-transparent"
+                className="block mt-2 bg-gradient-to-r from-[#3CAAFF] to-[#00E0FF] bg-clip-text text-transparent pb-2"
               >
-                Into Digital Reality
+               Digital Reality
               </motion.span>
             </motion.h1>
 
@@ -57,7 +59,7 @@ const Hero = () => {
               transition={{ delay: 0.8 }}
               className="text-lg text-[#ABABAB] max-w-3xl"
             >
-              Get in touch today for a no-obligation, one-to-one consultation about your bespoke website. Depending on the project, we aim to deliver your perfect website within approximately a week. We won't consider it complete until you're 100% satisfied, and we offer a transparent, fixed and affordable price. No business is complete without a professional website
+              Get in touch today for a no-obligation, one-to-one consultation about your project. Depending on the scope of the project, we aim to deliver your perfect website within approximately a week. We won't consider it complete until you're 100% satisfied, and we offer a transparent, fixed and affordable price. No business is complete without a professional website
             </motion.p>
 
             {/* CTA buttons */}
