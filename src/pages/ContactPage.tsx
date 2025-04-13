@@ -1,54 +1,63 @@
 "use client";
 
 import { motion, useScroll, useTransform, Variants } from 'framer-motion';
-import { useState, useRef, FormEvent, ChangeEvent } from 'react';
+import { useState, useRef, useEffect, FormEvent, ChangeEvent, memo, useMemo, useCallback } from 'react';
 import { toast } from "sonner";
 import emailjs from "@emailjs/browser";
 import { useTheme } from "next-themes";
 import SwirlBackground from '../components/background/SwirlBackground';
 
-// Animation variants
-const fadeInUp: Variants = {
-  hidden: { opacity: 0, y: 20 },
-  visible: (i: number) => ({
-    opacity: 1,
-    y: 0,
-    transition: { 
-      delay: i * 0.1,
-      duration: 0.5,
-      ease: [0.25, 0.1, 0.25, 1.0]
+// Memoize animation variants
+const useAnimationVariants = () => {
+  return useMemo(() => ({
+    fadeInUp: {
+      hidden: { opacity: 0, y: 20 },
+      visible: (i: number) => ({
+        opacity: 1,
+        y: 0,
+        transition: {
+          delay: i * 0.1,
+          duration: 0.5,
+        }
+      })
+    },
+    staggerContainer: {
+      hidden: { opacity: 0 },
+      visible: {
+        opacity: 1,
+        transition: {
+          staggerChildren: 0.1
+        }
+      }
+    },
+    pulse: {
+      initial: { scale: 1 },
+      animate: { 
+        scale: [1, 1.05, 1],
+        transition: { 
+          duration: 2,
+          repeat: Infinity,
+          repeatType: "reverse" 
+        }
+      }
     }
-  }),
+  }), []);
 };
 
-const staggerContainer: Variants = {
-  hidden: { opacity: 0 },
-  visible: {
-    opacity: 1,
-    transition: {
-      staggerChildren: 0.1,
-      delayChildren: 0.3
+// Memoize scroll handler
+const useScrollToContactForm = () => {
+  return useCallback(() => {
+    const element = document.getElementById('contact-form');
+    if (element) {
+      element.scrollIntoView({ behavior: 'smooth' });
     }
-  }
+  }, []);
 };
 
-const pulse: Variants = {
-  initial: { scale: 1 },
-  animate: {
-    scale: [1, 1.05, 1],
-    transition: { 
-      duration: 2,
-      repeat: Infinity,
-      repeatType: "reverse" as const
-    }
-  }
-};
+// Memoize components for better performance
+const MemoizedSwirlBackground = memo(SwirlBackground);
 
-const scrollToContactForm = () => {
-  document.getElementById("contact-form")?.scrollIntoView({ behavior: "smooth" });
-};
-
-const ContactHero = () => {
+const ContactHero = memo(() => {
   const { theme } = useTheme();
   const ref = useRef(null);
   const { scrollYProgress } = useScroll({
@@ -57,13 +66,14 @@ const ContactHero = () => {
   });
 
   const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
-  const opacity = useTransform(scrollYProgress, [0, 0.5], [1, 0]);
+  const scrollToForm = useScrollToContactForm();
+  const variants = useAnimationVariants();
 
   return (
     <section ref={ref} className="relative min-h-[100vh] flex items-center justify-center overflow-hidden bg-black">
       {/* Swirl background without any overlay to hide it */}
       <div className="absolute inset-0 z-10">
-        <SwirlBackground />
+        <MemoizedSwirlBackground />
       </div>
       
       {/* Very subtle grid pattern with low opacity */}
@@ -125,7 +135,7 @@ const ContactHero = () => {
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            onClick={scrollToContactForm}
+            onClick={scrollToForm}
             className="px-6 py-3 bg-[#3b82f6] text-white rounded-md font-medium text-sm flex items-center group relative overflow-hidden"
           >
             <motion.div
@@ -143,7 +153,7 @@ const ContactHero = () => {
           <motion.button
             whileHover={{ scale: 1.05 }}
             whileTap={{ scale: 0.95 }}
-            onClick={scrollToContactForm}
+            onClick={scrollToForm}
             className="px-6 py-3 bg-transparent border border-[#3b82f6] text-[#3b82f6] rounded-md font-medium text-sm relative overflow-hidden group"
           >
             <motion.div
@@ -158,9 +168,9 @@ const ContactHero = () => {
       </motion.div>
     </section>
   );
-};
+});
 
-const ContactInfo = () => {
+const ContactInfo = memo(() => {
   return (
     <section className="py-20 px-6 bg-black">
       <div className="max-w-7xl mx-auto">
@@ -215,27 +225,54 @@ const ContactInfo = () => {
       </div>
     </section>
   );
-};
+});
 
-const ContactForm = () => {
-  const [formData, setFormData] = useState({
+interface FormData {
+  name: string;
+  email: string;
+  message: string;
+}
+
+const ContactForm = memo(() => {
+  const formRef = useRef(null);
+  const [formData, setFormData] = useState<FormData>({
     name: '',
     email: '',
     message: ''
   });
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
-  const handleSubmit = (e: FormEvent) => {
+  const handleSubmit = useCallback(async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    // Handle form submission
-  };
+    setIsSubmitting(true);
+    
+    try {
+      await emailjs.sendForm(
+        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || '',
+        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || '',
+        formRef.current!,
+        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || ''
+      );
+      
+      toast.success("Message sent successfully!");
+      setFormData({ name: '', email: '', message: '' });
+    } catch (error) {
+      toast.error("Failed to send message. Please try again.");
+    } finally {
+      setIsSubmitting(false);
+    }
+  }, [formRef, setFormData]);
 
-  const handleChange = (e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+  const handleChange = useCallback((e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target;
-    setFormData(prev => ({ ...prev, [name]: value }));
-  };
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }));
+  }, []);
 
   return (
-    <section className="py-16 px-6 bg-black">
+    <section id="contact-form" className="py-16 px-6 bg-black">
       <div className="max-w-2xl mx-auto">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
@@ -301,24 +338,15 @@ const ContactForm = () => {
       </div>
     </section>
   );
-};
+});
 
-const FAQ = () => {
-  const { theme } = useTheme();
-  const ref = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start end", "end start"]
-  });
-
-  const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
-  const opacity = useTransform(scrollYProgress, [0, 0.5, 1], [0, 1, 0]);
-
+const FAQ = memo(() => {
   const [openIndex, setOpenIndex] = useState<number | null>(null);
+  const variants = useAnimationVariants();
 
-  const toggleFAQ = (index: number) => {
-    setOpenIndex(openIndex === index ? null : index);
-  };
+  const toggleFAQ = useCallback((index: number) => {
+    setOpenIndex(prev => prev === index ? null : index);
+  }, []);
 
   const faqs = [
     {
@@ -340,17 +368,19 @@ const FAQ = () => {
   ];
 
   return (
-    <section ref={ref} className="relative py-16 pb-64 overflow-hidden bg-black">
+    <section className="relative py-16 pb-64 overflow-hidden bg-black">
       <motion.div
         initial={{ opacity: 0 }}
         whileInView={{ opacity: 1 }}
         transition={{ duration: 0.8 }}
+        viewport={{ once: true }}
         className="relative max-w-2xl mx-auto px-4 sm:px-6 z-10"
       >
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.2 }}
+          transition={{ duration: 0.8 }}
+          viewport={{ once: true }}
           className="text-center mb-12"
         >
           <h2 className="text-3xl font-bold mb-3 text-[#3b82f6]">Frequently Asked Questions</h2>
@@ -359,17 +389,14 @@ const FAQ = () => {
           </p>
         </motion.div>
 
-        <motion.div
-          variants={staggerContainer}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true }}
-          className="space-y-3"
-        >
+        <div className="space-y-3">
           {faqs.map((faq, index) => (
             <motion.div
               key={index}
-              variants={fadeInUp}
+              initial={{ opacity: 0, y: 10 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              transition={{ duration: 0.4, delay: index * 0.1 }}
+              viewport={{ once: true }}
               className="group"
             >
               <button
@@ -404,13 +431,23 @@ const FAQ = () => {
               </button>
             </motion.div>
           ))}
-        </motion.div>
+        </div>
       </motion.div>
     </section>
   );
-};
+});
 
+// Use cleanup hook in main component 
 const ContactPage = () => {
+  // Cleanup on page unmount
+  useEffect(() => {
+    return () => {
+      // Force cleanup of any animations when leaving page
+      const cleanupEvent = new CustomEvent('cleanupAnimations');
+      window.dispatchEvent(cleanupEvent);
+    };
+  }, []);
+
   return (
     <div className="relative bg-black">
       {/* Absolute background that covers everything */}

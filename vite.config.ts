@@ -7,7 +7,21 @@ export default defineConfig({
   server: {
     port: 3000 // Optional: Set local dev server port
   },
+  build: {
+    target: 'esnext',
+    minify: 'esbuild',
+    rollupOptions: {
+      output: {
+        manualChunks: {
+          'vendor': ['react', 'react-dom', 'react-router-dom'],
+          'three': ['three', '@react-three/fiber', '@react-three/drei'],
+          'framer': ['framer-motion']
+        }
+      }
+    }
+  },
   optimizeDeps: {
-    exclude: ['lucide-react'],
+    include: ['three', '@react-three/fiber', '@react-three/drei'],
+    exclude: ['lucide-react']
   },
 });
