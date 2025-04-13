@@ -39,14 +39,14 @@ const Hero = () => {
               transition={{ delay: 0.4 }}
               className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight"
             >
-              <span className="block text-[#F5F5F7]">Begin Your</span>
+              <span className="block text-[#F5F5F7]">Bringing Ideas</span>
               <motion.span
                 initial={{ opacity: 0, x: -20 }}
                 animate={{ opacity: 1, x: 0 }}
                 transition={{ delay: 0.6 }}
                 className="block mt-2 bg-gradient-to-r from-[#3CAAFF] to-[#00E0FF] bg-clip-text text-transparent"
               >
-                Equestrian Website 
+                Into Digital Reality
               </motion.span>
             </motion.h1>
 
