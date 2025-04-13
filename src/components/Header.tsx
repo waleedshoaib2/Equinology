@@ -50,7 +50,13 @@ const Header = () => {
     { label: "About", action: () => handleNavigation("about") },
     { label: "Services", action: () => handleNavigation("services") },
     { label: "Testimonials", action: () => handleNavigation("testimonials") },
-    { label: "Blog", action: () => navigate("/blog") },
+    { 
+      label: "Articles", 
+      action: () => {
+        navigate("/articles");
+        window.scrollTo({ top: 0, behavior: 'smooth' });
+      } 
+    },
   ];
 
   // Calculate background opacity based on scroll progress (70% to 95%)

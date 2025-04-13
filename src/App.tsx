@@ -9,7 +9,7 @@ import Testimonials from './components/Testimonials';
 import Contact from './components/Contact';
 import ServicesPage from './pages/ServicesPage';
 import ContactPage from './pages/ContactPage';
-import BlogPage from './pages/BlogPage';
+import ArticlePage from './pages/ArticlePage';
 
 function App() {
   return (
@@ -29,8 +29,10 @@ function App() {
           } />
           <Route path="/services" element={<main><ServicesPage /></main>} />
           <Route path="/contact" element={<main><ContactPage /></main>} />
-          <Route path="/blog/:slug" element={<main><BlogPage /></main>} />
-          <Route path="/blog" element={<main><BlogPage /></main>} />
+          <Route path="/blog/:slug" element={<main><ArticlePage /></main>} />
+          <Route path="/blog" element={<main><ArticlePage /></main>} />
+          <Route path="/articles/:slug" element={<main><ArticlePage /></main>} />
+          <Route path="/articles" element={<main><ArticlePage /></main>} />
         </Routes>
         <Footer />
       </div>
