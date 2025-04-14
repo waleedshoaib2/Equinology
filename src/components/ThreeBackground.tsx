@@ -1,4 +1,4 @@
-import { useRef } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { Sphere } from '@react-three/drei';
 import * as THREE from 'three';
@@ -30,6 +30,15 @@ function AnimatedSphere() {
 }
 
 export default function ThreeBackground() {
+  const [isClient, setIsClient] = useState(false);
+
+  useEffect(() => {
+    // This effect runs only on the client.
+    setIsClient(true);
+  }, []);
+
+  if (!isClient) return null;
+
   return (
     <div className="absolute inset-0 -z-10">
       <Canvas camera={{ position: [0, 0, 5] }} dpr={1}>
