@@ -6,7 +6,6 @@ import logo from "../images/logo.webp";
 
 const Header = () => {
   const [isSidebarOpen, setIsSidebarOpen] = useState(false);
-  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const navigate = useNavigate(); 
   const location = useLocation(); 
   
@@ -18,32 +17,6 @@ const Header = () => {
 
   // Convert opacity to rgba string
   const bgOpacity = useTransform(bgOpacityValue, (latest) => `rgba(0, 0, 0, ${latest})`);
-
-  // Close sidebar when route changes
-  useEffect(() => {
-    setIsSidebarOpen(false);
-  }, [location.pathname]);
-
-  // Handle resize and mobile detection
-  useEffect(() => {
-    const handleResize = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
-  }, []);
-
-  // Prevent body scroll when sidebar is open
-  useEffect(() => {
-    if (isSidebarOpen) {
-      document.body.style.overflow = 'hidden';
-    } else {
-      document.body.style.overflow = 'unset';
-    }
-    return () => {
-      document.body.style.overflow = 'unset';
-    };
-  }, [isSidebarOpen]);
 
   // Memoize navigation handlers
   const handleNavigation = useCallback((sectionId: string) => {
@@ -57,7 +30,6 @@ const Header = () => {
       const section = document.getElementById(sectionId);
       section?.scrollIntoView({ behavior: "smooth" });
     }
-    setIsSidebarOpen(false);
   }, [location.pathname, navigate]);
 
   // Memoize nav items to prevent unnecessary re-renders
@@ -70,119 +42,137 @@ const Header = () => {
       action: () => {
         navigate("/articles");
         window.scrollTo({ top: 0, behavior: 'smooth' });
-        setIsSidebarOpen(false);
       } 
     },
   ], [handleNavigation, navigate]);
 
-  const HeaderWrapper = isMobile ? 'header' : motion.header;
-  const NavWrapper = isMobile ? 'div' : motion.div;
+  useEffect(() => {
+    if (isSidebarOpen) {
+      document.body.style.overflow = "hidden"; 
+    } else {
+      document.body.style.overflow = "auto"; 
+    }
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [isSidebarOpen]);
 
   return (
-    <>
-      <HeaderWrapper
+    <div className="motion-container">
+      <motion.header
+        initial={{ y: -100 }}
+        animate={{ y: 0 }}
+        transition={{ duration: 0.6 }}
+        className="fixed w-full z-50 transition-all duration-300"
         style={{
           backgroundColor: bgOpacity,
-          backdropFilter: `blur(${blurValue}px)`,
-          boxShadow: `0 4px 30px rgba(0, 0, 0, ${shadowOpacity})`,
+          backdropFilter: `blur(${blurValue.get()}px)`,
+          boxShadow: shadowOpacity.get() > 0.1 ? `0 4px 30px rgba(0, 0, 0, ${shadowOpacity.get()})` : 'none'
         }}
-        className="fixed top-0 left-0 right-0 z-50 border-b border-white/10"
       >
-        <nav className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
-          {/* Logo */}
-          <NavWrapper
-            initial={isMobile ? undefined : { opacity: 0 }}
-            animate={isMobile ? undefined : { opacity: 1 }}
-            transition={isMobile ? undefined : { duration: 0.5 }}
-            className="flex items-center"
-          >
-            <img src={logo} alt="Equinology Logo" className="h-8 w-auto" />
-          </NavWrapper>
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center h-20">
+          <a href="/" className="flex items-center">
+            <img src={logo} className="w-40 h-auto drop-shadow-lg" alt="Logo" />
+          </a>
 
-          {/* Desktop Navigation */}
-          <NavWrapper
-            initial={isMobile ? undefined : { opacity: 0 }}
-            animate={isMobile ? undefined : { opacity: 1 }}
-            transition={isMobile ? undefined : { duration: 0.5, delay: 0.2 }}
-            className="hidden md:flex items-center space-x-8"
-          >
+          <div className="hidden md:flex space-x-6">
             {navItems.map((item, index) => (
               <button
                 key={index}
                 onClick={item.action}
-                className="text-[#ABABAB] hover:text-white transition-colors duration-200"
+                className="text-white text-md font-medium tracking-wide hover:text-[#3CAAFF] transition-colors duration-300 relative group"
               >
                 {item.label}
+                <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-[#3CAAFF] to-[#00E0FF] group-hover:w-full transition-all duration-300"></span>
               </button>
             ))}
-            <button
-              onClick={() => navigate('/contact')}
-              className="px-6 py-2 rounded-full bg-gradient-to-r from-[#3CAAFF] to-[#00E0FF] text-[#0A0A0A] font-medium hover:shadow-lg hover:shadow-[#3CAAFF]/25 transition-all duration-300"
-            >
-              Contact Us
-            </button>
-          </NavWrapper>
+          </div>
 
-          {/* Mobile menu button */}
-          <button
+          <motion.button
+            whileHover={{ scale: 1.05 }}
+            whileTap={{ scale: 0.95 }}
+            className="hidden md:block bg-gradient-to-r from-[#3CAAFF] to-[#00E0FF] px-6 py-2.5 rounded-full text-sm font-medium shadow-md hover:shadow-lg hover:shadow-[#3CAAFF]/25 transition-all duration-300 text-[#0A0A0A]"
+            onClick={() => navigate("/contact")}
+          >
+            Contact Us
+            <ChevronRight className="inline-block ml-1 w-4 h-4" />
+          </motion.button>
+
+          <motion.button
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.6 }}
+            className="md:hidden text-[#ABABAB] hover:text-[#F5F5F7] transition-colors duration-200 p-2 rounded-full bg-black/50 backdrop-blur-sm"
             onClick={() => setIsSidebarOpen(true)}
-            className="md:hidden p-2 text-[#ABABAB] hover:text-white transition-colors duration-200"
           >
             <Menu className="w-6 h-6" />
-          </button>
-        </nav>
-      </HeaderWrapper>
+          </motion.button>
+        </div>
 
-      {/* Mobile Sidebar - Simplified animations */}
-      <AnimatePresence>
-        {isSidebarOpen && (
-          <>
-            <div
-              className="fixed inset-0 bg-black/80 backdrop-blur-sm z-50 md:hidden"
-              onClick={() => setIsSidebarOpen(false)}
-            />
-            <motion.div
-              initial={{ x: "100%" }}
-              animate={{ x: 0 }}
-              exit={{ x: "100%" }}
-              transition={{ type: "tween", duration: 0.2 }}
-              className="fixed right-0 top-0 bottom-0 w-64 bg-[#0A0A0A] border-l border-white/10 z-50 md:hidden"
-            >
-              <div className="p-4 flex justify-between items-center border-b border-white/10">
-                <span className="text-white font-medium">Menu</span>
+        <AnimatePresence>
+          {isSidebarOpen && (
+            <>
+              <motion.div
+                initial={{ opacity: 0 }}
+                animate={{ opacity: 1 }}
+                exit={{ opacity: 0 }}
+                className="fixed inset-0 bg-black/80 backdrop-blur-sm z-40"
+                onClick={() => setIsSidebarOpen(false)}
+              />
+
+              <motion.div
+                initial={{ x: "-100%" }}
+                animate={{ x: 0 }}
+                exit={{ x: "-100%" }}
+                transition={{ type: "spring", stiffness: 300, damping: 30 }}
+                className="fixed top-0 left-0 w-[85%] max-w-sm min-h-screen bg-black/90 backdrop-blur-md z-50 flex flex-col p-6 shadow-lg rounded-r-3xl"
+              >
                 <button
+                  className="absolute top-5 right-5 text-gray-400 hover:text-white p-2 rounded-full bg-gray-800/50"
                   onClick={() => setIsSidebarOpen(false)}
-                  className="p-2 text-[#ABABAB] hover:text-white transition-colors duration-200"
                 >
-                  <X className="w-5 h-5" />
+                  <X className="w-6 h-6" />
                 </button>
-              </div>
-              <div className="p-4 flex flex-col space-y-4">
-                {navItems.map((item, index) => (
-                  <button
-                    key={index}
-                    onClick={item.action}
-                    className="flex items-center justify-between text-[#ABABAB] hover:text-white transition-colors duration-200 py-2"
-                  >
-                    {item.label}
-                    <ChevronRight className="w-4 h-4" />
-                  </button>
-                ))}
-                <button
+
+                <nav className="mt-16 flex flex-col space-y-6">
+                  {navItems.map((item, index) => (
+                    <motion.button
+                      key={index}
+                      onClick={() => {
+                        setIsSidebarOpen(false);
+                        item.action();
+                      }}
+                      initial={{ opacity: 0, x: -20 }}
+                      animate={{ opacity: 1, x: 0 }}
+                      transition={{ delay: 0.1 * index }}
+                      className="text-white text-lg font-medium tracking-wide hover:text-[#3CAAFF] transition-colors duration-300 text-left border-b border-gray-800/50 pb-2"
+                    >
+                      {item.label}
+                    </motion.button>
+                  ))}
+                </nav>
+
+                <motion.button
+                  initial={{ opacity: 0 }}
+                  animate={{ opacity: 1 }}
+                  transition={{ delay: 0.3 }}
+                  whileHover={{ scale: 1.03 }}
+                  whileTap={{ scale: 0.97 }}
+                  className="mt-auto w-full bg-gradient-to-r from-[#3CAAFF] to-[#00E0FF] px-6 py-3.5 rounded-2xl text-lg font-medium shadow-lg hover:shadow-xl hover:shadow-[#3CAAFF]/25 transition-all duration-300 text-[#0A0A0A]"
                   onClick={() => {
-                    navigate('/contact');
                     setIsSidebarOpen(false);
+                    navigate("/contact");
                   }}
-                  className="mt-4 w-full px-6 py-2 rounded-full bg-gradient-to-r from-[#3CAAFF] to-[#00E0FF] text-[#0A0A0A] font-medium hover:shadow-lg hover:shadow-[#3CAAFF]/25 transition-all duration-300"
                 >
                   Contact Us
-                </button>
-              </div>
-            </motion.div>
-          </>
-        )}
-      </AnimatePresence>
-    </>
+                  <ChevronRight className="inline-block ml-2 w-5 h-5" />
+                </motion.button>
+              </motion.div>
+            </>
+          )}
+        </AnimatePresence>
+      </motion.header>
+    </div>
   );
 };
 
