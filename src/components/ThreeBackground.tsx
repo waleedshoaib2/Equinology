@@ -1,12 +1,7 @@
-'use client';
-
-import { useRef } from 'react';
+import { useRef, useEffect, useState } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { Sphere } from '@react-three/drei';
 import * as THREE from 'three';
-
-// Check if we're in a browser environment
-const isBrowser = typeof window !== 'undefined';
 
 function AnimatedSphere() {
   const sphereRef = useRef<THREE.Mesh>(null);
@@ -40,8 +35,15 @@ function AnimatedSphere() {
 }
 
 export default function ThreeBackground() {
-  // Return null if not in browser
-  if (!isBrowser) return null;
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) {
+    return <div className="absolute inset-0 bg-[#0A0A0A]" />;
+  }
 
   return (
     <div className="absolute inset-0 -z-10">

@@ -1,6 +1,6 @@
 import { ArrowRight, Star, Compass } from 'lucide-react';
 import { motion, useAnimation } from 'framer-motion';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, Suspense } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useInView } from 'framer-motion';
 import image from "../images/Hero-Image.webp"
@@ -22,7 +22,9 @@ const Hero = () => {
     <div className="relative min-h-screen overflow-hidden" ref={ref}>
       {/* Background with gradient */}
       <div className="absolute inset-0 bg-gradient-to-br from-[#0A0A0A]/50 via-[#111111]/30 to-[#0A0A0A]/50 z-30">
-        <ClientThreeBackground />
+        <Suspense fallback={<div className="absolute inset-0 bg-[#0A0A0A]" />}>
+          <ClientThreeBackground />
+        </Suspense>
       </div>
 
       {/* Content */}
