@@ -1,0 +1,1005 @@
+// ===== package.json =====
+{
+  "name": "equinology-3",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "lint": "eslint . --ext ts,tsx --report-unused-disable-directives --max-warnings 0",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "@react-three/drei": "^9.99.0",
+    "@react-three/fiber": "^8.15.16",
+    "@types/three": "^0.161.2",
+    "framer-motion": "^11.0.3",
+    "lucide-react": "^0.330.0",
+    "react": "^18.2.0",
+    "react-dom": "^18.2.0",
+    "react-router-dom": "^6.22.0",
+    "three": "^0.161.0"
+  },
+  "devDependencies": {
+    "@types/react": "^18.2.55",
+    "@types/react-dom": "^18.2.19",
+    "@typescript-eslint/eslint-plugin": "^6.21.0",
+    "@typescript-eslint/parser": "^6.21.0",
+    "@vitejs/plugin-react": "^4.2.1",
+    "autoprefixer": "^10.4.17",
+    "eslint": "^8.56.0",
+    "eslint-plugin-react-hooks": "^4.6.0",
+    "eslint-plugin-react-refresh": "^0.4.5",
+    "postcss": "^8.4.35",
+    "tailwindcss": "^3.4.1",
+    "typescript": "^5.2.2",
+    "vite": "^5.1.0"
+  }
+}
+
+// ===== vite.config.ts =====
+import { defineConfig } from 'vite'
+import react from '@vitejs/plugin-react'
+
+// https://vitejs.dev/config/
+export default defineConfig({
+  plugins: [react()],
+})
+
+// ===== tailwind.config.js =====
+/** @type {import('tailwindcss').Config} */
+export default {
+  content: [
+    "./index.html",
+    "./src/**/*.{js,ts,jsx,tsx}",
+  ],
+  theme: {
+    extend: {},
+  },
+  plugins: [],
+}
+
+// ===== tsconfig.json =====
+{
+  "extends": "./tsconfig.app.json",
+  "include": ["src"]
+}
+
+// ===== tsconfig.app.json =====
+{
+  "extends": "@tsconfig/react18/tsconfig.json",
+  "compilerOptions": {
+    "jsx": "react-jsx",
+    "target": "ES2020",
+    "useDefineForClassFields": true,
+    "lib": ["ES2020", "DOM", "DOM.Iterable"],
+    "module": "ESNext",
+    "skipLibCheck": true,
+    "moduleResolution": "bundler",
+    "allowImportingTsExtensions": true,
+    "resolveJsonModule": true,
+    "isolatedModules": true,
+    "noEmit": true,
+    "strict": true,
+    "noUnusedLocals": true,
+    "noUnusedParameters": true,
+    "noFallthroughCasesInSwitch": true
+  },
+  "include": ["src"],
+  "references": [{ "path": "./tsconfig.node.json" }]
+}
+
+// ===== tsconfig.node.json =====
+{
+  "compilerOptions": {
+    "composite": true,
+    "skipLibCheck": true,
+    "module": "ESNext",
+    "moduleResolution": "bundler",
+    "allowSyntheticDefaultImports": true
+  },
+  "include": ["vite.config.ts"]
+}
+
+// ===== vercel.json =====
+{
+  "rewrites": [
+    {
+      "source": "/(.*)",
+      "destination": "/index.html"
+    }
+  ]
+}
+
+// ===== eslint.config.js =====
+module.exports = {
+  root: true,
+  env: { browser: true, es2020: true },
+  extends: [
+    'eslint:recommended',
+    'plugin:@typescript-eslint/recommended',
+    'plugin:react-hooks/recommended',
+  ],
+  ignorePatterns: ['dist', '.eslintrc.js'],
+  parser: '@typescript-eslint/parser',
+  plugins: ['react-refresh'],
+  rules: {
+    'react-refresh/only-export-components': [
+      'warn',
+      { allowConstantExport: true },
+    ],
+  },
+}
+
+// ===== index.html =====
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="/vite.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Equinology</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>
+
+// ===== performance-budget.json =====
+{
+  "budgets": [
+    {
+      "resourceType": "script",
+      "budget": 200
+    },
+    {
+      "resourceType": "image",
+      "budget": 200
+    },
+    {
+      "resourceType": "total",
+      "budget": 1000
+    }
+  ]
+}
+
+// ===== postcss.config.js =====
+export default {
+  plugins: {
+    tailwindcss: {},
+    autoprefixer: {},
+  },
+}
+
+// ===== .env =====
+VITE_API_URL=https://api.example.com
+VITE_APP_NAME=Equinology
+VITE_APP_VERSION=1.0.0
+
+// ===== .gitignore =====
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+// ===== src/main.tsx =====
+import React from 'react'
+import ReactDOM from 'react-dom/client'
+import App from './App.tsx'
+import './index.css'
+
+ReactDOM.createRoot(document.getElementById('root')!).render(
+  <React.StrictMode>
+    <App />
+  </React.StrictMode>,
+)
+
+// ===== src/App.tsx =====
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { Suspense, lazy } from 'react';
+import Header from './components/Header';
+import Footer from './components/Footer';
+
+// Lazy load pages
+const HomePage = lazy(() => import('./pages/HomePage'));
+const ServicesPage = lazy(() => import('./pages/ServicesPage'));
+const ContactPage = lazy(() => import('./pages/ContactPage'));
+const BlogPage = lazy(() => import('./pages/BlogPage'));
+const ArticlePage = lazy(() => import('./pages/ArticlePage'));
+
+// Loading component
+const LoadingSpinner = () => (
+  <div className="min-h-[50vh] flex items-center justify-center bg-[#0A0A0A]">
+    <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#3CAAFF]"></div>
+  </div>
+);
+
+function App() {
+  return (
+    <Router>
+      <div className="min-h-screen bg-[#0A0A0A] text-white">
+        <Header />
+        <main>
+          <Suspense fallback={<LoadingSpinner />}>
+            <Routes>
+              <Route path="/" element={<HomePage />} />
+              <Route path="/services" element={<ServicesPage />} />
+              <Route path="/contact" element={<ContactPage />} />
+              <Route path="/blog" element={<BlogPage />} />
+              <Route path="/article/:id" element={<ArticlePage />} />
+            </Routes>
+          </Suspense>
+        </main>
+        <Footer />
+      </div>
+    </Router>
+  );
+}
+
+export default App;
+
+// ===== src/index.css =====
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  line-height: 1.5;
+  font-weight: 400;
+}
+
+body {
+  margin: 0;
+  min-width: 320px;
+  min-height: 100vh;
+}
+
+// ===== src/components/ThreeBackground.tsx =====
+import { useRef } from 'react';
+import { Canvas, useFrame } from '@react-three/fiber';
+import { Sphere } from '@react-three/drei';
+import * as THREE from 'three';
+
+function AnimatedSphere() {
+  const sphereRef = useRef<THREE.Mesh>(null);
+
+  useFrame(({ clock }) => {
+    if (sphereRef.current) {
+      // More subtle movement
+      sphereRef.current.position.y = Math.sin(clock.getElapsedTime() * 0.5) * 0.15;
+      sphereRef.current.position.x = Math.cos(clock.getElapsedTime() * 0.3) * 0.1;
+      sphereRef.current.rotation.x = clock.getElapsedTime() * 0.1;
+      sphereRef.current.rotation.y = clock.getElapsedTime() * 0.05;
+    }
+  });
+
+  return (
+    <Sphere ref={sphereRef} args={[1.5, 64, 64]} position={[1, 0, -1]}>
+      <meshPhongMaterial
+        color="#3CAAFF"
+        opacity={0.08}
+        transparent
+        wireframe
+      />
+    </Sphere>
+  );
+}
+
+export default function ThreeBackground() {
+  return (
+    <div className="absolute inset-0 -z-10">
+      <Canvas camera={{ position: [0, 0, 5] }}>
+        <ambientLight intensity={0.3} />
+        <pointLight position={[10, 10, 10]} intensity={0.5} />
+        <AnimatedSphere />
+      </Canvas>
+    </div>
+  );
+}
+
+// ===== src/components/Hero.tsx =====
+import { ArrowRight, Star, Compass } from 'lucide-react';
+import { motion, useAnimation } from 'framer-motion';
+import { useEffect, useRef } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { useInView } from 'framer-motion';
+import { lazy, Suspense } from 'react';
+import image from "../images/Hero-Image.webp"
+
+// Lazy load ThreeBackground
+const ThreeBackground = lazy(() => import('./ThreeBackground'));
+
+const Hero = () => {
+  const navigate = useNavigate();
+  const controls = useAnimation();
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  
+  useEffect(() => {
+    if (isInView) {
+      controls.start("visible");
+    }
+  }, [isInView, controls]);
+
+  return (
+    <div className="relative min-h-screen overflow-hidden" ref={ref}>
+      {/* Background with gradient */}
+      <div className="absolute inset-0 bg-gradient-to-br from-[#0A0A0A]/50 via-[#111111]/30 to-[#0A0A0A]/50 z-30">
+        <Suspense fallback={<div className="absolute inset-0 bg-[#0A0A0A]" />}>
+          <ThreeBackground />
+        </Suspense>
+      </div>
+
+      {/* Content */}
+      <div className="relative z-40 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-16">
+        <div className="text-center lg:text-left lg:grid lg:grid-cols-2 lg:gap-8 items-center">
+          <motion.div
+            initial="hidden"
+            animate={controls}
+            variants={{
+              hidden: { opacity: 0, y: 20 },
+              visible: { opacity: 1, y: 0 }
+            }}
+            transition={{ duration: 0.8 }}
+            className="space-y-8"
+          >
+            {/* Badge */}
+            <motion.div
+              variants={{
+                hidden: { opacity: 0, scale: 0.8 },
+                visible: { opacity: 1, scale: 1 }
+              }}
+              transition={{ delay: 0.2 }}
+              className="inline-flex items-center space-x-2 bg-[#111111]/50 backdrop-blur-sm px-4 py-2 rounded-full border border-[#3CAAFF]/30"
+            >
+              <Compass className="w-4 h-4 text-[#3CAAFF]" />
+              <span className="text-sm text-[#ABABAB]">Equestrian Experts</span>
+            </motion.div>
+
+            {/* Main heading */}
+            <motion.h1
+              variants={{
+                hidden: { opacity: 0, y: 20 },
+                visible: { opacity: 1, y: 0 }
+              }}
+              transition={{ delay: 0.4 }}
+              className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight relative"
+            >
+              <span className="block text-[#F5F5F7]">Transform Ideas</span>
+              <motion.span
+                variants={{
+                  hidden: { opacity: 0, x: -20 },
+                  visible: { opacity: 1, x: 0 }
+                }}
+                transition={{ delay: 0.6 }}
+                className="block mt-2 bg-gradient-to-r from-[#3CAAFF] to-[#00E0FF] bg-clip-text text-transparent pb-2"
+              >
+                Digital Reality
+              </motion.span>
+            </motion.h1>
+
+            {/* Description */}
+            <motion.p
+              variants={{
+                hidden: { opacity: 0 },
+                visible: { opacity: 1 }
+              }}
+              transition={{ delay: 0.8 }}
+              className="text-lg text-[#ABABAB] max-w-3xl"
+            >
+              Get in touch today for a no-obligation, one-to-one consultation about your project. Depending on the scope of the project, we aim to deliver your perfect website within approximately a week. We won't consider it complete until you're 100% satisfied, and we offer a transparent, fixed and affordable price. No business is complete without a professional website
+            </motion.p>
+
+            {/* CTA buttons */}
+            <motion.div
+              variants={{
+                hidden: { opacity: 0, y: 20 },
+                visible: { opacity: 1, y: 0 }
+              }}
+              transition={{ delay: 1 }}
+              className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start"
+            >
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => navigate('/contact')}
+                className="inline-flex items-center px-8 py-3 rounded-full bg-gradient-to-r from-[#3CAAFF] to-[#00E0FF] text-[#0A0A0A] font-medium hover:shadow-lg hover:shadow-[#3CAAFF]/25 transition-all duration-300"
+              >
+                Contact Us
+                <ArrowRight className="ml-2 w-5 h-5" />
+              </motion.button>
+              <motion.button
+                whileHover={{ scale: 1.05 }}
+                whileTap={{ scale: 0.95 }}
+                onClick={() => navigate('/services')}
+                className="inline-flex items-center px-8 py-3 rounded-full border border-[#3CAAFF]/30 hover:border-[#3CAAFF]/60 text-[#ABABAB] hover:text-[#F5F5F7] transition-colors duration-300"
+              >
+                Explore Services
+              </motion.button>
+            </motion.div>
+
+            {/* Social proof */}
+            <motion.div
+              variants={{
+                hidden: { opacity: 0 },
+                visible: { opacity: 1 }
+              }}
+              transition={{ delay: 1.2 }}
+              className="pt-8 border-t border-[#222222]/30"
+            >
+              <div className="flex items-center justify-center lg:justify-start space-x-8">
+                <div>
+                  <motion.div
+                    variants={{
+                      hidden: { opacity: 0 },
+                      visible: { opacity: 1 }
+                    }}
+                    transition={{ delay: 1.4 }}
+                    className="flex items-center"
+                  >
+                    {[...Array(5)].map((_, i) => (
+                      <motion.div
+                        key={i}
+                        variants={{
+                          hidden: { opacity: 0, scale: 0 },
+                          visible: { opacity: 1, scale: 1 }
+                        }}
+                        transition={{ delay: 1.4 + i * 0.1 }}
+                      >
+                        <Star className="w-5 h-5 text-[#3CAAFF] fill-current" />
+                      </motion.div>
+                    ))}
+                  </motion.div>
+                  <p className="mt-2 text-sm text-[#777777]">Trusted by 100+ equestrians</p>
+                </div>
+                <div className="h-12 w-px bg-[#222222]/30"></div>
+                <div>
+                  <motion.p
+                    variants={{
+                      hidden: { opacity: 0 },
+                      visible: { opacity: 1 }
+                    }}
+                    transition={{ delay: 1.6 }}
+                    className="text-2xl font-bold text-[#F5F5F7]"
+                  >
+                    6
+                  </motion.p>
+                  <p className="text-sm text-[#777777]">Years of excellence</p>
+                </div>
+                <div className="h-12 w-px bg-[#222222]/30"></div>
+                <div>
+                  <motion.p
+                    variants={{
+                      hidden: { opacity: 0 },
+                      visible: { opacity: 1 }
+                    }}
+                    transition={{ delay: 1.8 }}
+                    className="text-2xl font-bold text-[#F5F5F7]"
+                  >
+                    £200
+                  </motion.p>
+                  <p className="text-sm text-[#777777]">Prices starting from</p>
+                </div>
+              </div>
+            </motion.div>
+          </motion.div>
+
+          {/* Hero image/illustration */}
+          <motion.div
+            variants={{
+              hidden: { opacity: 0, x: 20 },
+              visible: { opacity: 1, x: 0 }
+            }}
+            transition={{ duration: 0.8, delay: 0.4 }}
+            className="mt-12 lg:mt-0 relative"
+          >
+            <div className="relative mx-auto max-w-[500px]">
+              <motion.div
+                variants={{
+                  hidden: { scale: 0.8 },
+                  visible: { scale: 1 }
+                }}
+                transition={{ duration: 0.8 }}
+                className="aspect-w-5 aspect-h-3 rounded-2xl overflow-hidden bg-gradient-to-br from-[#3CAAFF]/10 to-[#00E0FF]/10 backdrop-blur-3xl"
+              >
+                <img
+                  src={image}
+                  alt="Elegant Horse"
+                  className="object-cover w-full h-full rounded-2xl mix-blend-luminosity opacity-80"
+                  loading="eager"
+                  width={500}
+                  height={300}
+                />
+                <div className="absolute inset-0 bg-gradient-to-tr from-[#0A0A0A] via-transparent to-transparent"></div>
+              </motion.div>
+
+              {/* Decorative elements - Defer these animations */}
+              <motion.div
+                initial={{ scale: 1, opacity: 0.1 }}
+                animate={{
+                  scale: [1, 1.2, 1],
+                  opacity: [0.1, 0.2, 0.1]
+                }}
+                transition={{
+                  duration: 4,
+                  repeat: Infinity,
+                  ease: "easeInOut"
+                }}
+                className="absolute -top-4 -right-4 w-72 h-72 bg-[#3CAAFF]/10 rounded-full blur-3xl"
+              />
+              <motion.div
+                initial={{ scale: 1, opacity: 0.1 }}
+                animate={{
+                  scale: [1, 1.2, 1],
+                  opacity: [0.1, 0.2, 0.1]
+                }}
+                transition={{
+                  duration: 4,
+                  repeat: Infinity,
+                  ease: "easeInOut",
+                  delay: 2
+                }}
+                className="absolute -bottom-4 -left-4 w-72 h-72 bg-[#00E0FF]/10 rounded-full blur-3xl"
+              />
+            </div>
+          </motion.div>
+        </div>
+      </div>
+    </div>
+  );
+};
+
+export default Hero;
+
+// ===== src/pages/HomePage.tsx =====
+import React, { lazy, Suspense } from 'react';
+
+// Lazy load components
+const Hero = lazy(() => import('../components/Hero'));
+const Services = lazy(() => import('../components/Services'));
+const Facilities = lazy(() => import('../components/Facilities'));
+const Testimonials = lazy(() => import('../components/Testimonials'));
+
+// Loading component
+const LoadingSpinner = () => (
+  <div className="min-h-[50vh] flex items-center justify-center bg-[#0A0A0A]">
+    <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#3CAAFF]"></div>
+  </div>
+);
+
+const HomePage = () => {
+  return (
+    <div className="bg-gradient-to-b from-[#0A0A0A] via-[#101010] to-[#0A0A0A]">
+      <Suspense fallback={<LoadingSpinner />}>
+        <Hero />
+      </Suspense>
+      <Suspense fallback={<LoadingSpinner />}>
+        <Services />
+      </Suspense>
+      <Suspense fallback={<LoadingSpinner />}>
+        <Facilities />
+      </Suspense>
+      <Suspense fallback={<LoadingSpinner />}>
+        <Testimonials />
+      </Suspense>
+    </div>
+  );
+};
+
+export default HomePage;
+
+// ===== src/pages/ServicesPage.tsx =====
+import React, { lazy, Suspense } from 'react';
+import { useNavigate } from 'react-router-dom';
+
+// Lazy load components
+const HeroSection = lazy(() => import('../components/services/HeroSection'));
+const BrandingIdentitySection = lazy(() => import('../components/services/BrandingIdentitySection'));
+
+// Loading component
+const LoadingSpinner = () => (
+  <div className="min-h-[50vh] flex items-center justify-center bg-[#0A0A0A]">
+    <div className="animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#3CAAFF]"></div>
+  </div>
+);
+
+const ServicesPage = () => {
+  const navigate = useNavigate();
+
+  return (
+    <div className="bg-gradient-to-b from-[#0A0A0A] via-[#101010] to-[#0A0A0A]">
+      <Suspense fallback={<LoadingSpinner />}>
+        <HeroSection />
+      </Suspense>
+      <Suspense fallback={<LoadingSpinner />}>
+        <BrandingIdentitySection />
+      </Suspense>
+    </div>
+  );
+};
+
+export default ServicesPage;
+
+// ===== src/components/services/HeroSection.tsx =====
+import React from 'react';
+import { ChevronRight } from 'lucide-react';
+import { motion } from 'framer-motion';
+
+const HeroSection = () => {
+  const scrollToServices = () => {
+    const servicesSection = document.getElementById('services');
+    if (servicesSection) {
+      servicesSection.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
+
+  return (
+    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
+      <div className="absolute inset-0 bg-gradient-to-br from-[#0A0A0A]/50 via-[#111111]/30 to-[#0A0A0A]/50 z-10" />
+      
+      <div className="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-32">
+        <div className="text-center">
+          <motion.h1
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8 }}
+            className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight"
+          >
+            <span className="block text-[#F5F5F7]">Our Services</span>
+            <span className="block mt-2 bg-gradient-to-r from-[#3CAAFF] to-[#00E0FF] bg-clip-text text-transparent">
+              Digital Excellence
+            </span>
+          </motion.h1>
+          
+          <motion.p
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            transition={{ delay: 0.4, duration: 0.8 }}
+            className="mt-6 text-lg text-[#ABABAB] max-w-3xl mx-auto"
+          >
+            We offer a comprehensive range of digital services tailored to the equestrian industry. 
+            From web development to branding, we help equestrian businesses establish a strong online presence.
+          </motion.p>
+          
+          <motion.button
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.6, duration: 0.8 }}
+            onClick={scrollToServices}
+            className="mt-8 inline-flex items-center px-6 py-3 rounded-full bg-gradient-to-r from-[#3CAAFF] to-[#00E0FF] text-[#0A0A0A] font-medium hover:shadow-lg hover:shadow-[#3CAAFF]/25 transition-all duration-300"
+          >
+            Explore Our Services
+            <ChevronRight className="ml-2 w-5 h-5" />
+          </motion.button>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default HeroSection;
+
+// ===== src/components/services/BrandingIdentitySection.tsx =====
+import React from 'react';
+import { ChevronRight } from 'lucide-react';
+
+const BrandingIdentitySection = () => {
+  return (
+    <section className="py-20 px-4">
+      <div className="max-w-6xl mx-auto">
+        <div className="grid grid-cols-1 md:grid-cols-2 gap-12 items-center">
+          <div className="space-y-6">
+            <h2 className="text-3xl font-light text-white">
+              <span className="bg-gradient-to-r from-blue-400 to-cyan-300 bg-clip-text text-transparent">
+                Branding & Identity
+              </span>
+            </h2>
+            <p className="text-gray-400 text-lg">
+              We create distinctive brand identities that capture the essence of your equestrian business. 
+              From logo design to brand guidelines, we ensure your visual identity reflects the sophistication 
+              and heritage of the equestrian world.
+            </p>
+            <button className="px-6 py-2 bg-transparent border border-blue-400/30 text-blue-300 rounded-full font-light tracking-wide group flex items-center justify-center gap-2">
+              Learn More
+              <ChevronRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
+            </button>
+          </div>
+          <div className="relative h-96 bg-gradient-to-br from-blue-900/20 to-cyan-900/20 rounded-2xl overflow-hidden">
+            <div className="absolute inset-0 bg-[url('/images/branding-preview.jpg')] bg-cover bg-center opacity-20" />
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default BrandingIdentitySection;
+
+// ===== src/components/article/ArticleDetail.tsx =====
+import React from 'react';
+import { motion } from 'framer-motion';
+import { useParams } from 'react-router-dom';
+import { articles } from '../../data/articles';
+
+const ArticleDetail = () => {
+  const { id } = useParams();
+  const article = articles.find(article => article.id === id);
+
+  if (!article) {
+    return (
+      <div className="min-h-screen flex items-center justify-center bg-[#0A0A0A]">
+        <p className="text-white text-xl">Article not found</p>
+      </div>
+    );
+  }
+
+  return (
+    <motion.article
+      initial={{ opacity: 0 }}
+      animate={{ opacity: 1 }}
+      transition={{ duration: 0.5 }}
+      className="max-w-4xl mx-auto px-4 py-16"
+    >
+      <motion.header
+        initial={{ y: 20, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ delay: 0.2 }}
+        className="mb-12"
+      >
+        <h1 className="text-4xl font-bold text-white mb-4">{article.title}</h1>
+        <div className="flex items-center space-x-4 text-gray-400">
+          <span>{article.date}</span>
+          <span>•</span>
+          <span>{article.author}</span>
+        </div>
+      </motion.header>
+
+      <motion.div
+        initial={{ y: 20, opacity: 0 }}
+        animate={{ y: 0, opacity: 1 }}
+        transition={{ delay: 0.4 }}
+        className="prose prose-invert max-w-none"
+      >
+        {article.content}
+      </motion.div>
+    </motion.article>
+  );
+};
+
+export default ArticleDetail;
+
+// ===== src/components/article/ArticleList.tsx =====
+import React from 'react';
+import { motion } from 'framer-motion';
+import { Link } from 'react-router-dom';
+import { articles } from '../../data/articles';
+
+const ArticleList = () => {
+  return (
+    <div className="max-w-7xl mx-auto px-4 py-16">
+      <motion.h1
+        initial={{ opacity: 0, y: 20 }}
+        animate={{ opacity: 1, y: 0 }}
+        className="text-4xl font-bold text-white mb-12"
+      >
+        Latest Articles
+      </motion.h1>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+        {articles.map((article, index) => (
+          <motion.article
+            key={article.id}
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: index * 0.1 }}
+            className="bg-[#111111] rounded-xl overflow-hidden hover:shadow-lg hover:shadow-[#3CAAFF]/10 transition-all duration-300"
+          >
+            <Link to={`/article/${article.id}`}>
+              <div className="p-6">
+                <h2 className="text-xl font-semibold text-white mb-2">{article.title}</h2>
+                <p className="text-gray-400 mb-4">{article.excerpt}</p>
+                <div className="flex items-center justify-between text-sm text-gray-500">
+                  <span>{article.date}</span>
+                  <span>{article.author}</span>
+                </div>
+              </div>
+            </Link>
+          </motion.article>
+        ))}
+      </div>
+    </div>
+  );
+};
+
+export default ArticleList;
+
+// ===== src/components/background/SwirlBackground.tsx =====
+import React, { useRef, useEffect } from 'react';
+import { motion, useAnimation } from 'framer-motion';
+
+const SwirlBackground = () => {
+  const controls = useAnimation();
+  const ref = useRef(null);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (ref.current) {
+        const { top } = ref.current.getBoundingClientRect();
+        const isVisible = top < window.innerHeight;
+        if (isVisible) {
+          controls.start("visible");
+        }
+      }
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    handleScroll();
+
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [controls]);
+
+  return (
+    <div ref={ref} className="absolute inset-0 -z-10 overflow-hidden">
+      <motion.div
+        initial="hidden"
+        animate={controls}
+        variants={{
+          hidden: { opacity: 0 },
+          visible: { opacity: 1 }
+        }}
+        transition={{ duration: 1 }}
+        className="absolute inset-0"
+      >
+        <div className="absolute -top-1/2 -left-1/2 w-full h-full bg-gradient-to-br from-[#3CAAFF]/10 to-[#00E0FF]/10 rounded-full blur-3xl" />
+        <div className="absolute -bottom-1/2 -right-1/2 w-full h-full bg-gradient-to-tr from-[#3CAAFF]/10 to-[#00E0FF]/10 rounded-full blur-3xl" />
+      </motion.div>
+    </div>
+  );
+};
+
+export default SwirlBackground;
+
+// ===== src/data/articleData.ts =====
+export const articles = [
+  {
+    id: '1',
+    title: 'The Future of Equestrian Web Design',
+    date: 'March 15, 2024',
+    author: 'Sarah Johnson',
+    excerpt: 'Exploring the latest trends and innovations in equestrian website design and how they can benefit your business.',
+    content: `
+      <p>In today's digital age, having a strong online presence is crucial for equestrian businesses. The way we design and develop websites for the equestrian industry has evolved significantly in recent years.</p>
+      
+      <h2>Modern Design Trends</h2>
+      <p>Contemporary equestrian websites are embracing minimalism while maintaining elegance. The use of high-quality imagery, subtle animations, and intuitive navigation has become standard practice.</p>
+      
+      <h2>Mobile-First Approach</h2>
+      <p>With more users accessing websites from mobile devices, a mobile-first approach is essential. This ensures your website looks and functions perfectly across all devices.</p>
+      
+      <h2>Performance Optimization</h2>
+      <p>Fast loading times and smooth performance should be a priority. Optimizing images, implementing lazy loading, and reducing unnecessary animations can significantly improve user experience.</p>
+    `
+  },
+  {
+    id: '2',
+    title: 'Building Your Equestrian Brand Online',
+    date: 'March 10, 2024',
+    author: 'Michael Brown',
+    excerpt: 'Learn how to establish and maintain a strong brand identity for your equestrian business in the digital space.',
+    content: `
+      <p>Your brand is more than just a logo - it's the entire experience your customers have with your business. In the equestrian world, this is particularly important.</p>
+      
+      <h2>Brand Consistency</h2>
+      <p>Maintaining consistent branding across all digital platforms helps build trust and recognition. This includes your website, social media, and email communications.</p>
+      
+      <h2>Visual Identity</h2>
+      <p>Your visual identity should reflect the elegance and professionalism of the equestrian world while being modern and accessible.</p>
+      
+      <h2>Content Strategy</h2>
+      <p>Developing a content strategy that resonates with your target audience is crucial. Share valuable information, showcase your expertise, and engage with your community.</p>
+    `
+  },
+  {
+    id: '3',
+    title: 'E-commerce for Equestrian Businesses',
+    date: 'March 5, 2024',
+    author: 'Emily Wilson',
+    excerpt: 'A comprehensive guide to setting up and optimizing your equestrian e-commerce platform.',
+    content: `
+      <p>The equestrian industry has seen significant growth in online sales. Setting up an effective e-commerce platform can open new revenue streams for your business.</p>
+      
+      <h2>Platform Selection</h2>
+      <p>Choosing the right e-commerce platform is crucial. Consider factors like scalability, payment processing, and inventory management.</p>
+      
+      <h2>Product Presentation</h2>
+      <p>High-quality product images and detailed descriptions are essential. Consider including size guides, material information, and care instructions.</p>
+      
+      <h2>Shipping and Logistics</h2>
+      <p>Efficient shipping and logistics are key to customer satisfaction. Consider offering multiple shipping options and clear delivery timelines.</p>
+    `
+  }
+];
+
+// ===== src/data/blogData.ts =====
+export const blogPosts = [
+  {
+    id: '1',
+    title: 'The Future of Equestrian Web Design',
+    date: 'March 15, 2024',
+    author: 'Sarah Johnson',
+    excerpt: 'Exploring the latest trends and innovations in equestrian website design and how they can benefit your business.',
+    content: `
+      <p>In today's digital age, having a strong online presence is crucial for equestrian businesses. The way we design and develop websites for the equestrian industry has evolved significantly in recent years.</p>
+      
+      <h2>Modern Design Trends</h2>
+      <p>Contemporary equestrian websites are embracing minimalism while maintaining elegance. The use of high-quality imagery, subtle animations, and intuitive navigation has become standard practice.</p>
+      
+      <h2>Mobile-First Approach</h2>
+      <p>With more users accessing websites from mobile devices, a mobile-first approach is essential. This ensures your website looks and functions perfectly across all devices.</p>
+      
+      <h2>Performance Optimization</h2>
+      <p>Fast loading times and smooth performance should be a priority. Optimizing images, implementing lazy loading, and reducing unnecessary animations can significantly improve user experience.</p>
+    `
+  },
+  {
+    id: '2',
+    title: 'Building Your Equestrian Brand Online',
+    date: 'March 10, 2024',
+    author: 'Michael Brown',
+    excerpt: 'Learn how to establish and maintain a strong brand identity for your equestrian business in the digital space.',
+    content: `
+      <p>Your brand is more than just a logo - it's the entire experience your customers have with your business. In the equestrian world, this is particularly important.</p>
+      
+      <h2>Brand Consistency</h2>
+      <p>Maintaining consistent branding across all digital platforms helps build trust and recognition. This includes your website, social media, and email communications.</p>
+      
+      <h2>Visual Identity</h2>
+      <p>Your visual identity should reflect the elegance and professionalism of the equestrian world while being modern and accessible.</p>
+      
+      <h2>Content Strategy</h2>
+      <p>Developing a content strategy that resonates with your target audience is crucial. Share valuable information, showcase your expertise, and engage with your community.</p>
+    `
+  },
+  {
+    id: '3',
+    title: 'E-commerce for Equestrian Businesses',
+    date: 'March 5, 2024',
+    author: 'Emily Wilson',
+    excerpt: 'A comprehensive guide to setting up and optimizing your equestrian e-commerce platform.',
+    content: `
+      <p>The equestrian industry has seen significant growth in online sales. Setting up an effective e-commerce platform can open new revenue streams for your business.</p>
+      
+      <h2>Platform Selection</h2>
+      <p>Choosing the right e-commerce platform is crucial. Consider factors like scalability, payment processing, and inventory management.</p>
+      
+      <h2>Product Presentation</h2>
+      <p>High-quality product images and detailed descriptions are essential. Consider including size guides, material information, and care instructions.</p>
+      
+      <h2>Shipping and Logistics</h2>
+      <p>Efficient shipping and logistics are key to customer satisfaction. Consider offering multiple shipping options and clear delivery timelines.</p>
+    `
+  }
+]; 

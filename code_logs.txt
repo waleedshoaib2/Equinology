@@ -1,0 +1,2706 @@
+Code Change Log
+================
+
+
+[2025-04-14T08:12:03.403Z]
+File: src/main.tsx
+
+import { jsxDEV } from "react/jsx-dev-runtime";
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App.tsx";
+import "./index.css";
+import { HelmetProvider } from "react-helmet-async";
+import { measurePerformance } from "./utils/performance";
+measurePerformance();
+ReactDOM.createRoot(document.getElementById("root")).render(
+  /* @__PURE__ */ jsxDEV(React.StrictMode, { children: /* @__PURE__ */ jsxDEV(HelmetProvider, { children: /* @__PURE__ */ jsxDEV(App, {}, void 0, false, {
+    fileName: "/Users/henrybarcroft/Equinology-3/src/main.tsx",
+    lineNumber: 14,
+    columnNumber: 7
+  }, this) }, void 0, false, {
+    fileName: "/Users/henrybarcroft/Equinology-3/src/main.tsx",
+    lineNumber: 13,
+    columnNumber: 5
+  }, this) }, void 0, false, {
+    fileName: "/Users/henrybarcroft/Equinology-3/src/main.tsx",
+    lineNumber: 12,
+    columnNumber: 3
+  }, this)
+);
+
+
+----------------
+
+[2025-04-14T08:12:03.441Z]
+File: src/utils/performance.ts
+
+export const measurePerformance = () => {
+  if (process.env.NODE_ENV === "development") {
+    const observer = new PerformanceObserver((list) => {
+      const entries = list.getEntries();
+      entries.forEach((entry) => {
+        if (entry.duration > 100) {
+          const taskInfo = {
+            type: entry.entryType,
+            name: entry.name || "Unknown Task",
+            duration: Math.round(entry.duration),
+            startTime: Math.round(entry.startTime),
+            component: entry.name.includes("chunk-") ? "Code Chunk Loading" : entry.name.includes("framer-motion") ? "Animation" : entry.name.includes("react") ? "React Processing" : entry.name === "self" ? "Main Thread Work" : "Other Task",
+            severity: entry.duration > 150 ? "High" : "Medium"
+            // Adjusted severity threshold
+          };
+          if (!taskInfo.name.includes("chunk-") || taskInfo.duration > 200) {
+            console.warn(`Long Task (${taskInfo.severity} Impact):`, taskInfo);
+          }
+          if (taskInfo.duration > 200) {
+            console.trace("Long Task Stack Trace:");
+          }
+        }
+      });
+    });
+    let frameCount = 0;
+    let lastTime = performance.now();
+    let lowFPSCount = 0;
+    let animationFrameId;
+    let isInitialLoad = true;
+    setTimeout(() => {
+      isInitialLoad = false;
+    }, 5e3);
+    const checkFPS = () => {
+      const now = performance.now();
+      frameCount++;
+      if (now - lastTime > 1e3) {
+        const fps = Math.round(frameCount * 1e3 / (now - lastTime));
+        if (fps < 30 && !isInitialLoad) {
+          lowFPSCount++;
+          console.warn("Performance Alert:", {
+            issue: "Low FPS",
+            fps,
+            consecutive: lowFPSCount,
+            timestamp: (/* @__PURE__ */ new Date()).toISOString(),
+            memory: getMemoryInfo()
+          });
+        } else {
+          lowFPSCount = 0;
+        }
+        frameCount = 0;
+        lastTime = now;
+      }
+      animationFrameId = requestAnimationFrame(checkFPS);
+    };
+    const getMemoryInfo = () => {
+      const memory = performance.memory;
+      if (!memory) return "Not available";
+      return {
+        used: Math.round(memory.usedJSHeapSize / 1024 / 1024) + "MB",
+        total: Math.round(memory.totalJSHeapSize / 1024 / 1024) + "MB",
+        limit: Math.round(memory.jsHeapSizeLimit / 1024 / 1024) + "MB"
+      };
+    };
+    try {
+      observer.observe({
+        entryTypes: ["longtask", "resource", "measure", "layout-shift", "largest-contentful-paint"]
+      });
+      animationFrameId = requestAnimationFrame(checkFPS);
+      setTimeout(() => {
+        console.log("Performance monitoring initialized", {
+          timestamp: (/* @__PURE__ */ new Date()).toISOString(),
+          environment: process.env.NODE_ENV,
+          initialMemory: getMemoryInfo()
+        });
+      }, 2e3);
+      return () => {
+        observer.disconnect();
+        cancelAnimationFrame(animationFrameId);
+      };
+    } catch (error) {
+      console.error("Performance monitoring setup failed:", error);
+    }
+  }
+  return () => {
+  };
+};
+
+
+----------------
+
+[2025-04-14T08:12:03.442Z]
+File: src/App.tsx
+
+import { jsxDEV } from "react/jsx-dev-runtime";
+import RefreshRuntime from "/@react-refresh";
+const inWebWorker = typeof WorkerGlobalScope !== "undefined" && self instanceof WorkerGlobalScope;
+let prevRefreshReg;
+let prevRefreshSig;
+if (import.meta.hot && !inWebWorker) {
+  if (!window.__vite_plugin_react_preamble_installed__) {
+    throw new Error("@vitejs/plugin-react can't detect preamble. Something is wrong. See https://github.com/vitejs/vite-plugin-react/pull/11#discussion_r430879201");
+  }
+  prevRefreshReg = window.$RefreshReg$;
+  prevRefreshSig = window.$RefreshSig$;
+  window.$RefreshReg$ = (type, id) => {
+    RefreshRuntime.register(type, "/Users/henrybarcroft/Equinology-3/src/App.tsx " + id);
+  };
+  window.$RefreshSig$ = RefreshRuntime.createSignatureFunctionForTransform;
+}
+import { lazy, Suspense } from "react";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
+import { motion } from "framer-motion";
+const HomePage = lazy(_c = () => import("./pages/HomePage"));
+_c2 = HomePage;
+const ServicesPage = lazy(_c3 = () => import("./pages/ServicesPage"));
+_c4 = ServicesPage;
+const ArticlePage = lazy(_c5 = () => import("./pages/ArticlePage"));
+_c6 = ArticlePage;
+const BlogPage = lazy(_c7 = () => import("./pages/BlogPage"));
+_c8 = BlogPage;
+const ContactPage = lazy(_c9 = () => import("./pages/ContactPage"));
+_c10 = ContactPage;
+const HeaderComponent = lazy(_c11 = () => import("./components/Header"));
+_c12 = HeaderComponent;
+const FooterComponent = lazy(_c13 = () => import("./components/Footer"));
+_c14 = FooterComponent;
+const LoadingSpinner = () => /* @__PURE__ */ jsxDEV("div", { className: "min-h-screen flex items-center justify-center bg-[#0A0A0A]", children: /* @__PURE__ */ jsxDEV(
+  motion.div,
+  {
+    animate: { rotate: 360 },
+    transition: { duration: 1, repeat: Infinity, ease: "linear" },
+    className: "w-12 h-12 border-4 border-[#3CAAFF] border-t-transparent rounded-full"
+  },
+  void 0,
+  false,
+  {
+    fileName: "/Users/henrybarcroft/Equinology-3/src/App.tsx",
+    lineNumber: 25,
+    columnNumber: 5
+  },
+  this
+) }, void 0, false, {
+  fileName: "/Users/henrybarcroft/Equinology-3/src/App.tsx",
+  lineNumber: 24,
+  columnNumber: 1
+}, this);
+_c15 = LoadingSpinner;
+const App = () => {
+  return /* @__PURE__ */ jsxDEV(Router, { children: /* @__PURE__ */ jsxDEV(Suspense, { fallback: /* @__PURE__ */ jsxDEV(LoadingSpinner, {}, void 0, false, {
+    fileName: "/Users/henrybarcroft/Equinology-3/src/App.tsx",
+    lineNumber: 36,
+    columnNumber: 27
+  }, this), children: [
+    /* @__PURE__ */ jsxDEV(HeaderComponent, {}, void 0, false, {
+      fileName: "/Users/henrybarcroft/Equinology-3/src/App.tsx",
+      lineNumber: 37,
+      columnNumber: 9
+    }, this),
+    /* @__PURE__ */ jsxDEV("main", { children: /* @__PURE__ */ jsxDEV(Routes, { children: [
+      /* @__PURE__ */ jsxDEV(Route, { path: "/", element: /* @__PURE__ */ jsxDEV(HomePage, {}, void 0, false, {
+        fileName: "/Users/henrybarcroft/Equinology-3/src/App.tsx",
+        lineNumber: 40,
+        columnNumber: 38
+      }, this) }, void 0, false, {
+        fileName: "/Users/henrybarcroft/Equinology-3/src/App.tsx",
+        lineNumber: 40,
+        columnNumber: 13
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "/services", element: /* @__PURE__ */ jsxDEV(ServicesPage, {}, void 0, false, {
+        fileName: "/Users/henrybarcroft/Equinology-3/src/App.tsx",
+        lineNumber: 41,
+        columnNumber: 46
+      }, this) }, void 0, false, {
+        fileName: "/Users/henrybarcroft/Equinology-3/src/App.tsx",
+        lineNumber: 41,
+        columnNumber: 13
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "/articles", element: /* @__PURE__ */ jsxDEV(ArticlePage, {}, void 0, false, {
+        fileName: "/Users/henrybarcroft/Equinology-3/src/App.tsx",
+        lineNumber: 42,
+        columnNumber: 46
+      }, this) }, void 0, false, {
+        fileName: "/Users/henrybarcroft/Equinology-3/src/App.tsx",
+        lineNumber: 42,
+        columnNumber: 13
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "/articles/:slug", element: /* @__PURE__ */ jsxDEV(ArticlePage, {}, void 0, false, {
+        fileName: "/Users/henrybarcroft/Equinology-3/src/App.tsx",
+        lineNumber: 43,
+        columnNumber: 52
+      }, this) }, void 0, false, {
+        fileName: "/Users/henrybarcroft/Equinology-3/src/App.tsx",
+        lineNumber: 43,
+        columnNumber: 13
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "/blog", element: /* @__PURE__ */ jsxDEV(BlogPage, {}, void 0, false, {
+        fileName: "/Users/henrybarcroft/Equinology-3/src/App.tsx",
+        lineNumber: 44,
+        columnNumber: 42
+      }, this) }, void 0, false, {
+        fileName: "/Users/henrybarcroft/Equinology-3/src/App.tsx",
+        lineNumber: 44,
+        columnNumber: 13
+      }, this),
+      /* @__PURE__ */ jsxDEV(Route, { path: "/contact", element: /* @__PURE__ */ jsxDEV(ContactPage, {}, void 0, false, {
+        fileName: "/Users/henrybarcroft/Equinology-3/src/App.tsx",
+        lineNumber: 45,
+        columnNumber: 45
+      }, this) }, void 0, false, {
+        fileName: "/Users/henrybarcroft/Equinology-3/src/App.tsx",
+        lineNumber: 45,
+        columnNumber: 13
+      }, this)
+    ] }, void 0, true, {
+      fileName: "/Users/henrybarcroft/Equinology-3/src/App.tsx",
+      lineNumber: 39,
+      columnNumber: 11
+    }, this) }, void 0, false, {
+      fileName: "/Users/henrybarcroft/Equinology-3/src/App.tsx",
+      lineNumber: 38,
+      columnNumber: 9
+    }, this),
+    /* @__PURE__ */ jsxDEV(FooterComponent, {}, void 0, false, {
+      fileName: "/Users/henrybarcroft/Equinology-3/src/App.tsx",
+      lineNumber: 48,
+      columnNumber: 9
+    }, this)
+  ] }, void 0, true, {
+    fileName: "/Users/henrybarcroft/Equinology-3/src/App.tsx",
+    lineNumber: 36,
+    columnNumber: 7
+  }, this) }, void 0, false, {
+    fileName: "/Users/henrybarcroft/Equinology-3/src/App.tsx",
+    lineNumber: 35,
+    columnNumber: 5
+  }, this);
+};
+_c16 = App;
+export default App;
+var _c, _c2, _c3, _c4, _c5, _c6, _c7, _c8, _c9, _c10, _c11, _c12, _c13, _c14, _c15, _c16;
+$RefreshReg$(_c, "HomePage$lazy");
+$RefreshReg$(_c2, "HomePage");
+$RefreshReg$(_c3, "ServicesPage$lazy");
+$RefreshReg$(_c4, "ServicesPage");
+$RefreshReg$(_c5, "ArticlePage$lazy");
+$RefreshReg$(_c6, "ArticlePage");
+$RefreshReg$(_c7, "BlogPage$lazy");
+$RefreshReg$(_c8, "BlogPage");
+$RefreshReg$(_c9, "ContactPage$lazy");
+$RefreshReg$(_c10, "ContactPage");
+$RefreshReg$(_c11, "HeaderComponent$lazy");
+$RefreshReg$(_c12, "HeaderComponent");
+$RefreshReg$(_c13, "FooterComponent$lazy");
+$RefreshReg$(_c14, "FooterComponent");
+$RefreshReg$(_c15, "LoadingSpinner");
+$RefreshReg$(_c16, "App");
+if (import.meta.hot && !inWebWorker) {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}
+if (import.meta.hot && !inWebWorker) {
+  RefreshRuntime.__hmr_import(import.meta.url).then((currentExports) => {
+    RefreshRuntime.registerExportsForReactRefresh("/Users/henrybarcroft/Equinology-3/src/App.tsx", currentExports);
+    import.meta.hot.accept((nextExports) => {
+      if (!nextExports) return;
+      const invalidateMessage = RefreshRuntime.validateRefreshBoundaryAndEnqueueUpdate("/Users/henrybarcroft/Equinology-3/src/App.tsx", currentExports, nextExports);
+      if (invalidateMessage) import.meta.hot.invalidate(invalidateMessage);
+    });
+  });
+}
+
+
+----------------
+
+[2025-04-14T08:12:03.670Z]
+File: src/components/Header.tsx
+
+import { Fragment, jsxDEV } from "react/jsx-dev-runtime";
+import RefreshRuntime from "/@react-refresh";
+const inWebWorker = typeof WorkerGlobalScope !== "undefined" && self instanceof WorkerGlobalScope;
+let prevRefreshReg;
+let prevRefreshSig;
+if (import.meta.hot && !inWebWorker) {
+  if (!window.__vite_plugin_react_preamble_installed__) {
+    throw new Error("@vitejs/plugin-react can't detect preamble. Something is wrong. See https://github.com/vitejs/vite-plugin-react/pull/11#discussion_r430879201");
+  }
+  prevRefreshReg = window.$RefreshReg$;
+  prevRefreshSig = window.$RefreshSig$;
+  window.$RefreshReg$ = (type, id) => {
+    RefreshRuntime.register(type, "/Users/henrybarcroft/Equinology-3/src/components/Header.tsx " + id);
+  };
+  window.$RefreshSig$ = RefreshRuntime.createSignatureFunctionForTransform;
+}
+var _s = $RefreshSig$();
+import { useState, useEffect, useCallback, useMemo } from "react";
+import { useNavigate, useLocation } from "react-router-dom";
+import { Menu, X, ChevronRight } from "lucide-react";
+import { motion, AnimatePresence, useScroll, useTransform } from "framer-motion";
+import logo from "../images/logo.webp";
+const Header = () => {
+  _s();
+  const [isSidebarOpen, setIsSidebarOpen] = useState(false);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const { scrollY } = useScroll();
+  const bgOpacityValue = useTransform(scrollY, [0, 300], [0.7, 0.95]);
+  const blurValue = useTransform(scrollY, [0, 300], [4, 12]);
+  const shadowOpacity = useTransform(scrollY, [0, 300], [0, 0.2]);
+  const bgOpacity = useTransform(bgOpacityValue, (latest) => `rgba(0, 0, 0, ${latest})`);
+  const handleNavigation = useCallback((sectionId) => {
+    if (location.pathname !== "/") {
+      navigate("/");
+      setTimeout(() => {
+        const section = document.getElementById(sectionId);
+        section?.scrollIntoView({ behavior: "smooth" });
+      }, 500);
+    } else {
+      const section = document.getElementById(sectionId);
+      section?.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [location.pathname, navigate]);
+  const navItems = useMemo(
+    () => [
+      { label: "About", action: () => handleNavigation("about") },
+      { label: "Services", action: () => handleNavigation("services") },
+      { label: "Testimonials", action: () => handleNavigation("testimonials") },
+      {
+        label: "Articles",
+        action: () => {
+          navigate("/articles");
+          window.scrollTo({ top: 0, behavior: "smooth" });
+        }
+      }
+    ],
+    [handleNavigation, navigate]
+  );
+  useEffect(() => {
+    if (isSidebarOpen) {
+      document.body.style.overflow = "hidden";
+    } else {
+      document.body.style.overflow = "auto";
+    }
+    return () => {
+      document.body.style.overflow = "auto";
+    };
+  }, [isSidebarOpen]);
+  return /* @__PURE__ */ jsxDEV("div", { className: "motion-container", children: /* @__PURE__ */ jsxDEV(
+    motion.header,
+    {
+      initial: { y: -100 },
+      animate: { y: 0 },
+      transition: { duration: 0.6 },
+      className: "fixed w-full z-50 transition-all duration-300",
+      style: {
+        backgroundColor: bgOpacity,
+        backdropFilter: `blur(${blurValue.get()}px)`,
+        boxShadow: shadowOpacity.get() > 0.1 ? `0 4px 30px rgba(0, 0, 0, ${shadowOpacity.get()})` : "none"
+      },
+      children: [
+        /* @__PURE__ */ jsxDEV("div", { className: "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex justify-between items-center h-20", children: [
+          /* @__PURE__ */ jsxDEV("a", { href: "/", className: "flex items-center", children: /* @__PURE__ */ jsxDEV("img", { src: logo, className: "w-40 h-auto drop-shadow-lg", alt: "Logo" }, void 0, false, {
+            fileName: "/Users/henrybarcroft/Equinology-3/src/components/Header.tsx",
+            lineNumber: 75,
+            columnNumber: 13
+          }, this) }, void 0, false, {
+            fileName: "/Users/henrybarcroft/Equinology-3/src/components/Header.tsx",
+            lineNumber: 74,
+            columnNumber: 11
+          }, this),
+          /* @__PURE__ */ jsxDEV("div", { className: "hidden md:flex space-x-6", children: navItems.map(
+            (item, index) => /* @__PURE__ */ jsxDEV(
+              "button",
+              {
+                onClick: item.action,
+                className: "text-white text-md font-medium tracking-wide hover:text-[#3CAAFF] transition-colors duration-300 relative group",
+                children: [
+                  item.label,
+                  /* @__PURE__ */ jsxDEV("span", { className: "absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-[#3CAAFF] to-[#00E0FF] group-hover:w-full transition-all duration-300" }, void 0, false, {
+                    fileName: "/Users/henrybarcroft/Equinology-3/src/components/Header.tsx",
+                    lineNumber: 86,
+                    columnNumber: 17
+                  }, this)
+                ]
+              },
+              index,
+              true,
+              {
+                fileName: "/Users/henrybarcroft/Equinology-3/src/components/Header.tsx",
+                lineNumber: 80,
+                columnNumber: 13
+              },
+              this
+            )
+          ) }, void 0, false, {
+            fileName: "/Users/henrybarcroft/Equinology-3/src/components/Header.tsx",
+            lineNumber: 78,
+            columnNumber: 11
+          }, this),
+          /* @__PURE__ */ jsxDEV(
+            motion.button,
+            {
+              whileHover: { scale: 1.05 },
+              whileTap: { scale: 0.95 },
+              className: "hidden md:block bg-gradient-to-r from-[#3CAAFF] to-[#00E0FF] px-6 py-2.5 rounded-full text-sm font-medium shadow-md hover:shadow-lg hover:shadow-[#3CAAFF]/25 transition-all duration-300 text-[#0A0A0A]",
+              onClick: () => navigate("/contact"),
+              children: [
+                "Contact Us",
+                /* @__PURE__ */ jsxDEV(ChevronRight, { className: "inline-block ml-1 w-4 h-4" }, void 0, false, {
+                  fileName: "/Users/henrybarcroft/Equinology-3/src/components/Header.tsx",
+                  lineNumber: 98,
+                  columnNumber: 13
+                }, this)
+              ]
+            },
+            void 0,
+            true,
+            {
+              fileName: "/Users/henrybarcroft/Equinology-3/src/components/Header.tsx",
+              lineNumber: 91,
+              columnNumber: 11
+            },
+            this
+          ),
+          /* @__PURE__ */ jsxDEV(
+            motion.button,
+            {
+              initial: { opacity: 0 },
+              animate: { opacity: 1 },
+              transition: { delay: 0.6 },
+              className: "md:hidden text-[#ABABAB] hover:text-[#F5F5F7] transition-colors duration-200 p-2 rounded-full bg-black/50 backdrop-blur-sm",
+              onClick: () => setIsSidebarOpen(true),
+              children: /* @__PURE__ */ jsxDEV(Menu, { className: "w-6 h-6" }, void 0, false, {
+                fileName: "/Users/henrybarcroft/Equinology-3/src/components/Header.tsx",
+                lineNumber: 108,
+                columnNumber: 13
+              }, this)
+            },
+            void 0,
+            false,
+            {
+              fileName: "/Users/henrybarcroft/Equinology-3/src/components/Header.tsx",
+              lineNumber: 101,
+              columnNumber: 11
+            },
+            this
+          )
+        ] }, void 0, true, {
+          fileName: "/Users/henrybarcroft/Equinology-3/src/components/Header.tsx",
+          lineNumber: 73,
+          columnNumber: 9
+        }, this),
+        /* @__PURE__ */ jsxDEV(AnimatePresence, { children: isSidebarOpen && /* @__PURE__ */ jsxDEV(Fragment, { children: [
+          /* @__PURE__ */ jsxDEV(
+            motion.div,
+            {
+              initial: { opacity: 0 },
+              animate: { opacity: 1 },
+              exit: { opacity: 0 },
+              className: "fixed inset-0 bg-black/80 backdrop-blur-sm z-40",
+              onClick: () => setIsSidebarOpen(false)
+            },
+            void 0,
+            false,
+            {
+              fileName: "/Users/henrybarcroft/Equinology-3/src/components/Header.tsx",
+              lineNumber: 115,
+              columnNumber: 15
+            },
+            this
+          ),
+          /* @__PURE__ */ jsxDEV(
+            motion.div,
+            {
+              initial: { x: "-100%" },
+              animate: { x: 0 },
+              exit: { x: "-100%" },
+              transition: { type: "spring", stiffness: 300, damping: 30 },
+              className: "fixed top-0 left-0 w-[85%] max-w-sm min-h-screen bg-black/90 backdrop-blur-md z-50 flex flex-col p-6 shadow-lg rounded-r-3xl",
+              children: [
+                /* @__PURE__ */ jsxDEV(
+                  "button",
+                  {
+                    className: "absolute top-5 right-5 text-gray-400 hover:text-white p-2 rounded-full bg-gray-800/50",
+                    onClick: () => setIsSidebarOpen(false),
+                    children: /* @__PURE__ */ jsxDEV(X, { className: "w-6 h-6" }, void 0, false, {
+                      fileName: "/Users/henrybarcroft/Equinology-3/src/components/Header.tsx",
+                      lineNumber: 134,
+                      columnNumber: 19
+                    }, this)
+                  },
+                  void 0,
+                  false,
+                  {
+                    fileName: "/Users/henrybarcroft/Equinology-3/src/components/Header.tsx",
+                    lineNumber: 130,
+                    columnNumber: 17
+                  },
+                  this
+                ),
+                /* @__PURE__ */ jsxDEV("nav", { className: "mt-16 flex flex-col space-y-6", children: navItems.map(
+                  (item, index) => /* @__PURE__ */ jsxDEV(
+                    motion.button,
+                    {
+                      onClick: () => {
+                        setIsSidebarOpen(false);
+                        item.action();
+                      },
+                      initial: { opacity: 0, x: -20 },
+                      animate: { opacity: 1, x: 0 },
+                      transition: { delay: 0.1 * index },
+                      className: "text-white text-lg font-medium tracking-wide hover:text-[#3CAAFF] transition-colors duration-300 text-left border-b border-gray-800/50 pb-2",
+                      children: item.label
+                    },
+                    index,
+                    false,
+                    {
+                      fileName: "/Users/henrybarcroft/Equinology-3/src/components/Header.tsx",
+                      lineNumber: 139,
+                      columnNumber: 17
+                    },
+                    this
+                  )
+                ) }, void 0, false, {
+                  fileName: "/Users/henrybarcroft/Equinology-3/src/components/Header.tsx",
+                  lineNumber: 137,
+                  columnNumber: 17
+                }, this),
+                /* @__PURE__ */ jsxDEV(
+                  motion.button,
+                  {
+                    initial: { opacity: 0 },
+                    animate: { opacity: 1 },
+                    transition: { delay: 0.3 },
+                    whileHover: { scale: 1.03 },
+                    whileTap: { scale: 0.97 },
+                    className: "mt-auto w-full bg-gradient-to-r from-[#3CAAFF] to-[#00E0FF] px-6 py-3.5 rounded-2xl text-lg font-medium shadow-lg hover:shadow-xl hover:shadow-[#3CAAFF]/25 transition-all duration-300 text-[#0A0A0A]",
+                    onClick: () => {
+                      setIsSidebarOpen(false);
+                      navigate("/contact");
+                    },
+                    children: [
+                      "Contact Us",
+                      /* @__PURE__ */ jsxDEV(ChevronRight, { className: "inline-block ml-2 w-5 h-5" }, void 0, false, {
+                        fileName: "/Users/henrybarcroft/Equinology-3/src/components/Header.tsx",
+                        lineNumber: 168,
+                        columnNumber: 19
+                      }, this)
+                    ]
+                  },
+                  void 0,
+                  true,
+                  {
+                    fileName: "/Users/henrybarcroft/Equinology-3/src/components/Header.tsx",
+                    lineNumber: 155,
+                    columnNumber: 17
+                  },
+                  this
+                )
+              ]
+            },
+            void 0,
+            true,
+            {
+              fileName: "/Users/henrybarcroft/Equinology-3/src/components/Header.tsx",
+              lineNumber: 123,
+              columnNumber: 15
+            },
+            this
+          )
+        ] }, void 0, true, {
+          fileName: "/Users/henrybarcroft/Equinology-3/src/components/Header.tsx",
+          lineNumber: 114,
+          columnNumber: 11
+        }, this) }, void 0, false, {
+          fileName: "/Users/henrybarcroft/Equinology-3/src/components/Header.tsx",
+          lineNumber: 112,
+          columnNumber: 9
+        }, this)
+      ]
+    },
+    void 0,
+    true,
+    {
+      fileName: "/Users/henrybarcroft/Equinology-3/src/components/Header.tsx",
+      lineNumber: 62,
+      columnNumber: 7
+    },
+    this
+  ) }, void 0, false, {
+    fileName: "/Users/henrybarcroft/Equinology-3/src/components/Header.tsx",
+    lineNumber: 61,
+    columnNumber: 5
+  }, this);
+};
+_s(Header, "vEDWmLJLXvcG8CH9rwOm/Hc05VU=", false, function() {
+  return [useNavigate, useLocation, useScroll, useTransform, useTransform, useTransform, useTransform];
+});
+_c = Header;
+export default Header;
+var _c;
+$RefreshReg$(_c, "Header");
+if (import.meta.hot && !inWebWorker) {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}
+if (import.meta.hot && !inWebWorker) {
+  RefreshRuntime.__hmr_import(import.meta.url).then((currentExports) => {
+    RefreshRuntime.registerExportsForReactRefresh("/Users/henrybarcroft/Equinology-3/src/components/Header.tsx", currentExports);
+    import.meta.hot.accept((nextExports) => {
+      if (!nextExports) return;
+      const invalidateMessage = RefreshRuntime.validateRefreshBoundaryAndEnqueueUpdate("/Users/henrybarcroft/Equinology-3/src/components/Header.tsx", currentExports, nextExports);
+      if (invalidateMessage) import.meta.hot.invalidate(invalidateMessage);
+    });
+  });
+}
+
+
+----------------
+
+[2025-04-14T08:12:03.672Z]
+File: src/pages/HomePage.tsx
+
+import { jsxDEV } from "react/jsx-dev-runtime";
+import RefreshRuntime from "/@react-refresh";
+const inWebWorker = typeof WorkerGlobalScope !== "undefined" && self instanceof WorkerGlobalScope;
+let prevRefreshReg;
+let prevRefreshSig;
+if (import.meta.hot && !inWebWorker) {
+  if (!window.__vite_plugin_react_preamble_installed__) {
+    throw new Error("@vitejs/plugin-react can't detect preamble. Something is wrong. See https://github.com/vitejs/vite-plugin-react/pull/11#discussion_r430879201");
+  }
+  prevRefreshReg = window.$RefreshReg$;
+  prevRefreshSig = window.$RefreshSig$;
+  window.$RefreshReg$ = (type, id) => {
+    RefreshRuntime.register(type, "/Users/henrybarcroft/Equinology-3/src/pages/HomePage.tsx " + id);
+  };
+  window.$RefreshSig$ = RefreshRuntime.createSignatureFunctionForTransform;
+}
+import { lazy, Suspense } from "react";
+const Hero = lazy(_c = () => import("../components/Hero"));
+_c2 = Hero;
+const Services = lazy(_c3 = () => import("../components/Services"));
+_c4 = Services;
+const Facilities = lazy(_c5 = () => import("../components/Facilities"));
+_c6 = Facilities;
+const Testimonials = lazy(_c7 = () => import("../components/Testimonials"));
+_c8 = Testimonials;
+const LoadingSpinner = () => /* @__PURE__ */ jsxDEV("div", { className: "min-h-[50vh] flex items-center justify-center bg-[#0A0A0A]", children: /* @__PURE__ */ jsxDEV("div", { className: "animate-spin rounded-full h-12 w-12 border-t-2 border-b-2 border-[#3CAAFF]" }, void 0, false, {
+  fileName: "/Users/henrybarcroft/Equinology-3/src/pages/HomePage.tsx",
+  lineNumber: 12,
+  columnNumber: 5
+}, this) }, void 0, false, {
+  fileName: "/Users/henrybarcroft/Equinology-3/src/pages/HomePage.tsx",
+  lineNumber: 11,
+  columnNumber: 1
+}, this);
+_c9 = LoadingSpinner;
+const HomePage = () => {
+  return /* @__PURE__ */ jsxDEV("div", { className: "bg-gradient-to-b from-[#0A0A0A] via-[#101010] to-[#0A0A0A]", children: [
+    /* @__PURE__ */ jsxDEV(Suspense, { fallback: /* @__PURE__ */ jsxDEV(LoadingSpinner, {}, void 0, false, {
+      fileName: "/Users/henrybarcroft/Equinology-3/src/pages/HomePage.tsx",
+      lineNumber: 19,
+      columnNumber: 27
+    }, this), children: /* @__PURE__ */ jsxDEV(Hero, {}, void 0, false, {
+      fileName: "/Users/henrybarcroft/Equinology-3/src/pages/HomePage.tsx",
+      lineNumber: 20,
+      columnNumber: 9
+    }, this) }, void 0, false, {
+      fileName: "/Users/henrybarcroft/Equinology-3/src/pages/HomePage.tsx",
+      lineNumber: 19,
+      columnNumber: 7
+    }, this),
+    /* @__PURE__ */ jsxDEV(Suspense, { fallback: /* @__PURE__ */ jsxDEV(LoadingSpinner, {}, void 0, false, {
+      fileName: "/Users/henrybarcroft/Equinology-3/src/pages/HomePage.tsx",
+      lineNumber: 22,
+      columnNumber: 27
+    }, this), children: /* @__PURE__ */ jsxDEV(Services, {}, void 0, false, {
+      fileName: "/Users/henrybarcroft/Equinology-3/src/pages/HomePage.tsx",
+      lineNumber: 23,
+      columnNumber: 9
+    }, this) }, void 0, false, {
+      fileName: "/Users/henrybarcroft/Equinology-3/src/pages/HomePage.tsx",
+      lineNumber: 22,
+      columnNumber: 7
+    }, this),
+    /* @__PURE__ */ jsxDEV(Suspense, { fallback: /* @__PURE__ */ jsxDEV(LoadingSpinner, {}, void 0, false, {
+      fileName: "/Users/henrybarcroft/Equinology-3/src/pages/HomePage.tsx",
+      lineNumber: 25,
+      columnNumber: 27
+    }, this), children: /* @__PURE__ */ jsxDEV(Facilities, {}, void 0, false, {
+      fileName: "/Users/henrybarcroft/Equinology-3/src/pages/HomePage.tsx",
+      lineNumber: 26,
+      columnNumber: 9
+    }, this) }, void 0, false, {
+      fileName: "/Users/henrybarcroft/Equinology-3/src/pages/HomePage.tsx",
+      lineNumber: 25,
+      columnNumber: 7
+    }, this),
+    /* @__PURE__ */ jsxDEV(Suspense, { fallback: /* @__PURE__ */ jsxDEV(LoadingSpinner, {}, void 0, false, {
+      fileName: "/Users/henrybarcroft/Equinology-3/src/pages/HomePage.tsx",
+      lineNumber: 28,
+      columnNumber: 27
+    }, this), children: /* @__PURE__ */ jsxDEV(Testimonials, {}, void 0, false, {
+      fileName: "/Users/henrybarcroft/Equinology-3/src/pages/HomePage.tsx",
+      lineNumber: 29,
+      columnNumber: 9
+    }, this) }, void 0, false, {
+      fileName: "/Users/henrybarcroft/Equinology-3/src/pages/HomePage.tsx",
+      lineNumber: 28,
+      columnNumber: 7
+    }, this)
+  ] }, void 0, true, {
+    fileName: "/Users/henrybarcroft/Equinology-3/src/pages/HomePage.tsx",
+    lineNumber: 18,
+    columnNumber: 5
+  }, this);
+};
+_c10 = HomePage;
+export default HomePage;
+var _c, _c2, _c3, _c4, _c5, _c6, _c7, _c8, _c9, _c10;
+$RefreshReg$(_c, "Hero$lazy");
+$RefreshReg$(_c2, "Hero");
+$RefreshReg$(_c3, "Services$lazy");
+$RefreshReg$(_c4, "Services");
+$RefreshReg$(_c5, "Facilities$lazy");
+$RefreshReg$(_c6, "Facilities");
+$RefreshReg$(_c7, "Testimonials$lazy");
+$RefreshReg$(_c8, "Testimonials");
+$RefreshReg$(_c9, "LoadingSpinner");
+$RefreshReg$(_c10, "HomePage");
+if (import.meta.hot && !inWebWorker) {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}
+if (import.meta.hot && !inWebWorker) {
+  RefreshRuntime.__hmr_import(import.meta.url).then((currentExports) => {
+    RefreshRuntime.registerExportsForReactRefresh("/Users/henrybarcroft/Equinology-3/src/pages/HomePage.tsx", currentExports);
+    import.meta.hot.accept((nextExports) => {
+      if (!nextExports) return;
+      const invalidateMessage = RefreshRuntime.validateRefreshBoundaryAndEnqueueUpdate("/Users/henrybarcroft/Equinology-3/src/pages/HomePage.tsx", currentExports, nextExports);
+      if (invalidateMessage) import.meta.hot.invalidate(invalidateMessage);
+    });
+  });
+}
+
+
+----------------
+
+[2025-04-14T08:12:03.675Z]
+File: src/components/Footer.tsx
+
+import { jsxDEV } from "react/jsx-dev-runtime";
+import RefreshRuntime from "/@react-refresh";
+const inWebWorker = typeof WorkerGlobalScope !== "undefined" && self instanceof WorkerGlobalScope;
+let prevRefreshReg;
+let prevRefreshSig;
+if (import.meta.hot && !inWebWorker) {
+  if (!window.__vite_plugin_react_preamble_installed__) {
+    throw new Error("@vitejs/plugin-react can't detect preamble. Something is wrong. See https://github.com/vitejs/vite-plugin-react/pull/11#discussion_r430879201");
+  }
+  prevRefreshReg = window.$RefreshReg$;
+  prevRefreshSig = window.$RefreshSig$;
+  window.$RefreshReg$ = (type, id) => {
+    RefreshRuntime.register(type, "/Users/henrybarcroft/Equinology-3/src/components/Footer.tsx " + id);
+  };
+  window.$RefreshSig$ = RefreshRuntime.createSignatureFunctionForTransform;
+}
+import { motion } from "framer-motion";
+import { Compass, Mail, Phone, Facebook } from "lucide-react";
+import { Link } from "react-router-dom";
+const FooterLink = ({ to, children }) => /* @__PURE__ */ jsxDEV("li", { children: /* @__PURE__ */ jsxDEV(
+  Link,
+  {
+    to,
+    className: "text-[#777777] hover:text-[#AABBDD] transition-colors duration-200 text-sm relative group",
+    children: [
+      children,
+      /* @__PURE__ */ jsxDEV("span", { className: "absolute bottom-0 left-0 w-0 h-px bg-gradient-to-r from-[#3CAAFF]/0 to-[#3CAAFF] group-hover:w-full transition-all duration-300 ease-out" }, void 0, false, {
+        fileName: "/Users/henrybarcroft/Equinology-3/src/components/Footer.tsx",
+        lineNumber: 12,
+        columnNumber: 7
+      }, this)
+    ]
+  },
+  void 0,
+  true,
+  {
+    fileName: "/Users/henrybarcroft/Equinology-3/src/components/Footer.tsx",
+    lineNumber: 7,
+    columnNumber: 5
+  },
+  this
+) }, void 0, false, {
+  fileName: "/Users/henrybarcroft/Equinology-3/src/components/Footer.tsx",
+  lineNumber: 6,
+  columnNumber: 1
+}, this);
+_c = FooterLink;
+const Footer = () => {
+  const currentYear = (/* @__PURE__ */ new Date()).getFullYear();
+  return /* @__PURE__ */ jsxDEV("footer", { className: "bg-[#050505] text-[#ABABAB] pt-20 pb-10 mt-24 relative overflow-hidden footer-noise-bg", children: [
+    /* @__PURE__ */ jsxDEV("div", { className: "absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-[#222222] to-transparent" }, void 0, false, {
+      fileName: "/Users/henrybarcroft/Equinology-3/src/components/Footer.tsx",
+      lineNumber: 22,
+      columnNumber: 7
+    }, this),
+    /* @__PURE__ */ jsxDEV("div", { className: "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10", children: [
+      /* @__PURE__ */ jsxDEV(
+        motion.div,
+        {
+          initial: { opacity: 0, y: 20 },
+          whileInView: { opacity: 1, y: 0 },
+          viewport: { once: true },
+          transition: { duration: 0.6 },
+          className: "grid grid-cols-1 md:grid-cols-4 gap-12 mb-12",
+          children: [
+            /* @__PURE__ */ jsxDEV("div", { className: "col-span-1 md:col-span-2", children: [
+              /* @__PURE__ */ jsxDEV(Link, { to: "/", className: "inline-flex items-center mb-6 group", children: [
+                /* @__PURE__ */ jsxDEV(Compass, { className: "w-8 h-8 mr-2 text-[#3CAAFF] group-hover:text-[#00E0FF] transition-colors duration-300" }, void 0, false, {
+                  fileName: "/Users/henrybarcroft/Equinology-3/src/components/Footer.tsx",
+                  lineNumber: 35,
+                  columnNumber: 15
+                }, this),
+                /* @__PURE__ */ jsxDEV("span", { className: "text-2xl font-light tracking-wider bg-gradient-to-r from-[#3CAAFF] to-[#00E0FF] bg-clip-text text-transparent group-hover:opacity-80 transition-opacity duration-300", children: "EQUINOLOGY" }, void 0, false, {
+                  fileName: "/Users/henrybarcroft/Equinology-3/src/components/Footer.tsx",
+                  lineNumber: 36,
+                  columnNumber: 15
+                }, this)
+              ] }, void 0, true, {
+                fileName: "/Users/henrybarcroft/Equinology-3/src/components/Footer.tsx",
+                lineNumber: 34,
+                columnNumber: 13
+              }, this),
+              /* @__PURE__ */ jsxDEV("p", { className: "text-[#777777] text-sm leading-relaxed", children: "Equinology blends timeless equestrian tradition with innovative design to create extraordinary digital experiences for horse enthusiasts, breeders, and equestrian facilities worldwide." }, void 0, false, {
+                fileName: "/Users/henrybarcroft/Equinology-3/src/components/Footer.tsx",
+                lineNumber: 40,
+                columnNumber: 13
+              }, this)
+            ] }, void 0, true, {
+              fileName: "/Users/henrybarcroft/Equinology-3/src/components/Footer.tsx",
+              lineNumber: 33,
+              columnNumber: 11
+            }, this),
+            /* @__PURE__ */ jsxDEV("div", { children: [
+              /* @__PURE__ */ jsxDEV("h3", { className: "text-[#F5F5F7] font-medium mb-4 text-base tracking-wide", children: "Navigation" }, void 0, false, {
+                fileName: "/Users/henrybarcroft/Equinology-3/src/components/Footer.tsx",
+                lineNumber: 47,
+                columnNumber: 13
+              }, this),
+              /* @__PURE__ */ jsxDEV("ul", { className: "space-y-3", children: [
+                /* @__PURE__ */ jsxDEV(FooterLink, { to: "/", children: "Home" }, void 0, false, {
+                  fileName: "/Users/henrybarcroft/Equinology-3/src/components/Footer.tsx",
+                  lineNumber: 49,
+                  columnNumber: 15
+                }, this),
+                /* @__PURE__ */ jsxDEV(FooterLink, { to: "/#services", children: "Services" }, void 0, false, {
+                  fileName: "/Users/henrybarcroft/Equinology-3/src/components/Footer.tsx",
+                  lineNumber: 50,
+                  columnNumber: 15
+                }, this),
+                " ",
+                /* @__PURE__ */ jsxDEV(FooterLink, { to: "/#facilities", children: "Facilities" }, void 0, false, {
+                  fileName: "/Users/henrybarcroft/Equinology-3/src/components/Footer.tsx",
+                  lineNumber: 51,
+                  columnNumber: 15
+                }, this),
+                " ",
+                /* @__PURE__ */ jsxDEV(FooterLink, { to: "/#testimonials", children: "Testimonials" }, void 0, false, {
+                  fileName: "/Users/henrybarcroft/Equinology-3/src/components/Footer.tsx",
+                  lineNumber: 52,
+                  columnNumber: 15
+                }, this),
+                " ",
+                /* @__PURE__ */ jsxDEV(FooterLink, { to: "/blog", children: "Blog" }, void 0, false, {
+                  fileName: "/Users/henrybarcroft/Equinology-3/src/components/Footer.tsx",
+                  lineNumber: 53,
+                  columnNumber: 15
+                }, this),
+                /* @__PURE__ */ jsxDEV(FooterLink, { to: "/contact", children: "Contact" }, void 0, false, {
+                  fileName: "/Users/henrybarcroft/Equinology-3/src/components/Footer.tsx",
+                  lineNumber: 54,
+                  columnNumber: 15
+                }, this)
+              ] }, void 0, true, {
+                fileName: "/Users/henrybarcroft/Equinology-3/src/components/Footer.tsx",
+                lineNumber: 48,
+                columnNumber: 13
+              }, this)
+            ] }, void 0, true, {
+              fileName: "/Users/henrybarcroft/Equinology-3/src/components/Footer.tsx",
+              lineNumber: 46,
+              columnNumber: 11
+            }, this),
+            /* @__PURE__ */ jsxDEV("div", { children: [
+              /* @__PURE__ */ jsxDEV("h3", { className: "text-[#F5F5F7] font-medium mb-4 text-base tracking-wide", children: "Get In Touch" }, void 0, false, {
+                fileName: "/Users/henrybarcroft/Equinology-3/src/components/Footer.tsx",
+                lineNumber: 60,
+                columnNumber: 13
+              }, this),
+              /* @__PURE__ */ jsxDEV("ul", { className: "space-y-3 mb-6", children: [
+                /* @__PURE__ */ jsxDEV("li", { children: /* @__PURE__ */ jsxDEV("a", { href: "mailto:enquiries@equinology.co.uk", className: "inline-flex items-center text-[#777777] hover:text-[#3CAAFF] transition-colors duration-200 text-sm", children: [
+                  /* @__PURE__ */ jsxDEV(Mail, { className: "w-4 h-4 mr-2" }, void 0, false, {
+                    fileName: "/Users/henrybarcroft/Equinology-3/src/components/Footer.tsx",
+                    lineNumber: 64,
+                    columnNumber: 19
+                  }, this),
+                  "enquiries@equinology.co.uk"
+                ] }, void 0, true, {
+                  fileName: "/Users/henrybarcroft/Equinology-3/src/components/Footer.tsx",
+                  lineNumber: 63,
+                  columnNumber: 17
+                }, this) }, void 0, false, {
+                  fileName: "/Users/henrybarcroft/Equinology-3/src/components/Footer.tsx",
+                  lineNumber: 62,
+                  columnNumber: 15
+                }, this),
+                /* @__PURE__ */ jsxDEV("li", { children: /* @__PURE__ */ jsxDEV("a", { href: "tel:+447493303857", className: "inline-flex items-center text-[#777777] hover:text-[#3CAAFF] transition-colors duration-200 text-sm", children: [
+                  /* @__PURE__ */ jsxDEV(Phone, { className: "w-4 h-4 mr-2" }, void 0, false, {
+                    fileName: "/Users/henrybarcroft/Equinology-3/src/components/Footer.tsx",
+                    lineNumber: 70,
+                    columnNumber: 19
+                  }, this),
+                  "+44 7493 303857"
+                ] }, void 0, true, {
+                  fileName: "/Users/henrybarcroft/Equinology-3/src/components/Footer.tsx",
+                  lineNumber: 69,
+                  columnNumber: 17
+                }, this) }, void 0, false, {
+                  fileName: "/Users/henrybarcroft/Equinology-3/src/components/Footer.tsx",
+                  lineNumber: 68,
+                  columnNumber: 15
+                }, this)
+              ] }, void 0, true, {
+                fileName: "/Users/henrybarcroft/Equinology-3/src/components/Footer.tsx",
+                lineNumber: 61,
+                columnNumber: 13
+              }, this),
+              /* @__PURE__ */ jsxDEV("h3", { className: "text-[#F5F5F7] font-medium mb-4 text-base tracking-wide", children: "Follow Us" }, void 0, false, {
+                fileName: "/Users/henrybarcroft/Equinology-3/src/components/Footer.tsx",
+                lineNumber: 76,
+                columnNumber: 13
+              }, this),
+              /* @__PURE__ */ jsxDEV("div", { className: "flex space-x-4", children: /* @__PURE__ */ jsxDEV(
+                "a",
+                {
+                  href: "https://www.facebook.com/equinology.co.uk",
+                  "aria-label": "Facebook",
+                  target: "_blank",
+                  rel: "noopener noreferrer",
+                  className: "text-[#777777] hover:text-[#3CAAFF] transition-colors duration-200",
+                  children: /* @__PURE__ */ jsxDEV(Facebook, { className: "w-5 h-5" }, void 0, false, {
+                    fileName: "/Users/henrybarcroft/Equinology-3/src/components/Footer.tsx",
+                    lineNumber: 85,
+                    columnNumber: 17
+                  }, this)
+                },
+                void 0,
+                false,
+                {
+                  fileName: "/Users/henrybarcroft/Equinology-3/src/components/Footer.tsx",
+                  lineNumber: 78,
+                  columnNumber: 15
+                },
+                this
+              ) }, void 0, false, {
+                fileName: "/Users/henrybarcroft/Equinology-3/src/components/Footer.tsx",
+                lineNumber: 77,
+                columnNumber: 13
+              }, this)
+            ] }, void 0, true, {
+              fileName: "/Users/henrybarcroft/Equinology-3/src/components/Footer.tsx",
+              lineNumber: 59,
+              columnNumber: 11
+            }, this)
+          ]
+        },
+        void 0,
+        true,
+        {
+          fileName: "/Users/henrybarcroft/Equinology-3/src/components/Footer.tsx",
+          lineNumber: 25,
+          columnNumber: 9
+        },
+        this
+      ),
+      /* @__PURE__ */ jsxDEV("div", { className: "mt-8 pt-8 border-t border-[#111111]/50 text-center text-xs text-[#555555]", children: /* @__PURE__ */ jsxDEV("p", { children: [
+        "© ",
+        currentYear,
+        " Equinology. All rights reserved."
+      ] }, void 0, true, {
+        fileName: "/Users/henrybarcroft/Equinology-3/src/components/Footer.tsx",
+        lineNumber: 93,
+        columnNumber: 11
+      }, this) }, void 0, false, {
+        fileName: "/Users/henrybarcroft/Equinology-3/src/components/Footer.tsx",
+        lineNumber: 92,
+        columnNumber: 9
+      }, this)
+    ] }, void 0, true, {
+      fileName: "/Users/henrybarcroft/Equinology-3/src/components/Footer.tsx",
+      lineNumber: 24,
+      columnNumber: 7
+    }, this)
+  ] }, void 0, true, {
+    fileName: "/Users/henrybarcroft/Equinology-3/src/components/Footer.tsx",
+    lineNumber: 21,
+    columnNumber: 5
+  }, this);
+};
+_c2 = Footer;
+export default Footer;
+var _c, _c2;
+$RefreshReg$(_c, "FooterLink");
+$RefreshReg$(_c2, "Footer");
+if (import.meta.hot && !inWebWorker) {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}
+if (import.meta.hot && !inWebWorker) {
+  RefreshRuntime.__hmr_import(import.meta.url).then((currentExports) => {
+    RefreshRuntime.registerExportsForReactRefresh("/Users/henrybarcroft/Equinology-3/src/components/Footer.tsx", currentExports);
+    import.meta.hot.accept((nextExports) => {
+      if (!nextExports) return;
+      const invalidateMessage = RefreshRuntime.validateRefreshBoundaryAndEnqueueUpdate("/Users/henrybarcroft/Equinology-3/src/components/Footer.tsx", currentExports, nextExports);
+      if (invalidateMessage) import.meta.hot.invalidate(invalidateMessage);
+    });
+  });
+}
+
+
+----------------
+
+[2025-04-14T08:12:03.893Z]
+File: src/components/Services.tsx
+
+import { jsxDEV } from "react/jsx-dev-runtime";
+import RefreshRuntime from "/@react-refresh";
+const inWebWorker = typeof WorkerGlobalScope !== "undefined" && self instanceof WorkerGlobalScope;
+let prevRefreshReg;
+let prevRefreshSig;
+if (import.meta.hot && !inWebWorker) {
+  if (!window.__vite_plugin_react_preamble_installed__) {
+    throw new Error("@vitejs/plugin-react can't detect preamble. Something is wrong. See https://github.com/vitejs/vite-plugin-react/pull/11#discussion_r430879201");
+  }
+  prevRefreshReg = window.$RefreshReg$;
+  prevRefreshSig = window.$RefreshSig$;
+  window.$RefreshReg$ = (type, id) => {
+    RefreshRuntime.register(type, "/Users/henrybarcroft/Equinology-3/src/components/Services.tsx " + id);
+  };
+  window.$RefreshSig$ = RefreshRuntime.createSignatureFunctionForTransform;
+}
+var _s = $RefreshSig$();
+import { motion, useScroll, useTransform, useSpring } from "framer-motion";
+import { PenTool, Layout, Compass, Lightbulb, Ruler, Users } from "lucide-react";
+import { useRef } from "react";
+const AnimatedOrb = ({ style, customAnimation, className, parallaxValue = 0 }) => {
+  return /* @__PURE__ */ jsxDEV(
+    motion.div,
+    {
+      className: `absolute rounded-full filter blur-[100px] ${className}`,
+      animate: customAnimation,
+      transition: {
+        duration: 15,
+        repeat: Infinity,
+        repeatType: "mirror",
+        ease: "linear"
+      },
+      style: { ...style, y: parallaxValue }
+    },
+    void 0,
+    false,
+    {
+      fileName: "/Users/henrybarcroft/Equinology-3/src/components/Services.tsx",
+      lineNumber: 17,
+      columnNumber: 5
+    },
+    this
+  );
+};
+_c = AnimatedOrb;
+const Services = () => {
+  _s();
+  const servicesRef = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: servicesRef,
+    offset: ["start end", "end start"]
+  });
+  const smoothScroll = useSpring(scrollYProgress, { stiffness: 100, damping: 30 });
+  const parallaxUp = useTransform(smoothScroll, [0, 1], [0, 20]);
+  const parallaxDown = useTransform(smoothScroll, [0, 1], [20, 0]);
+  const services = [
+    {
+      icon: /* @__PURE__ */ jsxDEV(PenTool, { className: "w-10 h-10 text-[#3CAAFF]" }, void 0, false, {
+        fileName: "/Users/henrybarcroft/Equinology-3/src/components/Services.tsx",
+        lineNumber: 50,
+        columnNumber: 11
+      }, this),
+      title: "Equestrian Web Design",
+      description: "As equestrian specialists, we speak your language. Our personal web design knowledge allows us to help build your perfect personal website tailored to your specific needs."
+    },
+    {
+      icon: /* @__PURE__ */ jsxDEV(Layout, { className: "w-10 h-10 text-[#3CAAFF]" }, void 0, false, {
+        fileName: "/Users/henrybarcroft/Equinology-3/src/components/Services.tsx",
+        lineNumber: 55,
+        columnNumber: 11
+      }, this),
+      title: "Software Development",
+      description: "We don't just offer specialist websites—we also create specific software that reflects real horse-world knowledge to support your equestrian business."
+    },
+    {
+      icon: /* @__PURE__ */ jsxDEV(Compass, { className: "w-10 h-10 text-[#3CAAFF]" }, void 0, false, {
+        fileName: "/Users/henrybarcroft/Equinology-3/src/components/Services.tsx",
+        lineNumber: 60,
+        columnNumber: 11
+      }, this),
+      title: "Detailed Planning",
+      description: "Our in-depth planning turns your equestrian vision into reality. We carefully map each step—from inspiring concepts to precise timelines—giving you a clear path to success."
+    },
+    {
+      icon: /* @__PURE__ */ jsxDEV(Lightbulb, { className: "w-10 h-10 text-[#3CAAFF]" }, void 0, false, {
+        fileName: "/Users/henrybarcroft/Equinology-3/src/components/Services.tsx",
+        lineNumber: 65,
+        columnNumber: 11
+      }, this),
+      title: "Full Transparency",
+      description: "We provide clear, upfront pricing with no hidden fees or confusing technical jargon—giving you complete peace of mind."
+    },
+    {
+      icon: /* @__PURE__ */ jsxDEV(Ruler, { className: "w-10 h-10 text-[#3CAAFF]" }, void 0, false, {
+        fileName: "/Users/henrybarcroft/Equinology-3/src/components/Services.tsx",
+        lineNumber: 70,
+        columnNumber: 11
+      }, this),
+      title: "Personal Touch",
+      description: "Your equestrian business deserves a bespoke solution. We handcraft every aspect of your site—no pre-made templates, just design uniquely tailored to you."
+    },
+    {
+      icon: /* @__PURE__ */ jsxDEV(Users, { className: "w-10 h-10 text-[#3CAAFF]" }, void 0, false, {
+        fileName: "/Users/henrybarcroft/Equinology-3/src/components/Services.tsx",
+        lineNumber: 75,
+        columnNumber: 11
+      }, this),
+      title: "Feedback",
+      description: "Our discussions are straightforward and realistic—we say 'no' as openly as we say 'yes'. Expect honest feedback and clear guidance."
+    }
+  ];
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { delayChildren: 0.2, staggerChildren: 0.15 }
+    }
+  };
+  const itemVariants = {
+    hidden: { opacity: 0, y: 20, scale: 0.97 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      scale: 1,
+      transition: { duration: 0.7, ease: [0.165, 0.84, 0.44, 1] }
+    }
+  };
+  return /* @__PURE__ */ jsxDEV(
+    "section",
+    {
+      id: "services",
+      className: "py-24 relative overflow-hidden",
+      ref: servicesRef,
+      children: [
+        /* @__PURE__ */ jsxDEV("div", { className: "absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1IiBoZWlnaHQ9IjUiPgo8cmVjdCB3aWR0aD0iNSIgaGVpZ2h0PSI1IiBmaWxsPSIjMDgwODA4Ij48L3JlY3Q+CjxwYXRoIGQ9Ik0wIDVMNSAwWk02IDRMNCA2Wk0tMSAxTDEgLTFaIiBzdHJva2U9IiMxNTE1MTUiIHN0cm9rZS13aWR0aD0iMSI+PC9wYXRoPgo8L3N2Zz4=')] opacity-20" }, void 0, false, {
+          fileName: "/Users/henrybarcroft/Equinology-3/src/components/Services.tsx",
+          lineNumber: 108,
+          columnNumber: 7
+        }, this),
+        /* @__PURE__ */ jsxDEV(
+          AnimatedOrb,
+          {
+            className: "bg-gradient-to-r from-[#3CAAFF]/15 to-[#00E0FF]/15",
+            style: { width: 400, height: 400, top: "8%", left: "-150px" },
+            customAnimation: {
+              scale: [1, 1.03, 1],
+              x: [-10, 10, -10],
+              opacity: [0.3, 0.4, 0.3]
+            },
+            parallaxValue: parallaxUp
+          },
+          void 0,
+          false,
+          {
+            fileName: "/Users/henrybarcroft/Equinology-3/src/components/Services.tsx",
+            lineNumber: 111,
+            columnNumber: 7
+          },
+          this
+        ),
+        /* @__PURE__ */ jsxDEV(
+          AnimatedOrb,
+          {
+            className: "bg-gradient-to-r from-[#00E0FF]/15 to-[#3CAAFF]/15",
+            style: { width: 380, height: 380, bottom: "10%", right: "-120px" },
+            customAnimation: {
+              scale: [1, 1.02, 1],
+              x: [8, -8, 8],
+              opacity: [0.35, 0.45, 0.35]
+            },
+            parallaxValue: parallaxDown
+          },
+          void 0,
+          false,
+          {
+            fileName: "/Users/henrybarcroft/Equinology-3/src/components/Services.tsx",
+            lineNumber: 122,
+            columnNumber: 7
+          },
+          this
+        ),
+        /* @__PURE__ */ jsxDEV(
+          AnimatedOrb,
+          {
+            className: "bg-gradient-to-r from-[#3CAAFF]/10 to-[#00E0FF]/10",
+            style: {
+              width: 300,
+              height: 300,
+              top: "50%",
+              left: "50%",
+              transform: "translate(-50%, -50%)"
+            },
+            customAnimation: {
+              scale: [1, 1.04, 1],
+              opacity: [0.25, 0.35, 0.25]
+            }
+          },
+          void 0,
+          false,
+          {
+            fileName: "/Users/henrybarcroft/Equinology-3/src/components/Services.tsx",
+            lineNumber: 133,
+            columnNumber: 7
+          },
+          this
+        ),
+        /* @__PURE__ */ jsxDEV("div", { className: "max-w-7xl mx-auto relative z-10 px-4 sm:px-6 lg:px-8", children: [
+          /* @__PURE__ */ jsxDEV("div", { className: "text-center mb-16", children: [
+            /* @__PURE__ */ jsxDEV(
+              motion.h2,
+              {
+                initial: { opacity: 0, y: -15 },
+                whileInView: { opacity: 1, y: 0 },
+                viewport: { once: true, margin: "-80px" },
+                transition: { duration: 0.7, ease: [0.165, 0.84, 0.44, 1] },
+                className: "text-3xl sm:text-4xl font-bold mb-4",
+                children: /* @__PURE__ */ jsxDEV("span", { className: "bg-gradient-to-r from-[#3CAAFF] to-[#00E0FF] bg-clip-text text-transparent", children: "Our Services" }, void 0, false, {
+                  fileName: "/Users/henrybarcroft/Equinology-3/src/components/Services.tsx",
+                  lineNumber: 157,
+                  columnNumber: 13
+                }, this)
+              },
+              void 0,
+              false,
+              {
+                fileName: "/Users/henrybarcroft/Equinology-3/src/components/Services.tsx",
+                lineNumber: 150,
+                columnNumber: 11
+              },
+              this
+            ),
+            /* @__PURE__ */ jsxDEV(
+              motion.p,
+              {
+                initial: { opacity: 0 },
+                whileInView: { opacity: 1 },
+                viewport: { once: true, margin: "-80px" },
+                transition: { duration: 0.7, delay: 0.2, ease: [0.165, 0.84, 0.44, 1] },
+                className: "text-[#ABABAB] max-w-2xl mx-auto",
+                children: "We offer an extensive range of design and personalised services tailored to the unique needs of equestrians."
+              },
+              void 0,
+              false,
+              {
+                fileName: "/Users/henrybarcroft/Equinology-3/src/components/Services.tsx",
+                lineNumber: 161,
+                columnNumber: 11
+              },
+              this
+            )
+          ] }, void 0, true, {
+            fileName: "/Users/henrybarcroft/Equinology-3/src/components/Services.tsx",
+            lineNumber: 149,
+            columnNumber: 9
+          }, this),
+          /* @__PURE__ */ jsxDEV(
+            motion.div,
+            {
+              variants: containerVariants,
+              initial: "hidden",
+              whileInView: "visible",
+              viewport: { once: true, margin: "-40px" },
+              className: "grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8",
+              children: services.map(
+                (service, index) => /* @__PURE__ */ jsxDEV(
+                  motion.div,
+                  {
+                    variants: itemVariants,
+                    whileHover: {
+                      y: -8,
+                      transition: { duration: 0.3, ease: "easeOut" }
+                    },
+                    className: "bg-gradient-to-br from-[#111111] to-[#0A0A0A] p-8 rounded-2xl border border-[#222222]/20 transition-all duration-300 group hover:shadow-xl hover:shadow-[#3CAAFF]/10 hover:border-[#3CAAFF]/20",
+                    children: [
+                      /* @__PURE__ */ jsxDEV("div", { className: "bg-gradient-to-br from-[#0A0A0A]/80 to-[#111111]/30 p-4 rounded-xl inline-block mb-6 transition-all duration-300 group-hover:bg-gradient-to-br group-hover:from-[#3CAAFF]/20 group-hover:to-[#0A0A0A]/20 transform group-hover:scale-105", children: service.icon }, void 0, false, {
+                        fileName: "/Users/henrybarcroft/Equinology-3/src/components/Services.tsx",
+                        lineNumber: 189,
+                        columnNumber: 15
+                      }, this),
+                      /* @__PURE__ */ jsxDEV("h3", { className: "text-xl font-semibold mb-3 text-[#F5F5F7] group-hover:text-[#3CAAFF] transition-colors duration-300", children: service.title }, void 0, false, {
+                        fileName: "/Users/henrybarcroft/Equinology-3/src/components/Services.tsx",
+                        lineNumber: 192,
+                        columnNumber: 15
+                      }, this),
+                      /* @__PURE__ */ jsxDEV("p", { className: "text-[#ABABAB] group-hover:text-[#CDCDCD] transition-colors duration-300", children: service.description }, void 0, false, {
+                        fileName: "/Users/henrybarcroft/Equinology-3/src/components/Services.tsx",
+                        lineNumber: 195,
+                        columnNumber: 15
+                      }, this)
+                    ]
+                  },
+                  index,
+                  true,
+                  {
+                    fileName: "/Users/henrybarcroft/Equinology-3/src/components/Services.tsx",
+                    lineNumber: 180,
+                    columnNumber: 11
+                  },
+                  this
+                )
+              )
+            },
+            void 0,
+            false,
+            {
+              fileName: "/Users/henrybarcroft/Equinology-3/src/components/Services.tsx",
+              lineNumber: 172,
+              columnNumber: 9
+            },
+            this
+          )
+        ] }, void 0, true, {
+          fileName: "/Users/henrybarcroft/Equinology-3/src/components/Services.tsx",
+          lineNumber: 148,
+          columnNumber: 7
+        }, this)
+      ]
+    },
+    void 0,
+    true,
+    {
+      fileName: "/Users/henrybarcroft/Equinology-3/src/components/Services.tsx",
+      lineNumber: 102,
+      columnNumber: 5
+    },
+    this
+  );
+};
+_s(Services, "+3tlyr5BK7X4Hr8a/+/TNwOUvio=", false, function() {
+  return [useScroll, useSpring, useTransform, useTransform];
+});
+_c2 = Services;
+export default Services;
+var _c, _c2;
+$RefreshReg$(_c, "AnimatedOrb");
+$RefreshReg$(_c2, "Services");
+if (import.meta.hot && !inWebWorker) {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}
+if (import.meta.hot && !inWebWorker) {
+  RefreshRuntime.__hmr_import(import.meta.url).then((currentExports) => {
+    RefreshRuntime.registerExportsForReactRefresh("/Users/henrybarcroft/Equinology-3/src/components/Services.tsx", currentExports);
+    import.meta.hot.accept((nextExports) => {
+      if (!nextExports) return;
+      const invalidateMessage = RefreshRuntime.validateRefreshBoundaryAndEnqueueUpdate("/Users/henrybarcroft/Equinology-3/src/components/Services.tsx", currentExports, nextExports);
+      if (invalidateMessage) import.meta.hot.invalidate(invalidateMessage);
+    });
+  });
+}
+
+
+----------------
+
+[2025-04-14T08:12:03.897Z]
+File: src/components/Facilities.tsx
+
+import { jsxDEV } from "react/jsx-dev-runtime";
+import RefreshRuntime from "/@react-refresh";
+const inWebWorker = typeof WorkerGlobalScope !== "undefined" && self instanceof WorkerGlobalScope;
+let prevRefreshReg;
+let prevRefreshSig;
+if (import.meta.hot && !inWebWorker) {
+  if (!window.__vite_plugin_react_preamble_installed__) {
+    throw new Error("@vitejs/plugin-react can't detect preamble. Something is wrong. See https://github.com/vitejs/vite-plugin-react/pull/11#discussion_r430879201");
+  }
+  prevRefreshReg = window.$RefreshReg$;
+  prevRefreshSig = window.$RefreshSig$;
+  window.$RefreshReg$ = (type, id) => {
+    RefreshRuntime.register(type, "/Users/henrybarcroft/Equinology-3/src/components/Facilities.tsx " + id);
+  };
+  window.$RefreshSig$ = RefreshRuntime.createSignatureFunctionForTransform;
+}
+var _s = $RefreshSig$();
+import { useRef } from "react";
+import { motion, useScroll, useTransform, useSpring } from "framer-motion";
+import { ArrowRight } from "lucide-react";
+import { useNavigate } from "react-router-dom";
+const AnimatedOrb = ({ style, customAnimation, className, parallaxValue = 0 }) => {
+  return /* @__PURE__ */ jsxDEV(
+    motion.div,
+    {
+      className: `absolute rounded-full filter blur-[100px] ${className}`,
+      animate: customAnimation,
+      transition: {
+        duration: 15,
+        repeat: Infinity,
+        repeatType: "mirror",
+        ease: "linear"
+      },
+      style: { ...style, y: parallaxValue }
+    },
+    void 0,
+    false,
+    {
+      fileName: "/Users/henrybarcroft/Equinology-3/src/components/Facilities.tsx",
+      lineNumber: 17,
+      columnNumber: 5
+    },
+    this
+  );
+};
+_c = AnimatedOrb;
+const Facilities = () => {
+  _s();
+  const navigate = useNavigate();
+  const facilitiesRef = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: facilitiesRef,
+    offset: ["start end", "end start"]
+  });
+  const smoothScroll = useSpring(scrollYProgress, { stiffness: 100, damping: 30 });
+  const parallaxUp = useTransform(smoothScroll, [0, 1], [0, 25]);
+  const parallaxDown = useTransform(smoothScroll, [0, 1], [25, 0]);
+  const topY = useTransform(scrollYProgress, [0, 1], ["0%", "15%"]);
+  const bottomY = useTransform(scrollYProgress, [0, 1], ["0%", "-15%"]);
+  const facilities = [
+    {
+      title: "Photography Websites",
+      description: "Sell and showcase your equestrian photography with high-resolution galleries, secure image purchasing, instant downloads, and seamless client access.",
+      image: "https://i.postimg.cc/zXFSVZW7/temp-Image83v-NOK.avif"
+    },
+    {
+      title: "Equine Sales Platforms",
+      description: "Whether you need a full classified platform or a custom site for your horse sales business, we create tailored solutions with search filters, detailed listings, high-quality media, and direct buyer enquiries.",
+      image: "https://images.unsplash.com/photo-1506696495449-78c912b30e10?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    },
+    {
+      title: "Riding School Websites",
+      description: "Manage bookings, showcase your facilities, and attract new clients with a professional, user-friendly website. Include class schedules, rider registration, pricing, and easy contact options.",
+      image: "https://plus.unsplash.com/premium_photo-1664304525253-156489378204?q=80&w=1470&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+    }
+  ];
+  return /* @__PURE__ */ jsxDEV(
+    "section",
+    {
+      id: "facilities",
+      className: "py-20 -mt-16 relative overflow-hidden",
+      ref: facilitiesRef,
+      children: [
+        /* @__PURE__ */ jsxDEV(
+          AnimatedOrb,
+          {
+            className: "bg-gradient-to-r from-[#3CAAFF]/10 to-[#00E0FF]/10",
+            style: { width: 450, height: 450, top: "10%", left: "-200px" },
+            customAnimation: {
+              scale: [1, 1.03, 1],
+              x: [-15, 15, -15],
+              opacity: [0.2, 0.3, 0.2]
+            },
+            parallaxValue: parallaxUp
+          },
+          void 0,
+          false,
+          {
+            fileName: "/Users/henrybarcroft/Equinology-3/src/components/Facilities.tsx",
+            lineNumber: 74,
+            columnNumber: 7
+          },
+          this
+        ),
+        /* @__PURE__ */ jsxDEV(
+          AnimatedOrb,
+          {
+            className: "bg-gradient-to-r from-[#00E0FF]/10 to-[#3CAAFF]/10",
+            style: { width: 400, height: 400, bottom: "5%", right: "-150px" },
+            customAnimation: {
+              scale: [1, 1.02, 1],
+              x: [10, -10, 10],
+              opacity: [0.25, 0.35, 0.25]
+            },
+            parallaxValue: parallaxDown
+          },
+          void 0,
+          false,
+          {
+            fileName: "/Users/henrybarcroft/Equinology-3/src/components/Facilities.tsx",
+            lineNumber: 84,
+            columnNumber: 7
+          },
+          this
+        ),
+        /* @__PURE__ */ jsxDEV("div", { className: "max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10", children: [
+          /* @__PURE__ */ jsxDEV("div", { className: "text-center mb-20", children: [
+            /* @__PURE__ */ jsxDEV(
+              motion.h2,
+              {
+                initial: { opacity: 0, y: -20 },
+                whileInView: { opacity: 1, y: 0 },
+                viewport: { once: true, margin: "-100px" },
+                transition: { duration: 0.7, ease: [0.165, 0.84, 0.44, 1] },
+                className: "text-3xl sm:text-4xl font-bold mb-4",
+                children: /* @__PURE__ */ jsxDEV("span", { className: "bg-gradient-to-r from-[#3CAAFF] to-[#00E0FF] bg-clip-text text-transparent", children: "Our Services" }, void 0, false, {
+                  fileName: "/Users/henrybarcroft/Equinology-3/src/components/Facilities.tsx",
+                  lineNumber: 104,
+                  columnNumber: 13
+                }, this)
+              },
+              void 0,
+              false,
+              {
+                fileName: "/Users/henrybarcroft/Equinology-3/src/components/Facilities.tsx",
+                lineNumber: 97,
+                columnNumber: 11
+              },
+              this
+            ),
+            /* @__PURE__ */ jsxDEV(
+              motion.p,
+              {
+                initial: { opacity: 0 },
+                whileInView: { opacity: 1 },
+                viewport: { once: true, margin: "-100px" },
+                transition: { duration: 0.7, delay: 0.2, ease: [0.165, 0.84, 0.44, 1] },
+                className: "text-[#ABABAB] max-w-2xl mx-auto",
+                children: "Explore our tailored services designed specifically for equestrian businesses. See what's possible for your project."
+              },
+              void 0,
+              false,
+              {
+                fileName: "/Users/henrybarcroft/Equinology-3/src/components/Facilities.tsx",
+                lineNumber: 108,
+                columnNumber: 11
+              },
+              this
+            )
+          ] }, void 0, true, {
+            fileName: "/Users/henrybarcroft/Equinology-3/src/components/Facilities.tsx",
+            lineNumber: 96,
+            columnNumber: 9
+          }, this),
+          /* @__PURE__ */ jsxDEV("div", { className: "space-y-32", children: facilities.map(
+            (facility, index) => /* @__PURE__ */ jsxDEV(
+              motion.div,
+              {
+                initial: { opacity: 0, y: 50 },
+                whileInView: { opacity: 1, y: 0 },
+                viewport: { once: true, margin: "-100px" },
+                transition: {
+                  duration: 0.9,
+                  ease: [0.165, 0.84, 0.44, 1]
+                },
+                className: `flex flex-col ${index % 2 === 0 ? "lg:flex-row" : "lg:flex-row-reverse"} gap-12 items-center`,
+                children: [
+                  /* @__PURE__ */ jsxDEV("div", { className: "lg:w-1/2", children: /* @__PURE__ */ jsxDEV(
+                    motion.div,
+                    {
+                      initial: { scale: 0.9, opacity: 0.8 },
+                      whileInView: { scale: 1, opacity: 1 },
+                      viewport: { once: true, margin: "-100px" },
+                      transition: { duration: 0.8, ease: [0.165, 0.84, 0.44, 1] },
+                      whileHover: {
+                        scale: 1.03,
+                        boxShadow: "0 20px 40px rgba(60, 170, 255, 0.15)",
+                        transition: { duration: 0.4 }
+                      },
+                      className: "relative rounded-2xl overflow-hidden group shadow-lg shadow-black/20",
+                      children: [
+                        /* @__PURE__ */ jsxDEV("div", { className: "aspect-w-16 aspect-h-9", children: /* @__PURE__ */ jsxDEV(
+                          "img",
+                          {
+                            src: facility.image,
+                            alt: `${facility.title} - Equinology Service`,
+                            className: "object-cover w-full h-full group-hover:scale-105 transition-transform duration-700 ease-in-out"
+                          },
+                          void 0,
+                          false,
+                          {
+                            fileName: "/Users/henrybarcroft/Equinology-3/src/components/Facilities.tsx",
+                            lineNumber: 146,
+                            columnNumber: 21
+                          },
+                          this
+                        ) }, void 0, false, {
+                          fileName: "/Users/henrybarcroft/Equinology-3/src/components/Facilities.tsx",
+                          lineNumber: 145,
+                          columnNumber: 19
+                        }, this),
+                        /* @__PURE__ */ jsxDEV("div", { className: "absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-[#0A0A0A]/50 to-transparent opacity-80" }, void 0, false, {
+                          fileName: "/Users/henrybarcroft/Equinology-3/src/components/Facilities.tsx",
+                          lineNumber: 152,
+                          columnNumber: 19
+                        }, this),
+                        /* @__PURE__ */ jsxDEV(
+                          motion.div,
+                          {
+                            className: "absolute inset-0 border-2 border-[#3CAAFF]/0 rounded-2xl",
+                            animate: {
+                              borderColor: ["rgba(60, 170, 255, 0)", "rgba(60, 170, 255, 0.1)", "rgba(60, 170, 255, 0)"]
+                            },
+                            transition: {
+                              duration: 4,
+                              ease: "easeInOut",
+                              repeat: Infinity
+                            }
+                          },
+                          void 0,
+                          false,
+                          {
+                            fileName: "/Users/henrybarcroft/Equinology-3/src/components/Facilities.tsx",
+                            lineNumber: 155,
+                            columnNumber: 19
+                          },
+                          this
+                        )
+                      ]
+                    },
+                    void 0,
+                    true,
+                    {
+                      fileName: "/Users/henrybarcroft/Equinology-3/src/components/Facilities.tsx",
+                      lineNumber: 133,
+                      columnNumber: 17
+                    },
+                    this
+                  ) }, void 0, false, {
+                    fileName: "/Users/henrybarcroft/Equinology-3/src/components/Facilities.tsx",
+                    lineNumber: 132,
+                    columnNumber: 15
+                  }, this),
+                  /* @__PURE__ */ jsxDEV("div", { className: "lg:w-1/2", children: /* @__PURE__ */ jsxDEV(
+                    motion.div,
+                    {
+                      initial: { opacity: 0, x: index % 2 === 0 ? 30 : -30 },
+                      whileInView: { opacity: 1, x: 0 },
+                      viewport: { once: true, margin: "-100px" },
+                      transition: { duration: 0.8, ease: [0.165, 0.84, 0.44, 1] },
+                      children: [
+                        /* @__PURE__ */ jsxDEV("h3", { className: "text-2xl sm:text-3xl font-bold mb-6 text-[#F5F5F7]", children: facility.title }, void 0, false, {
+                          fileName: "/Users/henrybarcroft/Equinology-3/src/components/Facilities.tsx",
+                          lineNumber: 176,
+                          columnNumber: 19
+                        }, this),
+                        /* @__PURE__ */ jsxDEV(
+                          motion.p,
+                          {
+                            initial: { opacity: 0, y: 20 },
+                            whileInView: { opacity: 1, y: 0 },
+                            viewport: { once: true, margin: "-100px" },
+                            transition: { duration: 0.7, delay: 0.3, ease: [0.165, 0.84, 0.44, 1] },
+                            className: "text-[#ABABAB] mb-8 text-lg leading-relaxed",
+                            children: facility.description
+                          },
+                          void 0,
+                          false,
+                          {
+                            fileName: "/Users/henrybarcroft/Equinology-3/src/components/Facilities.tsx",
+                            lineNumber: 179,
+                            columnNumber: 19
+                          },
+                          this
+                        ),
+                        /* @__PURE__ */ jsxDEV(
+                          motion.button,
+                          {
+                            initial: { opacity: 0, x: -10 },
+                            whileInView: { opacity: 1, x: 0 },
+                            viewport: { once: true, margin: "-100px" },
+                            transition: { duration: 0.7, delay: 0.5, ease: [0.165, 0.84, 0.44, 1] },
+                            whileHover: {
+                              x: 5,
+                              textShadow: "0 0 10px rgba(60, 170, 255, 0.5)"
+                            },
+                            className: "flex items-center text-[#3CAAFF] hover:text-[#F5F5F7] transition-colors duration-300 group",
+                            onClick: () => navigate("/services"),
+                            children: [
+                              /* @__PURE__ */ jsxDEV("span", { className: "font-medium", children: "Learn more" }, void 0, false, {
+                                fileName: "/Users/henrybarcroft/Equinology-3/src/components/Facilities.tsx",
+                                lineNumber: 200,
+                                columnNumber: 21
+                              }, this),
+                              /* @__PURE__ */ jsxDEV(
+                                motion.div,
+                                {
+                                  initial: { x: 0 },
+                                  whileHover: { x: 5 },
+                                  transition: { duration: 0.3 },
+                                  children: /* @__PURE__ */ jsxDEV(ArrowRight, { className: "ml-2 w-5 h-5 group-hover:ml-3 transition-all duration-300" }, void 0, false, {
+                                    fileName: "/Users/henrybarcroft/Equinology-3/src/components/Facilities.tsx",
+                                    lineNumber: 206,
+                                    columnNumber: 23
+                                  }, this)
+                                },
+                                void 0,
+                                false,
+                                {
+                                  fileName: "/Users/henrybarcroft/Equinology-3/src/components/Facilities.tsx",
+                                  lineNumber: 201,
+                                  columnNumber: 21
+                                },
+                                this
+                              )
+                            ]
+                          },
+                          void 0,
+                          true,
+                          {
+                            fileName: "/Users/henrybarcroft/Equinology-3/src/components/Facilities.tsx",
+                            lineNumber: 188,
+                            columnNumber: 19
+                          },
+                          this
+                        )
+                      ]
+                    },
+                    void 0,
+                    true,
+                    {
+                      fileName: "/Users/henrybarcroft/Equinology-3/src/components/Facilities.tsx",
+                      lineNumber: 170,
+                      columnNumber: 17
+                    },
+                    this
+                  ) }, void 0, false, {
+                    fileName: "/Users/henrybarcroft/Equinology-3/src/components/Facilities.tsx",
+                    lineNumber: 169,
+                    columnNumber: 15
+                  }, this)
+                ]
+              },
+              index,
+              true,
+              {
+                fileName: "/Users/henrybarcroft/Equinology-3/src/components/Facilities.tsx",
+                lineNumber: 121,
+                columnNumber: 11
+              },
+              this
+            )
+          ) }, void 0, false, {
+            fileName: "/Users/henrybarcroft/Equinology-3/src/components/Facilities.tsx",
+            lineNumber: 119,
+            columnNumber: 9
+          }, this)
+        ] }, void 0, true, {
+          fileName: "/Users/henrybarcroft/Equinology-3/src/components/Facilities.tsx",
+          lineNumber: 95,
+          columnNumber: 7
+        }, this)
+      ]
+    },
+    void 0,
+    true,
+    {
+      fileName: "/Users/henrybarcroft/Equinology-3/src/components/Facilities.tsx",
+      lineNumber: 68,
+      columnNumber: 5
+    },
+    this
+  );
+};
+_s(Facilities, "l4RLwvU9QV8pPq8OyMtrif0M7so=", false, function() {
+  return [useNavigate, useScroll, useSpring, useTransform, useTransform, useTransform, useTransform];
+});
+_c2 = Facilities;
+export default Facilities;
+var _c, _c2;
+$RefreshReg$(_c, "AnimatedOrb");
+$RefreshReg$(_c2, "Facilities");
+if (import.meta.hot && !inWebWorker) {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}
+if (import.meta.hot && !inWebWorker) {
+  RefreshRuntime.__hmr_import(import.meta.url).then((currentExports) => {
+    RefreshRuntime.registerExportsForReactRefresh("/Users/henrybarcroft/Equinology-3/src/components/Facilities.tsx", currentExports);
+    import.meta.hot.accept((nextExports) => {
+      if (!nextExports) return;
+      const invalidateMessage = RefreshRuntime.validateRefreshBoundaryAndEnqueueUpdate("/Users/henrybarcroft/Equinology-3/src/components/Facilities.tsx", currentExports, nextExports);
+      if (invalidateMessage) import.meta.hot.invalidate(invalidateMessage);
+    });
+  });
+}
+
+
+----------------
+
+[2025-04-14T08:12:03.899Z]
+File: src/components/Hero.tsx
+
+import { jsxDEV } from "react/jsx-dev-runtime";
+import RefreshRuntime from "/@react-refresh";
+const inWebWorker = typeof WorkerGlobalScope !== "undefined" && self instanceof WorkerGlobalScope;
+let prevRefreshReg;
+let prevRefreshSig;
+if (import.meta.hot && !inWebWorker) {
+  if (!window.__vite_plugin_react_preamble_installed__) {
+    throw new Error("@vitejs/plugin-react can't detect preamble. Something is wrong. See https://github.com/vitejs/vite-plugin-react/pull/11#discussion_r430879201");
+  }
+  prevRefreshReg = window.$RefreshReg$;
+  prevRefreshSig = window.$RefreshSig$;
+  window.$RefreshReg$ = (type, id) => {
+    RefreshRuntime.register(type, "/Users/henrybarcroft/Equinology-3/src/components/Hero.tsx " + id);
+  };
+  window.$RefreshSig$ = RefreshRuntime.createSignatureFunctionForTransform;
+}
+var _s = $RefreshSig$();
+import { ArrowRight, Star, Compass } from "lucide-react";
+import { motion, useAnimation } from "framer-motion";
+import { useEffect, useRef } from "react";
+import { useNavigate } from "react-router-dom";
+import { useInView } from "framer-motion";
+import { lazy, Suspense } from "react";
+import image from "../images/Hero-Image.webp";
+const ThreeBackground = lazy(_c = () => import("./ThreeBackground"));
+_c2 = ThreeBackground;
+const Hero = () => {
+  _s();
+  const navigate = useNavigate();
+  const controls = useAnimation();
+  const ref = useRef(null);
+  const isInView = useInView(ref, { once: true, margin: "-100px" });
+  useEffect(() => {
+    if (isInView) {
+      controls.start("visible");
+    }
+  }, [isInView, controls]);
+  return /* @__PURE__ */ jsxDEV("div", { className: "relative min-h-screen overflow-hidden", ref, children: [
+    /* @__PURE__ */ jsxDEV("div", { className: "absolute inset-0 bg-gradient-to-br from-[#0A0A0A]/50 via-[#111111]/30 to-[#0A0A0A]/50 z-30", children: /* @__PURE__ */ jsxDEV(Suspense, { fallback: /* @__PURE__ */ jsxDEV("div", { className: "absolute inset-0 bg-[#0A0A0A]" }, void 0, false, {
+      fileName: "/Users/henrybarcroft/Equinology-3/src/components/Hero.tsx",
+      lineNumber: 28,
+      columnNumber: 29
+    }, this), children: /* @__PURE__ */ jsxDEV(ThreeBackground, {}, void 0, false, {
+      fileName: "/Users/henrybarcroft/Equinology-3/src/components/Hero.tsx",
+      lineNumber: 29,
+      columnNumber: 11
+    }, this) }, void 0, false, {
+      fileName: "/Users/henrybarcroft/Equinology-3/src/components/Hero.tsx",
+      lineNumber: 28,
+      columnNumber: 9
+    }, this) }, void 0, false, {
+      fileName: "/Users/henrybarcroft/Equinology-3/src/components/Hero.tsx",
+      lineNumber: 27,
+      columnNumber: 7
+    }, this),
+    /* @__PURE__ */ jsxDEV("div", { className: "relative z-40 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pt-32 pb-16", children: /* @__PURE__ */ jsxDEV("div", { className: "text-center lg:text-left lg:grid lg:grid-cols-2 lg:gap-8 items-center", children: [
+      /* @__PURE__ */ jsxDEV(
+        motion.div,
+        {
+          initial: "hidden",
+          animate: controls,
+          variants: {
+            hidden: { opacity: 0 },
+            visible: { opacity: 1 }
+          },
+          transition: { duration: 0.5 },
+          className: "space-y-8",
+          children: [
+            /* @__PURE__ */ jsxDEV("div", { className: "inline-flex items-center space-x-2 bg-[#111111]/50 backdrop-blur-sm px-4 py-2 rounded-full border border-[#3CAAFF]/30", children: [
+              /* @__PURE__ */ jsxDEV(Compass, { className: "w-4 h-4 text-[#3CAAFF]" }, void 0, false, {
+                fileName: "/Users/henrybarcroft/Equinology-3/src/components/Hero.tsx",
+                lineNumber: 48,
+                columnNumber: 15
+              }, this),
+              /* @__PURE__ */ jsxDEV("span", { className: "text-sm text-[#ABABAB]", children: "Equestrian Experts" }, void 0, false, {
+                fileName: "/Users/henrybarcroft/Equinology-3/src/components/Hero.tsx",
+                lineNumber: 49,
+                columnNumber: 15
+              }, this)
+            ] }, void 0, true, {
+              fileName: "/Users/henrybarcroft/Equinology-3/src/components/Hero.tsx",
+              lineNumber: 47,
+              columnNumber: 13
+            }, this),
+            /* @__PURE__ */ jsxDEV("h1", { className: "text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight relative", children: [
+              /* @__PURE__ */ jsxDEV("span", { className: "block text-[#F5F5F7]", children: "Transform Ideas" }, void 0, false, {
+                fileName: "/Users/henrybarcroft/Equinology-3/src/components/Hero.tsx",
+                lineNumber: 54,
+                columnNumber: 15
+              }, this),
+              /* @__PURE__ */ jsxDEV("span", { className: "block mt-2 bg-gradient-to-r from-[#3CAAFF] to-[#00E0FF] bg-clip-text text-transparent pb-2", children: "Digital Reality" }, void 0, false, {
+                fileName: "/Users/henrybarcroft/Equinology-3/src/components/Hero.tsx",
+                lineNumber: 55,
+                columnNumber: 15
+              }, this)
+            ] }, void 0, true, {
+              fileName: "/Users/henrybarcroft/Equinology-3/src/components/Hero.tsx",
+              lineNumber: 53,
+              columnNumber: 13
+            }, this),
+            /* @__PURE__ */ jsxDEV("p", { className: "text-lg text-[#ABABAB] max-w-3xl", children: "Get in touch today for a no-obligation, one-to-one consultation about your project. Depending on the scope of the project, we aim to deliver your perfect website within approximately a week. We won't consider it complete until you're 100% satisfied, and we offer a transparent, fixed and affordable price. No business is complete without a professional website" }, void 0, false, {
+              fileName: "/Users/henrybarcroft/Equinology-3/src/components/Hero.tsx",
+              lineNumber: 61,
+              columnNumber: 13
+            }, this),
+            /* @__PURE__ */ jsxDEV("div", { className: "flex flex-col sm:flex-row gap-4 justify-center lg:justify-start", children: [
+              /* @__PURE__ */ jsxDEV(
+                "button",
+                {
+                  onClick: () => navigate("/contact"),
+                  className: "inline-flex items-center px-8 py-3 rounded-full bg-gradient-to-r from-[#3CAAFF] to-[#00E0FF] text-[#0A0A0A] font-medium hover:shadow-lg hover:shadow-[#3CAAFF]/25 transition-all duration-300",
+                  children: [
+                    "Contact Us",
+                    /* @__PURE__ */ jsxDEV(ArrowRight, { className: "ml-2 w-5 h-5" }, void 0, false, {
+                      fileName: "/Users/henrybarcroft/Equinology-3/src/components/Hero.tsx",
+                      lineNumber: 72,
+                      columnNumber: 17
+                    }, this)
+                  ]
+                },
+                void 0,
+                true,
+                {
+                  fileName: "/Users/henrybarcroft/Equinology-3/src/components/Hero.tsx",
+                  lineNumber: 67,
+                  columnNumber: 15
+                },
+                this
+              ),
+              /* @__PURE__ */ jsxDEV(
+                "button",
+                {
+                  onClick: () => navigate("/services"),
+                  className: "inline-flex items-center px-8 py-3 rounded-full border border-[#3CAAFF]/30 hover:border-[#3CAAFF]/60 text-[#ABABAB] hover:text-[#F5F5F7] transition-colors duration-300",
+                  children: "Explore Services"
+                },
+                void 0,
+                false,
+                {
+                  fileName: "/Users/henrybarcroft/Equinology-3/src/components/Hero.tsx",
+                  lineNumber: 74,
+                  columnNumber: 15
+                },
+                this
+              )
+            ] }, void 0, true, {
+              fileName: "/Users/henrybarcroft/Equinology-3/src/components/Hero.tsx",
+              lineNumber: 66,
+              columnNumber: 13
+            }, this),
+            /* @__PURE__ */ jsxDEV("div", { className: "pt-8 border-t border-[#222222]/30", children: /* @__PURE__ */ jsxDEV("div", { className: "flex items-center justify-center lg:justify-start space-x-8", children: [
+              /* @__PURE__ */ jsxDEV("div", { children: [
+                /* @__PURE__ */ jsxDEV("div", { className: "flex items-center", children: [...Array(5)].map(
+                  (_, i) => /* @__PURE__ */ jsxDEV(Star, { className: "w-5 h-5 text-[#3CAAFF] fill-current" }, i, false, {
+                    fileName: "/Users/henrybarcroft/Equinology-3/src/components/Hero.tsx",
+                    lineNumber: 88,
+                    columnNumber: 21
+                  }, this)
+                ) }, void 0, false, {
+                  fileName: "/Users/henrybarcroft/Equinology-3/src/components/Hero.tsx",
+                  lineNumber: 86,
+                  columnNumber: 19
+                }, this),
+                /* @__PURE__ */ jsxDEV("p", { className: "mt-2 text-sm text-[#777777]", children: "Trusted by 100+ equestrians" }, void 0, false, {
+                  fileName: "/Users/henrybarcroft/Equinology-3/src/components/Hero.tsx",
+                  lineNumber: 91,
+                  columnNumber: 19
+                }, this)
+              ] }, void 0, true, {
+                fileName: "/Users/henrybarcroft/Equinology-3/src/components/Hero.tsx",
+                lineNumber: 85,
+                columnNumber: 17
+              }, this),
+              /* @__PURE__ */ jsxDEV("div", { className: "h-12 w-px bg-[#222222]/30" }, void 0, false, {
+                fileName: "/Users/henrybarcroft/Equinology-3/src/components/Hero.tsx",
+                lineNumber: 93,
+                columnNumber: 17
+              }, this),
+              /* @__PURE__ */ jsxDEV("div", { children: [
+                /* @__PURE__ */ jsxDEV("p", { className: "text-2xl font-bold text-[#F5F5F7]", children: "6" }, void 0, false, {
+                  fileName: "/Users/henrybarcroft/Equinology-3/src/components/Hero.tsx",
+                  lineNumber: 95,
+                  columnNumber: 19
+                }, this),
+                /* @__PURE__ */ jsxDEV("p", { className: "text-sm text-[#777777]", children: "Years of excellence" }, void 0, false, {
+                  fileName: "/Users/henrybarcroft/Equinology-3/src/components/Hero.tsx",
+                  lineNumber: 96,
+                  columnNumber: 19
+                }, this)
+              ] }, void 0, true, {
+                fileName: "/Users/henrybarcroft/Equinology-3/src/components/Hero.tsx",
+                lineNumber: 94,
+                columnNumber: 17
+              }, this),
+              /* @__PURE__ */ jsxDEV("div", { className: "h-12 w-px bg-[#222222]/30" }, void 0, false, {
+                fileName: "/Users/henrybarcroft/Equinology-3/src/components/Hero.tsx",
+                lineNumber: 98,
+                columnNumber: 17
+              }, this),
+              /* @__PURE__ */ jsxDEV("div", { children: [
+                /* @__PURE__ */ jsxDEV("p", { className: "text-2xl font-bold text-[#F5F5F7]", children: "£200" }, void 0, false, {
+                  fileName: "/Users/henrybarcroft/Equinology-3/src/components/Hero.tsx",
+                  lineNumber: 100,
+                  columnNumber: 19
+                }, this),
+                /* @__PURE__ */ jsxDEV("p", { className: "text-sm text-[#777777]", children: "Prices starting from" }, void 0, false, {
+                  fileName: "/Users/henrybarcroft/Equinology-3/src/components/Hero.tsx",
+                  lineNumber: 101,
+                  columnNumber: 19
+                }, this)
+              ] }, void 0, true, {
+                fileName: "/Users/henrybarcroft/Equinology-3/src/components/Hero.tsx",
+                lineNumber: 99,
+                columnNumber: 17
+              }, this)
+            ] }, void 0, true, {
+              fileName: "/Users/henrybarcroft/Equinology-3/src/components/Hero.tsx",
+              lineNumber: 84,
+              columnNumber: 15
+            }, this) }, void 0, false, {
+              fileName: "/Users/henrybarcroft/Equinology-3/src/components/Hero.tsx",
+              lineNumber: 83,
+              columnNumber: 13
+            }, this)
+          ]
+        },
+        void 0,
+        true,
+        {
+          fileName: "/Users/henrybarcroft/Equinology-3/src/components/Hero.tsx",
+          lineNumber: 36,
+          columnNumber: 11
+        },
+        this
+      ),
+      /* @__PURE__ */ jsxDEV("div", { className: "mt-12 lg:mt-0 relative", children: /* @__PURE__ */ jsxDEV("div", { className: "relative mx-auto max-w-[500px]", children: /* @__PURE__ */ jsxDEV("div", { className: "aspect-w-5 aspect-h-3 rounded-2xl overflow-hidden bg-gradient-to-br from-[#3CAAFF]/10 to-[#00E0FF]/10 backdrop-blur-3xl", children: [
+        /* @__PURE__ */ jsxDEV(
+          "img",
+          {
+            src: image,
+            alt: "Elegant Horse",
+            className: "object-cover w-full h-full rounded-2xl mix-blend-luminosity opacity-80",
+            loading: "lazy",
+            width: 500,
+            height: 300
+          },
+          void 0,
+          false,
+          {
+            fileName: "/Users/henrybarcroft/Equinology-3/src/components/Hero.tsx",
+            lineNumber: 111,
+            columnNumber: 17
+          },
+          this
+        ),
+        /* @__PURE__ */ jsxDEV("div", { className: "absolute inset-0 bg-gradient-to-tr from-[#0A0A0A] via-transparent to-transparent" }, void 0, false, {
+          fileName: "/Users/henrybarcroft/Equinology-3/src/components/Hero.tsx",
+          lineNumber: 119,
+          columnNumber: 17
+        }, this)
+      ] }, void 0, true, {
+        fileName: "/Users/henrybarcroft/Equinology-3/src/components/Hero.tsx",
+        lineNumber: 110,
+        columnNumber: 15
+      }, this) }, void 0, false, {
+        fileName: "/Users/henrybarcroft/Equinology-3/src/components/Hero.tsx",
+        lineNumber: 109,
+        columnNumber: 13
+      }, this) }, void 0, false, {
+        fileName: "/Users/henrybarcroft/Equinology-3/src/components/Hero.tsx",
+        lineNumber: 108,
+        columnNumber: 11
+      }, this)
+    ] }, void 0, true, {
+      fileName: "/Users/henrybarcroft/Equinology-3/src/components/Hero.tsx",
+      lineNumber: 35,
+      columnNumber: 9
+    }, this) }, void 0, false, {
+      fileName: "/Users/henrybarcroft/Equinology-3/src/components/Hero.tsx",
+      lineNumber: 34,
+      columnNumber: 7
+    }, this)
+  ] }, void 0, true, {
+    fileName: "/Users/henrybarcroft/Equinology-3/src/components/Hero.tsx",
+    lineNumber: 25,
+    columnNumber: 5
+  }, this);
+};
+_s(Hero, "GGQFZFih5zUHmTvahgftcVZ3RA0=", false, function() {
+  return [useNavigate, useAnimation, useInView];
+});
+_c3 = Hero;
+export default Hero;
+var _c, _c2, _c3;
+$RefreshReg$(_c, "ThreeBackground$lazy");
+$RefreshReg$(_c2, "ThreeBackground");
+$RefreshReg$(_c3, "Hero");
+if (import.meta.hot && !inWebWorker) {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}
+if (import.meta.hot && !inWebWorker) {
+  RefreshRuntime.__hmr_import(import.meta.url).then((currentExports) => {
+    RefreshRuntime.registerExportsForReactRefresh("/Users/henrybarcroft/Equinology-3/src/components/Hero.tsx", currentExports);
+    import.meta.hot.accept((nextExports) => {
+      if (!nextExports) return;
+      const invalidateMessage = RefreshRuntime.validateRefreshBoundaryAndEnqueueUpdate("/Users/henrybarcroft/Equinology-3/src/components/Hero.tsx", currentExports, nextExports);
+      if (invalidateMessage) import.meta.hot.invalidate(invalidateMessage);
+    });
+  });
+}
+
+
+----------------
+
+[2025-04-14T08:12:03.902Z]
+File: src/components/Testimonials.tsx
+
+import { jsxDEV } from "react/jsx-dev-runtime";
+import RefreshRuntime from "/@react-refresh";
+const inWebWorker = typeof WorkerGlobalScope !== "undefined" && self instanceof WorkerGlobalScope;
+let prevRefreshReg;
+let prevRefreshSig;
+if (import.meta.hot && !inWebWorker) {
+  if (!window.__vite_plugin_react_preamble_installed__) {
+    throw new Error("@vitejs/plugin-react can't detect preamble. Something is wrong. See https://github.com/vitejs/vite-plugin-react/pull/11#discussion_r430879201");
+  }
+  prevRefreshReg = window.$RefreshReg$;
+  prevRefreshSig = window.$RefreshSig$;
+  window.$RefreshReg$ = (type, id) => {
+    RefreshRuntime.register(type, "/Users/henrybarcroft/Equinology-3/src/components/Testimonials.tsx " + id);
+  };
+  window.$RefreshSig$ = RefreshRuntime.createSignatureFunctionForTransform;
+}
+var _s = $RefreshSig$(), _s2 = $RefreshSig$();
+import { useRef } from "react";
+import { motion, useScroll, useTransform, useSpring } from "framer-motion";
+import { Star, Quote } from "lucide-react";
+const AnimatedOrb = ({ style, customAnimation, className, parallaxValue = 0 }) => {
+  return /* @__PURE__ */ jsxDEV(
+    motion.div,
+    {
+      className: `absolute rounded-full filter blur-[100px] ${className}`,
+      animate: customAnimation,
+      transition: {
+        duration: 15,
+        repeat: Infinity,
+        repeatType: "mirror",
+        ease: "linear"
+      },
+      style: { ...style, y: parallaxValue }
+    },
+    void 0,
+    false,
+    {
+      fileName: "/Users/henrybarcroft/Equinology-3/src/components/Testimonials.tsx",
+      lineNumber: 16,
+      columnNumber: 5
+    },
+    this
+  );
+};
+_c = AnimatedOrb;
+const TestimonialCard = ({ testimonial }) => {
+  _s();
+  const cardRef = useRef(null);
+  const { scrollYProgress } = useScroll({
+    target: cardRef,
+    offset: ["start end", "end start"]
+    // Track from bottom entering to top leaving
+  });
+  const viewportProgress = useTransform(scrollYProgress, [0, 1], [0, 1]);
+  const scale = useTransform(viewportProgress, [0, 0.4, 0.5, 0.6, 1], [0.85, 0.95, 1, 0.95, 0.85]);
+  const opacity = useTransform(viewportProgress, [0, 0.4, 0.5, 0.6, 1], [0.5, 0.9, 1, 0.9, 0.5]);
+  const contentY = useTransform(viewportProgress, [0, 1], ["5%", "-5%"]);
+  const itemVariants = {
+    hidden: { opacity: 0, y: 50 },
+    visible: {
+      opacity: 1,
+      y: 0,
+      transition: { duration: 0.8, ease: [0.165, 0.84, 0.44, 1] }
+    }
+  };
+  return /* @__PURE__ */ jsxDEV(
+    motion.div,
+    {
+      ref: cardRef,
+      style: { scale, opacity },
+      className: "origin-center",
+      variants: itemVariants,
+      children: /* @__PURE__ */ jsxDEV("div", { className: "bg-gradient-to-br from-[#111111]/80 to-[#0A0A0A]/80 p-8 rounded-2xl border border-[#222222]/30 backdrop-blur-sm shadow-lg relative overflow-hidden", children: [
+        /* @__PURE__ */ jsxDEV(Quote, { className: "absolute top-4 right-4 w-10 h-10 text-[#3CAAFF]/20", strokeWidth: 1.5 }, void 0, false, {
+          fileName: "/Users/henrybarcroft/Equinology-3/src/components/Testimonials.tsx",
+          lineNumber: 76,
+          columnNumber: 9
+        }, this),
+        /* @__PURE__ */ jsxDEV(motion.div, { className: "relative z-10", style: { y: contentY }, children: [
+          /* @__PURE__ */ jsxDEV("div", { className: "flex items-center mb-4", children: [
+            [...Array(testimonial.rating)].map(
+              (_, i) => /* @__PURE__ */ jsxDEV(Star, { className: "w-5 h-5 text-[#3CAAFF] fill-current mr-1" }, i, false, {
+                fileName: "/Users/henrybarcroft/Equinology-3/src/components/Testimonials.tsx",
+                lineNumber: 83,
+                columnNumber: 13
+              }, this)
+            ),
+            [...Array(5 - testimonial.rating)].map(
+              (_, i) => /* @__PURE__ */ jsxDEV(Star, { className: "w-5 h-5 text-[#444444] fill-current mr-1" }, i, false, {
+                fileName: "/Users/henrybarcroft/Equinology-3/src/components/Testimonials.tsx",
+                lineNumber: 86,
+                columnNumber: 13
+              }, this)
+            )
+          ] }, void 0, true, {
+            fileName: "/Users/henrybarcroft/Equinology-3/src/components/Testimonials.tsx",
+            lineNumber: 81,
+            columnNumber: 11
+          }, this),
+          /* @__PURE__ */ jsxDEV("p", { className: "text-xl md:text-2xl text-[#F5F5F7] mb-6 leading-relaxed", children: [
+            "“",
+            testimonial.quote,
+            "”"
+          ] }, void 0, true, {
+            fileName: "/Users/henrybarcroft/Equinology-3/src/components/Testimonials.tsx",
+            lineNumber: 91,
+            columnNumber: 11
+          }, this),
+          /* @__PURE__ */ jsxDEV("div", { className: "text-right", children: /* @__PURE__ */ jsxDEV("p", { className: "font-semibold text-lg text-[#F5F5F7]", children: testimonial.author }, void 0, false, {
+            fileName: "/Users/henrybarcroft/Equinology-3/src/components/Testimonials.tsx",
+            lineNumber: 97,
+            columnNumber: 13
+          }, this) }, void 0, false, {
+            fileName: "/Users/henrybarcroft/Equinology-3/src/components/Testimonials.tsx",
+            lineNumber: 96,
+            columnNumber: 11
+          }, this)
+        ] }, void 0, true, {
+          fileName: "/Users/henrybarcroft/Equinology-3/src/components/Testimonials.tsx",
+          lineNumber: 79,
+          columnNumber: 9
+        }, this)
+      ] }, void 0, true, {
+        fileName: "/Users/henrybarcroft/Equinology-3/src/components/Testimonials.tsx",
+        lineNumber: 75,
+        columnNumber: 7
+      }, this)
+    },
+    void 0,
+    false,
+    {
+      fileName: "/Users/henrybarcroft/Equinology-3/src/components/Testimonials.tsx",
+      lineNumber: 69,
+      columnNumber: 5
+    },
+    this
+  );
+};
+_s(TestimonialCard, "ITha52dcEt+EhLo5gsAkN7UVZiM=", false, function() {
+  return [useScroll, useTransform, useTransform, useTransform, useTransform];
+});
+_c2 = TestimonialCard;
+const Testimonials = () => {
+  _s2();
+  const testimonialRef = useRef(null);
+  const { scrollYProgress: sectionScroll } = useScroll({
+    target: testimonialRef,
+    offset: ["start end", "end start"]
+  });
+  const smoothScroll = useSpring(sectionScroll, { stiffness: 100, damping: 30 });
+  const parallaxUp = useTransform(smoothScroll, [0, 1], [0, 20]);
+  const parallaxDown = useTransform(smoothScroll, [0, 1], [20, 0]);
+  const testimonials = [
+    {
+      id: 1,
+      quote: "Henry at Equinology really understood what I needed. My previous website had a checkout and basket feature, which didn't make sense for selling horses. He helped create a system that actually worked for my business. It was great to work with someone who understands the equestrian world.",
+      author: "Sarah",
+      position: "Dressage Facility Owner",
+      rating: 5
+    },
+    {
+      id: 2,
+      quote: "Working with the Equinology team was a seamless experience from concept to completion. They created a space that perfectly balances luxury and functionality.",
+      author: "Michael",
+      position: "Equestrian Estate Developer",
+      rating: 5
+    },
+    {
+      id: 3,
+      quote: "It was great to work with a UK-based team who really understands the equestrian world. I didn't have to keep explaining things, which made the process so much easier. The pricing was also clear and reasonable, with no unexpected costs.",
+      author: "Elizabeth",
+      position: "Thoroughbred Breeder",
+      rating: 5
+    }
+  ];
+  const containerVariants = {
+    hidden: { opacity: 0 },
+    visible: {
+      opacity: 1,
+      transition: { staggerChildren: 0.2, delayChildren: 0.3 }
+    }
+  };
+  return /* @__PURE__ */ jsxDEV(
+    "section",
+    {
+      id: "testimonials",
+      className: "py-20 -mt-16 relative overflow-hidden",
+      ref: testimonialRef,
+      children: [
+        /* @__PURE__ */ jsxDEV(
+          AnimatedOrb,
+          {
+            className: "bg-gradient-to-r from-[#3CAAFF]/10 to-[#00E0FF]/10",
+            style: { width: 350, height: 350, top: "15%", left: "-100px" },
+            customAnimation: {
+              scale: [1, 1.02, 1],
+              x: [-8, 8, -8],
+              opacity: [0.25, 0.35, 0.25]
+            },
+            parallaxValue: parallaxUp
+          },
+          void 0,
+          false,
+          {
+            fileName: "/Users/henrybarcroft/Equinology-3/src/components/Testimonials.tsx",
+            lineNumber: 166,
+            columnNumber: 7
+          },
+          this
+        ),
+        /* @__PURE__ */ jsxDEV(
+          AnimatedOrb,
+          {
+            className: "bg-gradient-to-r from-[#00E0FF]/10 to-[#3CAAFF]/10",
+            style: { width: 320, height: 320, bottom: "12%", right: "-80px" },
+            customAnimation: {
+              scale: [1, 1.01, 1],
+              x: [6, -6, 6],
+              opacity: [0.3, 0.4, 0.3]
+            },
+            parallaxValue: parallaxDown
+          },
+          void 0,
+          false,
+          {
+            fileName: "/Users/henrybarcroft/Equinology-3/src/components/Testimonials.tsx",
+            lineNumber: 176,
+            columnNumber: 7
+          },
+          this
+        ),
+        /* @__PURE__ */ jsxDEV("div", { className: "max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10", children: [
+          /* @__PURE__ */ jsxDEV(
+            motion.div,
+            {
+              initial: { opacity: 0, y: -20 },
+              whileInView: { opacity: 1, y: 0 },
+              viewport: { once: true, margin: "-100px" },
+              transition: { duration: 0.7, ease: [0.165, 0.84, 0.44, 1] },
+              className: "text-center mb-16",
+              children: [
+                /* @__PURE__ */ jsxDEV("h2", { className: "text-3xl sm:text-4xl font-bold mb-4", children: /* @__PURE__ */ jsxDEV("span", { className: "bg-gradient-to-r from-[#3CAAFF] to-[#00E0FF] bg-clip-text text-transparent", children: "Hear From Our Clients" }, void 0, false, {
+                  fileName: "/Users/henrybarcroft/Equinology-3/src/components/Testimonials.tsx",
+                  lineNumber: 196,
+                  columnNumber: 13
+                }, this) }, void 0, false, {
+                  fileName: "/Users/henrybarcroft/Equinology-3/src/components/Testimonials.tsx",
+                  lineNumber: 195,
+                  columnNumber: 11
+                }, this),
+                /* @__PURE__ */ jsxDEV("p", { className: "text-[#ABABAB] max-w-xl mx-auto", children: "Discover how we've helped equestrian businesses thrive with tailored digital solutions." }, void 0, false, {
+                  fileName: "/Users/henrybarcroft/Equinology-3/src/components/Testimonials.tsx",
+                  lineNumber: 200,
+                  columnNumber: 11
+                }, this)
+              ]
+            },
+            void 0,
+            true,
+            {
+              fileName: "/Users/henrybarcroft/Equinology-3/src/components/Testimonials.tsx",
+              lineNumber: 188,
+              columnNumber: 9
+            },
+            this
+          ),
+          /* @__PURE__ */ jsxDEV(
+            motion.div,
+            {
+              variants: containerVariants,
+              initial: "hidden",
+              whileInView: "visible",
+              viewport: { once: true, amount: 0.2 },
+              className: "space-y-12",
+              children: testimonials.map(
+                (testimonial) => /* @__PURE__ */ jsxDEV(TestimonialCard, { testimonial }, testimonial.id, false, {
+                  fileName: "/Users/henrybarcroft/Equinology-3/src/components/Testimonials.tsx",
+                  lineNumber: 214,
+                  columnNumber: 11
+                }, this)
+              )
+            },
+            void 0,
+            false,
+            {
+              fileName: "/Users/henrybarcroft/Equinology-3/src/components/Testimonials.tsx",
+              lineNumber: 206,
+              columnNumber: 9
+            },
+            this
+          )
+        ] }, void 0, true, {
+          fileName: "/Users/henrybarcroft/Equinology-3/src/components/Testimonials.tsx",
+          lineNumber: 187,
+          columnNumber: 7
+        }, this)
+      ]
+    },
+    void 0,
+    true,
+    {
+      fileName: "/Users/henrybarcroft/Equinology-3/src/components/Testimonials.tsx",
+      lineNumber: 154,
+      columnNumber: 5
+    },
+    this
+  );
+};
+_s2(Testimonials, "iyITPe3wOYA/BNPE0x14MX7rdtw=", false, function() {
+  return [useScroll, useSpring, useTransform, useTransform];
+});
+_c3 = Testimonials;
+export default Testimonials;
+var _c, _c2, _c3;
+$RefreshReg$(_c, "AnimatedOrb");
+$RefreshReg$(_c2, "TestimonialCard");
+$RefreshReg$(_c3, "Testimonials");
+if (import.meta.hot && !inWebWorker) {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}
+if (import.meta.hot && !inWebWorker) {
+  RefreshRuntime.__hmr_import(import.meta.url).then((currentExports) => {
+    RefreshRuntime.registerExportsForReactRefresh("/Users/henrybarcroft/Equinology-3/src/components/Testimonials.tsx", currentExports);
+    import.meta.hot.accept((nextExports) => {
+      if (!nextExports) return;
+      const invalidateMessage = RefreshRuntime.validateRefreshBoundaryAndEnqueueUpdate("/Users/henrybarcroft/Equinology-3/src/components/Testimonials.tsx", currentExports, nextExports);
+      if (invalidateMessage) import.meta.hot.invalidate(invalidateMessage);
+    });
+  });
+}
+
+
+----------------
+
+[2025-04-14T08:12:04.343Z]
+File: src/components/ThreeBackground.tsx
+
+import { jsxDEV } from "react/jsx-dev-runtime";
+import RefreshRuntime from "/@react-refresh";
+const inWebWorker = typeof WorkerGlobalScope !== "undefined" && self instanceof WorkerGlobalScope;
+let prevRefreshReg;
+let prevRefreshSig;
+if (import.meta.hot && !inWebWorker) {
+  if (!window.__vite_plugin_react_preamble_installed__) {
+    throw new Error("@vitejs/plugin-react can't detect preamble. Something is wrong. See https://github.com/vitejs/vite-plugin-react/pull/11#discussion_r430879201");
+  }
+  prevRefreshReg = window.$RefreshReg$;
+  prevRefreshSig = window.$RefreshSig$;
+  window.$RefreshReg$ = (type, id) => {
+    RefreshRuntime.register(type, "/Users/henrybarcroft/Equinology-3/src/components/ThreeBackground.tsx " + id);
+  };
+  window.$RefreshSig$ = RefreshRuntime.createSignatureFunctionForTransform;
+}
+var _s = $RefreshSig$();
+import { useRef } from "react";
+import { Canvas, useFrame } from "@react-three/fiber";
+import { Sphere } from "@react-three/drei";
+function AnimatedSphere() {
+  _s();
+  const sphereRef = useRef(null);
+  useFrame(({ clock }) => {
+    if (sphereRef.current) {
+      sphereRef.current.position.y = Math.sin(clock.getElapsedTime() * 0.5) * 0.15;
+      sphereRef.current.position.x = Math.cos(clock.getElapsedTime() * 0.3) * 0.1;
+      sphereRef.current.rotation.x = clock.getElapsedTime() * 0.1;
+      sphereRef.current.rotation.y = clock.getElapsedTime() * 0.05;
+    }
+  });
+  return /* @__PURE__ */ jsxDEV(Sphere, { ref: sphereRef, args: [1.5, 64, 64], position: [1, 0, -1], children: /* @__PURE__ */ jsxDEV(
+    "meshPhongMaterial",
+    {
+      color: "#3CAAFF",
+      opacity: 0.08,
+      transparent: true,
+      wireframe: true
+    },
+    void 0,
+    false,
+    {
+      fileName: "/Users/henrybarcroft/Equinology-3/src/components/ThreeBackground.tsx",
+      lineNumber: 21,
+      columnNumber: 7
+    },
+    this
+  ) }, void 0, false, {
+    fileName: "/Users/henrybarcroft/Equinology-3/src/components/ThreeBackground.tsx",
+    lineNumber: 20,
+    columnNumber: 5
+  }, this);
+}
+_s(AnimatedSphere, "Av1D7j8eGQw6d7NAO2YjuaUNuIc=", false, function() {
+  return [useFrame];
+});
+_c = AnimatedSphere;
+export default function ThreeBackground() {
+  return /* @__PURE__ */ jsxDEV("div", { className: "absolute inset-0 -z-10", children: /* @__PURE__ */ jsxDEV(Canvas, { camera: { position: [0, 0, 5] }, children: [
+    /* @__PURE__ */ jsxDEV("ambientLight", { intensity: 0.3 }, void 0, false, {
+      fileName: "/Users/henrybarcroft/Equinology-3/src/components/ThreeBackground.tsx",
+      lineNumber: 35,
+      columnNumber: 9
+    }, this),
+    /* @__PURE__ */ jsxDEV("pointLight", { position: [10, 10, 10], intensity: 0.5 }, void 0, false, {
+      fileName: "/Users/henrybarcroft/Equinology-3/src/components/ThreeBackground.tsx",
+      lineNumber: 36,
+      columnNumber: 9
+    }, this),
+    /* @__PURE__ */ jsxDEV(AnimatedSphere, {}, void 0, false, {
+      fileName: "/Users/henrybarcroft/Equinology-3/src/components/ThreeBackground.tsx",
+      lineNumber: 37,
+      columnNumber: 9
+    }, this)
+  ] }, void 0, true, {
+    fileName: "/Users/henrybarcroft/Equinology-3/src/components/ThreeBackground.tsx",
+    lineNumber: 34,
+    columnNumber: 7
+  }, this) }, void 0, false, {
+    fileName: "/Users/henrybarcroft/Equinology-3/src/components/ThreeBackground.tsx",
+    lineNumber: 33,
+    columnNumber: 5
+  }, this);
+}
+_c2 = ThreeBackground;
+var _c, _c2;
+$RefreshReg$(_c, "AnimatedSphere");
+$RefreshReg$(_c2, "ThreeBackground");
+if (import.meta.hot && !inWebWorker) {
+  window.$RefreshReg$ = prevRefreshReg;
+  window.$RefreshSig$ = prevRefreshSig;
+}
+if (import.meta.hot && !inWebWorker) {
+  RefreshRuntime.__hmr_import(import.meta.url).then((currentExports) => {
+    RefreshRuntime.registerExportsForReactRefresh("/Users/henrybarcroft/Equinology-3/src/components/ThreeBackground.tsx", currentExports);
+    import.meta.hot.accept((nextExports) => {
+      if (!nextExports) return;
+      const invalidateMessage = RefreshRuntime.validateRefreshBoundaryAndEnqueueUpdate("/Users/henrybarcroft/Equinology-3/src/components/ThreeBackground.tsx", currentExports, nextExports);
+      if (invalidateMessage) import.meta.hot.invalidate(invalidateMessage);
+    });
+  });
+}
+
+
+----------------
+
+[2025-04-14T08:12:14.060Z]
+File: src/main.tsx
+
+import { jsxDEV } from "react/jsx-dev-runtime";
+import React from "react";
+import ReactDOM from "react-dom/client";
+import App from "./App";
+import "./index.css";
+import { startFileWatcher } from "./utils/fileWatcher";
+if (import.meta.env.DEV) {
+  startFileWatcher();
+}
+ReactDOM.createRoot(document.getElementById("root")).render(
+  /* @__PURE__ */ jsxDEV(React.StrictMode, { children: /* @__PURE__ */ jsxDEV(App, {}, void 0, false, {
+    fileName: "/Users/henrybarcroft/Equinology-3/src/main.tsx",
+    lineNumber: 14,
+    columnNumber: 5
+  }, this) }, void 0, false, {
+    fileName: "/Users/henrybarcroft/Equinology-3/src/main.tsx",
+    lineNumber: 13,
+    columnNumber: 3
+  }, this)
+);
+
+
+----------------
+
+[2025-04-14T08:12:14.064Z]
+File: src/utils/fileWatcher.ts
+
+import chokidar from "chokidar";
+import fs from "fs";
+import { codeLogger } from "./codeLogger";
+export function startFileWatcher() {
+  const watcher = chokidar.watch("src/**/*.{ts,tsx}", {
+    ignored: /(^|[\/\\])\../,
+    persistent: true
+  });
+  watcher.on("add", (filePath) => {
+    const content = fs.readFileSync(filePath, "utf-8");
+    codeLogger.logChange(filePath, content);
+  }).on("change", (filePath) => {
+    const content = fs.readFileSync(filePath, "utf-8");
+    codeLogger.logChange(filePath, content);
+  });
+  console.log("File watcher started. Monitoring code changes...");
+}
+
+
+----------------
+
+[2025-04-14T08:12:14.080Z]
+File: src/utils/codeLogger.ts
+
+import fs from "fs";
+import path from "path";
+class CodeLogger {
+  constructor(logFilePath = "code_logs.txt") {
+    this.lastContent = /* @__PURE__ */ new Map();
+    this.logFile = path.join(process.cwd(), logFilePath);
+    this.initializeLogFile();
+  }
+  initializeLogFile() {
+    if (!fs.existsSync(this.logFile)) {
+      fs.writeFileSync(this.logFile, "Code Change Log\n================\n\n");
+    }
+  }
+  logChange(filePath, content) {
+    const timestamp = (/* @__PURE__ */ new Date()).toISOString();
+    const relativePath = path.relative(process.cwd(), filePath);
+    if (this.lastContent.get(filePath) !== content) {
+      const logEntry = `
+[${timestamp}]
+File: ${relativePath}
+
+${content}
+
+----------------
+`;
+      fs.appendFileSync(this.logFile, logEntry);
+      this.lastContent.set(filePath, content);
+    }
+  }
+  clearLog() {
+    fs.writeFileSync(this.logFile, "Code Change Log\n================\n\n");
+    this.lastContent.clear();
+  }
+}
+export const codeLogger = new CodeLogger();
+
+
+----------------
