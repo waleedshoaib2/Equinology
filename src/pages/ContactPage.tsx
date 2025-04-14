@@ -1,9 +1,7 @@
 "use client";
 
-import { motion, useScroll, useTransform, Variants } from 'framer-motion';
-import { useState, useRef, useEffect, FormEvent, ChangeEvent, memo, useMemo, useCallback } from 'react';
-import { toast } from "sonner";
-import emailjs from "@emailjs/browser";
+import { motion } from 'framer-motion';
+import { memo, useMemo, useCallback } from 'react';
 import { useTheme } from "next-themes";
 import SwirlBackground from '../components/background/SwirlBackground';
 
@@ -44,33 +42,15 @@ const useAnimationVariants = () => {
   }), []);
 };
 
-// Memoize scroll handler
-const useScrollToContactForm = () => {
-  return useCallback(() => {
-    const element = document.getElementById('contact-form');
-    if (element) {
-      element.scrollIntoView({ behavior: 'smooth' });
-    }
-  }, []);
-};
-
 // Memoize components for better performance
 const MemoizedSwirlBackground = memo(SwirlBackground);
 
 const ContactHero = memo(() => {
   const { theme } = useTheme();
-  const ref = useRef(null);
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start start", "end start"]
-  });
-
-  const y = useTransform(scrollYProgress, [0, 1], ["0%", "50%"]);
-  const scrollToForm = useScrollToContactForm();
   const variants = useAnimationVariants();
 
   return (
-    <section ref={ref} className="relative min-h-[100vh] flex items-center justify-center overflow-hidden bg-black">
+    <section className="relative min-h-[100vh] flex items-center justify-center overflow-hidden bg-black">
       {/* Swirl background without any overlay to hide it */}
       <div className="absolute inset-0 z-10">
         <MemoizedSwirlBackground />
@@ -125,46 +105,6 @@ const ContactHero = memo(() => {
           Have a question or want to work together? We'd love to hear from you.
           Our team is ready to help bring your vision to life.
         </motion.p>
-        
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8, delay: 0.6 }}
-          className="mt-8 flex flex-wrap gap-4 justify-center"
-        >
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={scrollToForm}
-            className="px-6 py-3 bg-[#3b82f6] text-white rounded-md font-medium text-sm flex items-center group relative overflow-hidden"
-          >
-            <motion.div
-              className="absolute inset-0 bg-gradient-to-r from-[#3b82f6]/0 via-[#3b82f6]/20 to-[#3b82f6]/0"
-              initial={{ x: "-100%" }}
-              whileHover={{ x: "100%" }}
-              transition={{ duration: 0.5 }}
-            />
-            Get Started
-            <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" className="ml-2 h-4 w-4 transition-transform group-hover:translate-x-1">
-              <path d="M5 12h14"></path>
-              <path d="m12 5 7 7-7 7"></path>
-            </svg>
-          </motion.button>
-          <motion.button
-            whileHover={{ scale: 1.05 }}
-            whileTap={{ scale: 0.95 }}
-            onClick={scrollToForm}
-            className="px-6 py-3 bg-transparent border border-[#3b82f6] text-[#3b82f6] rounded-md font-medium text-sm relative overflow-hidden group"
-          >
-            <motion.div
-              className="absolute inset-0 bg-gradient-to-r from-[#3b82f6]/0 via-[#3b82f6]/10 to-[#3b82f6]/0"
-              initial={{ x: "-100%" }}
-              whileHover={{ x: "100%" }}
-              transition={{ duration: 0.5 }}
-            />
-            Learn More
-          </motion.button>
-        </motion.div>
       </motion.div>
     </section>
   );
@@ -219,7 +159,7 @@ const ContactInfo = memo(() => {
               </svg>
             </div>
             <h3 className="text-xl font-semibold text-[#3b82f6] mb-2">Visit Us</h3>
-            <p className="text-[#94a3b8]">Battle<br />East Sussex</p>
+            <p className="text-[#94a3b8]">Northumberland, United Kingdom</p>
           </motion.div>
         </motion.div>
       </div>
@@ -227,242 +167,11 @@ const ContactInfo = memo(() => {
   );
 });
 
-interface FormData {
-  name: string;
-  email: string;
-  message: string;
-}
-
-const ContactForm = memo(() => {
-  const formRef = useRef(null);
-  const [formData, setFormData] = useState<FormData>({
-    name: '',
-    email: '',
-    message: ''
-  });
-  const [isSubmitting, setIsSubmitting] = useState(false);
-
-  const handleSubmit = useCallback(async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setIsSubmitting(true);
-    
-    try {
-      await emailjs.sendForm(
-        process.env.NEXT_PUBLIC_EMAILJS_SERVICE_ID || '',
-        process.env.NEXT_PUBLIC_EMAILJS_TEMPLATE_ID || '',
-        formRef.current!,
-        process.env.NEXT_PUBLIC_EMAILJS_PUBLIC_KEY || ''
-      );
-      
-      toast.success("Message sent successfully!");
-      setFormData({ name: '', email: '', message: '' });
-    } catch (error) {
-      toast.error("Failed to send message. Please try again.");
-    } finally {
-      setIsSubmitting(false);
-    }
-  }, [formRef, setFormData]);
-
-  const handleChange = useCallback((e: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setFormData(prev => ({
-      ...prev,
-      [name]: value
-    }));
-  }, []);
-
-  return (
-    <section id="contact-form" className="py-16 px-6 bg-black">
-      <div className="max-w-2xl mx-auto">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          className="p-8 rounded-lg border border-[#3b82f6]/20 bg-[#3b82f6]/5 backdrop-blur-sm"
-        >
-          <h2 className="text-3xl font-bold text-[#3b82f6] mb-6">Send us a message</h2>
-          <form onSubmit={handleSubmit} className="space-y-6">
-            <div>
-              <label htmlFor="name" className="block text-sm font-medium text-[#94a3b8] mb-2">
-                Name
-              </label>
-              <input
-                type="text"
-                id="name"
-                name="name"
-                value={formData.name}
-                onChange={handleChange}
-                className="w-full px-4 py-2 rounded-md bg-black border border-[#3b82f6]/20 text-[#94a3b8] focus:outline-none focus:ring-2 focus:ring-[#3b82f6] focus:border-transparent"
-                required
-              />
-            </div>
-            <div>
-              <label htmlFor="email" className="block text-sm font-medium text-[#94a3b8] mb-2">
-                Email
-              </label>
-              <input
-                type="email"
-                id="email"
-                name="email"
-                value={formData.email}
-                onChange={handleChange}
-                className="w-full px-4 py-2 rounded-md bg-black border border-[#3b82f6]/20 text-[#94a3b8] focus:outline-none focus:ring-2 focus:ring-[#3b82f6] focus:border-transparent"
-                required
-              />
-            </div>
-            <div>
-              <label htmlFor="message" className="block text-sm font-medium text-[#94a3b8] mb-2">
-                Message
-              </label>
-              <textarea
-                id="message"
-                name="message"
-                value={formData.message}
-                onChange={handleChange}
-                rows={4}
-                className="w-full px-4 py-2 rounded-md bg-black border border-[#3b82f6]/20 text-[#94a3b8] focus:outline-none focus:ring-2 focus:ring-[#3b82f6] focus:border-transparent"
-                required
-              />
-            </div>
-            <motion.button
-              whileHover={{ scale: 1.02 }}
-              whileTap={{ scale: 0.98 }}
-              type="submit"
-              className="w-full px-6 py-3 bg-[#3b82f6] text-white rounded-md font-medium text-sm hover:bg-[#3b82f6]/90 transition-colors"
-            >
-              Send Message
-            </motion.button>
-          </form>
-        </motion.div>
-      </div>
-    </section>
-  );
-});
-
-const FAQ = memo(() => {
-  const [openIndex, setOpenIndex] = useState<number | null>(null);
-  const variants = useAnimationVariants();
-
-  const toggleFAQ = useCallback((index: number) => {
-    setOpenIndex(prev => prev === index ? null : index);
-  }, []);
-
-  const faqs = [
-    {
-      question: "How long does it take to get a response?",
-      answer: "We typically respond to all inquiries within 24 hours during business days."
-    },
-    {
-      question: "Do you offer free consultations?",
-      answer: "Yes, we offer a free 30-minute consultation to discuss your project needs and how we can help."
-    },
-    {
-      question: "What are your business hours?",
-      answer: "Our office is open Monday through Friday, 9:00 AM to 5:00 PM EST."
-    },
-    {
-      question: "Do you work with international clients?",
-      answer: "Yes, we work with clients from all over the world. We can accommodate different time zones and communication preferences."
-    }
-  ];
-
-  return (
-    <section className="relative py-16 pb-64 overflow-hidden bg-black">
-      <motion.div
-        initial={{ opacity: 0 }}
-        whileInView={{ opacity: 1 }}
-        transition={{ duration: 0.8 }}
-        viewport={{ once: true }}
-        className="relative max-w-2xl mx-auto px-4 sm:px-6 z-10"
-      >
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
-          className="text-center mb-12"
-        >
-          <h2 className="text-3xl font-bold mb-3 text-[#3b82f6]">Frequently Asked Questions</h2>
-          <p className="text-lg text-[#94a3b8]">
-            Find answers to common questions about our services and process.
-          </p>
-        </motion.div>
-
-        <div className="space-y-3">
-          {faqs.map((faq, index) => (
-            <motion.div
-              key={index}
-              initial={{ opacity: 0, y: 10 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.4, delay: index * 0.1 }}
-              viewport={{ once: true }}
-              className="group"
-            >
-              <button
-                onClick={() => toggleFAQ(index)}
-                className="w-full p-5 bg-black border border-[#3b82f6]/20 rounded-lg text-left hover:border-[#3b82f6]/50 transition-colors"
-              >
-                <div className="flex items-center justify-between">
-                  <h3 className="text-lg font-medium text-white">{faq.question}</h3>
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    width="20"
-                    height="20"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    strokeWidth="2"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    className={`transform transition-transform text-[#3b82f6] ${openIndex === index ? 'rotate-180' : ''}`}
-                  >
-                    <polyline points="6 9 12 15 18 9" />
-                  </svg>
-                </div>
-                <motion.div
-                  initial={{ height: 0, opacity: 0 }}
-                  animate={{ height: openIndex === index ? 'auto' : 0, opacity: openIndex === index ? 1 : 0 }}
-                  transition={{ duration: 0.3 }}
-                  className="overflow-hidden"
-                >
-                  <p className="pt-3 text-[#94a3b8]">{faq.answer}</p>
-                </motion.div>
-              </button>
-            </motion.div>
-          ))}
-        </div>
-      </motion.div>
-    </section>
-  );
-});
-
-// Use cleanup hook in main component 
 const ContactPage = () => {
-  // Cleanup on page unmount
-  useEffect(() => {
-    return () => {
-      // Force cleanup of any animations when leaving page
-      const cleanupEvent = new CustomEvent('cleanupAnimations');
-      window.dispatchEvent(cleanupEvent);
-    };
-  }, []);
-
   return (
-    <div className="relative bg-black">
-      {/* Absolute background that covers everything */}
-      <div className="absolute inset-0 bg-black min-h-screen w-full" style={{ minHeight: '150vh' }} />
-      
-      {/* Main content */}
-      <div className="relative z-10">
-        <ContactHero />
-        <ContactInfo />
-        <ContactForm />
-        <FAQ />
-        
-        {/* Extra padding at bottom to ensure black extends below */}
-        <div className="h-96 bg-black w-full" />
-      </div>
+    <div className="bg-black min-h-screen">
+      <ContactHero />
+      <ContactInfo />
     </div>
   );
 };
