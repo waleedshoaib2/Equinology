@@ -14,7 +14,7 @@ const HeroSection = () => {
       <div className="relative z-10 text-center px-4 max-w-4xl mx-auto flex flex-col items-center">
         <h1 className="text-4xl sm:text-6xl font-light text-white tracking-wide">
           <span className="bg-gradient-to-r from-blue-400 to-cyan-300 bg-clip-text text-transparent">
-            Equestrian Web Design
+            Equine Web Design Experts
           </span>
         </h1>
 
@@ -29,8 +29,8 @@ const HeroSection = () => {
         </div>
 
         <p className="text-gray-400 max-w-2xl mx-auto text-lg">
-          Crafting sophisticated digital experiences for the equestrian world, 
-          where timeless elegance meets modern technology.
+          Specializing in custom websites, equine sales platforms, and software solutions for horse businesses worldwide. 
+          Where equestrian expertise meets modern web design.
         </p>
       </div>
     </section>

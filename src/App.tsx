@@ -1,9 +1,12 @@
 import React, { lazy, Suspense } from 'react';
-import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import { BrowserRouter } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import HomePage from './pages/HomePage';
+import { HelmetProvider } from 'react-helmet-async';
+import { AnimationProvider } from './contexts/AnimationContext';
+import AppRoutes from './routes';
 
 // Lazy load pages (except HomePage)
 const ServicesPage = lazy(() => import('./pages/ServicesPage'));
@@ -22,42 +25,15 @@ const LoadingSpinner = () => (
   </div>
 );
 
-const App = () => {
+const App: React.FC = () => {
   return (
-    <Router>
-      <Header />
-      <main>
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/services" element={
-            <Suspense fallback={<LoadingSpinner />}>
-              <ServicesPage />
-            </Suspense>
-          } />
-          <Route path="/articles" element={
-            <Suspense fallback={<LoadingSpinner />}>
-              <ArticlePage />
-            </Suspense>
-          } />
-          <Route path="/articles/:slug" element={
-            <Suspense fallback={<LoadingSpinner />}>
-              <ArticlePage />
-            </Suspense>
-          } />
-          <Route path="/blog" element={
-            <Suspense fallback={<LoadingSpinner />}>
-              <BlogPage />
-            </Suspense>
-          } />
-          <Route path="/contact" element={
-            <Suspense fallback={<LoadingSpinner />}>
-              <ContactPage />
-            </Suspense>
-          } />
-        </Routes>
-      </main>
-      <Footer />
-    </Router>
+    <HelmetProvider>
+      <BrowserRouter>
+        <AnimationProvider>
+          <AppRoutes />
+        </AnimationProvider>
+      </BrowserRouter>
+    </HelmetProvider>
   );
 };
 

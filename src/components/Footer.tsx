@@ -38,7 +38,7 @@ const Footer = () => {
               </span>
             </Link>
             <p className="text-[#777777] text-sm leading-relaxed">
-              Equinology blends timeless equestrian tradition with innovative design to create extraordinary digital experiences for horse enthusiasts, breeders, and equestrian facilities worldwide.
+              Expert equine web design services for horse businesses worldwide. Specializing in custom websites, equine sales platforms, and software solutions that combine equestrian expertise with modern web design.
             </p>
           </div>
 
