@@ -1,12 +1,10 @@
 import { ArrowRight, Star, Compass } from 'lucide-react';
 import { motion, useAnimation } from 'framer-motion';
-import { useEffect, useRef, lazy, Suspense } from 'react';
+import { useEffect, useRef } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useInView } from 'framer-motion';
 import image from "../images/Hero-Image.webp"
-
-// Lazy load ThreeBackground with fallback
-const ThreeBackground = lazy(() => import('./ThreeBackground'));
+import ClientThreeBackground from './ClientThreeBackground';
 
 const Hero = () => {
   const navigate = useNavigate();
@@ -24,9 +22,7 @@ const Hero = () => {
     <div className="relative min-h-screen overflow-hidden" ref={ref}>
       {/* Background with gradient */}
       <div className="absolute inset-0 bg-gradient-to-br from-[#0A0A0A]/50 via-[#111111]/30 to-[#0A0A0A]/50 z-30">
-        <Suspense fallback={<div className="absolute inset-0 bg-[#0A0A0A]" />}>
-          <ThreeBackground />
-        </Suspense>
+        <ClientThreeBackground />
       </div>
 
       {/* Content */}
