@@ -3,21 +3,13 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import Header from './components/Header';
 import Footer from './components/Footer';
-import Hero from './components/Hero';
-import Services from './components/Services';
-import Facilities from './components/Facilities';
-import Testimonials from './components/Testimonials';
+import HomePage from './pages/HomePage';
 
-// Lazy load pages
-const HomePage = lazy(() => import('./pages/HomePage'));
+// Lazy load pages (except HomePage)
 const ServicesPage = lazy(() => import('./pages/ServicesPage'));
 const ArticlePage = lazy(() => import('./pages/ArticlePage'));
 const BlogPage = lazy(() => import('./pages/BlogPage'));
 const ContactPage = lazy(() => import('./pages/ContactPage'));
-
-// Lazy load components
-const HeaderComponent = lazy(() => import('./components/Header'));
-const FooterComponent = lazy(() => import('./components/Footer'));
 
 // Loading component
 const LoadingSpinner = () => (
@@ -33,20 +25,38 @@ const LoadingSpinner = () => (
 const App = () => {
   return (
     <Router>
-      <Suspense fallback={<LoadingSpinner />}>
-        <HeaderComponent />
-        <main>
-          <Routes>
-            <Route path="/" element={<HomePage />} />
-            <Route path="/services" element={<ServicesPage />} />
-            <Route path="/articles" element={<ArticlePage />} />
-            <Route path="/articles/:slug" element={<ArticlePage />} />
-            <Route path="/blog" element={<BlogPage />} />
-            <Route path="/contact" element={<ContactPage />} />
-          </Routes>
-        </main>
-        <FooterComponent />
-      </Suspense>
+      <Header />
+      <main>
+        <Routes>
+          <Route path="/" element={<HomePage />} />
+          <Route path="/services" element={
+            <Suspense fallback={<LoadingSpinner />}>
+              <ServicesPage />
+            </Suspense>
+          } />
+          <Route path="/articles" element={
+            <Suspense fallback={<LoadingSpinner />}>
+              <ArticlePage />
+            </Suspense>
+          } />
+          <Route path="/articles/:slug" element={
+            <Suspense fallback={<LoadingSpinner />}>
+              <ArticlePage />
+            </Suspense>
+          } />
+          <Route path="/blog" element={
+            <Suspense fallback={<LoadingSpinner />}>
+              <BlogPage />
+            </Suspense>
+          } />
+          <Route path="/contact" element={
+            <Suspense fallback={<LoadingSpinner />}>
+              <ContactPage />
+            </Suspense>
+          } />
+        </Routes>
+      </main>
+      <Footer />
     </Router>
   );
 };
