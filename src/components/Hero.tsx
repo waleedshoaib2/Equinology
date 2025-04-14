@@ -1,12 +1,11 @@
 import { ArrowRight, Star, Compass } from 'lucide-react';
 import { motion, useAnimation } from 'framer-motion';
-import { useEffect, useRef } from 'react';
+import { useEffect, useRef, lazy, Suspense } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useInView } from 'framer-motion';
-import { lazy, Suspense } from 'react';
 import image from "../images/Hero-Image.webp"
 
-// Lazy load ThreeBackground
+// Lazy load ThreeBackground with fallback
 const ThreeBackground = lazy(() => import('./ThreeBackground'));
 
 const Hero = () => {
