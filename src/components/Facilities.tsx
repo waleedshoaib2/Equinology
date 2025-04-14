@@ -2,6 +2,7 @@ import React, { useRef } from 'react';
 import { motion, useScroll, useTransform, MotionValue, useSpring } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import { useAnimation } from '../contexts/AnimationContext';
 
 // Define types for AnimatedOrb props (copied from Services.tsx)
 interface AnimatedOrbProps {
@@ -29,6 +30,7 @@ const AnimatedOrb: React.FC<AnimatedOrbProps> = ({ style, customAnimation, class
 };
 
 const Facilities = () => {
+  const { disableAnimations } = useAnimation();
   const navigate = useNavigate();
   const facilitiesRef = useRef<HTMLDivElement>(null);
   
@@ -65,11 +67,7 @@ const Facilities = () => {
   ];
 
   return (
-    <section
-      id="facilities"
-      className="py-20 -mt-16 relative overflow-hidden"
-      ref={facilitiesRef}
-    >
+    <section className="relative py-32 overflow-hidden">
       {/* Animated Orbs - adjusted opacity and animation */}
       <AnimatedOrb
         className="bg-gradient-to-r from-[#3CAAFF]/10 to-[#00E0FF]/10"
@@ -94,121 +92,168 @@ const Facilities = () => {
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <div className="text-center mb-20">
-          <motion.h2 
-            initial={{ opacity: 0, y: -20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.7, ease: [0.165, 0.84, 0.44, 1] }}
-            className="text-3xl sm:text-4xl font-bold mb-4"
-          >
-            <span className="bg-gradient-to-r from-[#3CAAFF] to-[#00E0FF] bg-clip-text text-transparent">
-              Our Services
-            </span>
-          </motion.h2>
-          <motion.p 
-            initial={{ opacity: 0 }}
-            whileInView={{ opacity: 1 }}
-            viewport={{ once: true, margin: "-100px" }}
-            transition={{ duration: 0.7, delay: 0.2, ease: [0.165, 0.84, 0.44, 1] }}
-            className="text-[#ABABAB] max-w-2xl mx-auto"
-          >
-            Explore our tailored services designed specifically for equestrian businesses. See what's possible for your project.
-          </motion.p>
+          {disableAnimations ? (
+            <>
+              <h2 className="text-3xl sm:text-4xl font-bold mb-4">
+                <span className="bg-gradient-to-r from-[#3CAAFF] to-[#00E0FF] bg-clip-text text-transparent">Our Facilities</span>
+              </h2>
+              <p className="text-[#ABABAB] max-w-2xl mx-auto">
+                Explore our tailored services designed specifically for equestrian businesses. See what's possible for your project.
+              </p>
+            </>
+          ) : (
+            <>
+              <motion.h2
+                initial={{ opacity: 0, y: -20 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{ duration: 0.7, ease: [0.165, 0.84, 0.44, 1] }}
+                className="text-3xl sm:text-4xl font-bold mb-4"
+              >
+                <span className="bg-gradient-to-r from-[#3CAAFF] to-[#00E0FF] bg-clip-text text-transparent">Our Facilities</span>
+              </motion.h2>
+              <motion.p
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{ duration: 0.7, delay: 0.2, ease: [0.165, 0.84, 0.44, 1] }}
+                className="text-[#ABABAB] max-w-2xl mx-auto"
+              >
+                Explore our tailored services designed specifically for equestrian businesses. See what's possible for your project.
+              </motion.p>
+            </>
+          )}
         </div>
 
         <div className="space-y-32">
           {facilities.map((facility, index) => (
-            <motion.div 
-              key={index}
-              initial={{ opacity: 0, y: 50 }}
-              whileInView={{ opacity: 1, y: 0 }}
-              viewport={{ once: true, margin: "-100px" }}
-              transition={{ 
-                duration: 0.9,
-                ease: [0.165, 0.84, 0.44, 1]
-              }}
-              className={`flex flex-col ${index % 2 === 0 ? 'lg:flex-row' : 'lg:flex-row-reverse'} gap-12 items-center`}
-            >
-              <div className="lg:w-1/2">
-                <motion.div 
-                  initial={{ scale: 0.9, opacity: 0.8 }}
-                  whileInView={{ scale: 1, opacity: 1 }}
-                  viewport={{ once: true, margin: "-100px" }}
-                  transition={{ duration: 0.8, ease: [0.165, 0.84, 0.44, 1] }}
-                  whileHover={{ 
-                    scale: 1.03, 
-                    boxShadow: "0 20px 40px rgba(60, 170, 255, 0.15)",
-                    transition: { duration: 0.4 }
-                  }}
-                  className="relative rounded-2xl overflow-hidden group shadow-lg shadow-black/20"
-                >
-                  <div className="aspect-w-16 aspect-h-9">
-                    <img 
-                      src={facility.image} 
-                      alt={`${facility.title} - Equinology Service`}
-                      className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-700 ease-in-out"
-                    />
+            disableAnimations ? (
+              <div 
+                key={index}
+                className={`flex flex-col ${index % 2 === 0 ? "lg:flex-row" : "lg:flex-row-reverse"} gap-12 items-center`}
+              >
+                <div className="lg:w-1/2">
+                  <div className="relative rounded-2xl overflow-hidden group shadow-lg shadow-black/20">
+                    <div className="aspect-w-16 aspect-h-9">
+                      <img 
+                        src={facility.image} 
+                        alt={`${facility.title} - Equinology Service`}
+                        className="object-cover w-full h-full"
+                      />
+                    </div>
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-[#0A0A0A]/50 to-transparent opacity-80"></div>
                   </div>
-                  <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-[#0A0A0A]/50 to-transparent opacity-80"></div>
-                  
-                  {/* Animated border effect */}
-                  <motion.div 
-                    className="absolute inset-0 border-2 border-[#3CAAFF]/0 rounded-2xl"
-                    animate={{ 
-                      borderColor: ['rgba(60, 170, 255, 0)', 'rgba(60, 170, 255, 0.1)', 'rgba(60, 170, 255, 0)'],
-                    }}
-                    transition={{ 
-                      duration: 4, 
-                      ease: "easeInOut", 
-                      repeat: Infinity,
-                    }}
-                  />
-                </motion.div>
-              </div>
-              
-              <div className="lg:w-1/2">
-                <motion.div
-                  initial={{ opacity: 0, x: index % 2 === 0 ? 30 : -30 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true, margin: "-100px" }}
-                  transition={{ duration: 0.8, ease: [0.165, 0.84, 0.44, 1] }}
-                >
+                </div>
+                
+                <div className="lg:w-1/2">
                   <h3 className="text-2xl sm:text-3xl font-bold mb-6 text-[#F5F5F7]">
                     {facility.title}
                   </h3>
-                  <motion.p 
-                    initial={{ opacity: 0, y: 20 }}
-                    whileInView={{ opacity: 1, y: 0 }}
-                    viewport={{ once: true, margin: "-100px" }}
-                    transition={{ duration: 0.7, delay: 0.3, ease: [0.165, 0.84, 0.44, 1] }}
-                    className="text-[#ABABAB] mb-8 text-lg leading-relaxed"
-                  >
+                  <p className="text-[#ABABAB] mb-8 text-lg leading-relaxed">
                     {facility.description}
-                  </motion.p>
-                  <motion.button 
-                    initial={{ opacity: 0, x: -10 }}
-                    whileInView={{ opacity: 1, x: 0 }}
-                    viewport={{ once: true, margin: "-100px" }}
-                    transition={{ duration: 0.7, delay: 0.5, ease: [0.165, 0.84, 0.44, 1] }}
-                    whileHover={{ 
-                      x: 5, 
-                      textShadow: "0 0 10px rgba(60, 170, 255, 0.5)" 
-                    }}
+                  </p>
+                  <button 
                     className="flex items-center text-[#3CAAFF] hover:text-[#F5F5F7] transition-colors duration-300 group"
                     onClick={() => navigate('/services')}
                   >
                     <span className="font-medium">Learn more</span>
-                    <motion.div
-                      initial={{ x: 0 }}
-                      whileHover={{ x: 5 }}
-                      transition={{ duration: 0.3 }}
-                    >
-                      <ArrowRight className="ml-2 w-5 h-5 group-hover:ml-3 transition-all duration-300" />
-                    </motion.div>
-                  </motion.button>
-                </motion.div>
+                    <ArrowRight className="ml-2 w-5 h-5" />
+                  </button>
+                </div>
               </div>
-            </motion.div>
+            ) : (
+              <motion.div 
+                key={index}
+                initial={{ opacity: 0, y: 50 }}
+                whileInView={{ opacity: 1, y: 0 }}
+                viewport={{ once: true, margin: "-100px" }}
+                transition={{ 
+                  duration: 0.9,
+                  ease: [0.165, 0.84, 0.44, 1]
+                }}
+                className={`flex flex-col ${index % 2 === 0 ? "lg:flex-row" : "lg:flex-row-reverse"} gap-12 items-center`}
+              >
+                <div className="lg:w-1/2">
+                  <motion.div 
+                    initial={{ scale: 0.9, opacity: 0.8 }}
+                    whileInView={{ scale: 1, opacity: 1 }}
+                    viewport={{ once: true, margin: "-100px" }}
+                    transition={{ duration: 0.8, ease: [0.165, 0.84, 0.44, 1] }}
+                    whileHover={{ 
+                      scale: 1.03, 
+                      boxShadow: "0 20px 40px rgba(60, 170, 255, 0.15)",
+                      transition: { duration: 0.4 }
+                    }}
+                    className="relative rounded-2xl overflow-hidden group shadow-lg shadow-black/20"
+                  >
+                    <div className="aspect-w-16 aspect-h-9">
+                      <img 
+                        src={facility.image} 
+                        alt={`${facility.title} - Equinology Service`}
+                        className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-700 ease-in-out"
+                      />
+                    </div>
+                    <div className="absolute inset-0 bg-gradient-to-t from-[#0A0A0A] via-[#0A0A0A]/50 to-transparent opacity-80"></div>
+                    
+                    {/* Animated border effect */}
+                    <motion.div 
+                      className="absolute inset-0 border-2 border-[#3CAAFF]/0 rounded-2xl"
+                      animate={{ 
+                        borderColor: ['rgba(60, 170, 255, 0)', 'rgba(60, 170, 255, 0.1)', 'rgba(60, 170, 255, 0)'],
+                      }}
+                      transition={{ 
+                        duration: 4, 
+                        ease: "easeInOut", 
+                        repeat: Infinity,
+                      }}
+                    />
+                  </motion.div>
+                </div>
+                
+                <div className="lg:w-1/2">
+                  <motion.div
+                    initial={{ opacity: 0, x: index % 2 === 0 ? 30 : -30 }}
+                    whileInView={{ opacity: 1, x: 0 }}
+                    viewport={{ once: true, margin: "-100px" }}
+                    transition={{ duration: 0.8, ease: [0.165, 0.84, 0.44, 1] }}
+                  >
+                    <h3 className="text-2xl sm:text-3xl font-bold mb-6 text-[#F5F5F7]">
+                      {facility.title}
+                    </h3>
+                    <motion.p 
+                      initial={{ opacity: 0, y: 20 }}
+                      whileInView={{ opacity: 1, y: 0 }}
+                      viewport={{ once: true, margin: "-100px" }}
+                      transition={{ duration: 0.7, delay: 0.3, ease: [0.165, 0.84, 0.44, 1] }}
+                      className="text-[#ABABAB] mb-8 text-lg leading-relaxed"
+                    >
+                      {facility.description}
+                    </motion.p>
+                    <motion.button 
+                      initial={{ opacity: 0, x: -10 }}
+                      whileInView={{ opacity: 1, x: 0 }}
+                      viewport={{ once: true, margin: "-100px" }}
+                      transition={{ duration: 0.7, delay: 0.5, ease: [0.165, 0.84, 0.44, 1] }}
+                      whileHover={{ 
+                        x: 5, 
+                        textShadow: "0 0 10px rgba(60, 170, 255, 0.5)" 
+                      }}
+                      className="flex items-center text-[#3CAAFF] hover:text-[#F5F5F7] transition-colors duration-300 group"
+                      onClick={() => navigate('/services')}
+                    >
+                      <span className="font-medium">Learn more</span>
+                      <motion.div
+                        initial={{ x: 0 }}
+                        whileHover={{ x: 5 }}
+                        transition={{ duration: 0.3 }}
+                      >
+                        <ArrowRight className="ml-2 w-5 h-5 group-hover:ml-3 transition-all duration-300" />
+                      </motion.div>
+                    </motion.button>
+                  </motion.div>
+                </div>
+              </motion.div>
+            )
           ))}
         </div>
       </div>

@@ -2,6 +2,7 @@ import { motion, useScroll, useTransform, useSpring, MotionValue } from 'framer-
 import { PenTool, Layout, Compass, Lightbulb, Ruler, Users } from 'lucide-react';
 import { useRef } from 'react';
 import React from 'react';
+import { useAnimation } from '../contexts/AnimationContext';
 
 // Define types for AnimatedOrb props
 interface AnimatedOrbProps {
@@ -29,12 +30,11 @@ const AnimatedOrb: React.FC<AnimatedOrbProps> = ({ style, customAnimation, class
 };
 
 const Services = () => {
-  const servicesRef = useRef<HTMLDivElement>(null);
-  
-  // Get scroll progress for parallax effect.
+  const { disableAnimations } = useAnimation();
+  const containerRef = useRef<HTMLDivElement>(null);
   const { scrollYProgress } = useScroll({
-    target: servicesRef,
-    offset: ["start end", "end start"],
+    target: containerRef,
+    offset: ["start end", "end start"]
   });
   
   // Smooth the scroll progress to avoid jittery transitions.
@@ -99,11 +99,7 @@ const Services = () => {
   };
 
   return (
-    <section
-      id="services"
-      className="py-24 relative overflow-hidden"
-      ref={servicesRef}
-    >
+    <section ref={containerRef} className="relative py-32 overflow-hidden">
       {/* Background SVG pattern */}
       <div className="absolute inset-0 bg-[url('data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI1IiBoZWlnaHQ9IjUiPgo8cmVjdCB3aWR0aD0iNSIgaGVpZ2h0PSI1IiBmaWxsPSIjMDgwODA4Ij48L3JlY3Q+CjxwYXRoIGQ9Ik0wIDVMNSAwWk02IDRMNCA2Wk0tMSAxTDEgLTFaIiBzdHJva2U9IiMxNTE1MTUiIHN0cm9rZS13aWR0aD0iMSI+PC9wYXRoPgo8L3N2Zz4=')] opacity-20"></div>
       
@@ -147,17 +143,21 @@ const Services = () => {
 
       <div className="max-w-7xl mx-auto relative z-10 px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
-          <motion.h2
-            initial={{ opacity: 0, y: -15 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true, margin: "-80px" }}
-            transition={{ duration: 0.7, ease: [0.165, 0.84, 0.44, 1] }}
-            className="text-3xl sm:text-4xl font-bold mb-4"
-          >
-            <span className="bg-gradient-to-r from-[#3CAAFF] to-[#00E0FF] bg-clip-text text-transparent">
-              Our Services
-            </span>
-          </motion.h2>
+          {disableAnimations ? (
+            <h2 className="text-3xl sm:text-4xl font-bold mb-4">
+              <span className="bg-gradient-to-r from-[#3CAAFF] to-[#00E0FF] bg-clip-text text-transparent">Our Services</span>
+            </h2>
+          ) : (
+            <motion.h2
+              initial={{ opacity: 0, y: -15 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-80px" }}
+              transition={{ duration: 0.7, ease: [0.165, 0.84, 0.44, 1] }}
+              className="text-3xl sm:text-4xl font-bold mb-4"
+            >
+              <span className="bg-gradient-to-r from-[#3CAAFF] to-[#00E0FF] bg-clip-text text-transparent">Our Services</span>
+            </motion.h2>
+          )}
           <motion.p
             initial={{ opacity: 0 }}
             whileInView={{ opacity: 1 }}
@@ -169,35 +169,56 @@ const Services = () => {
           </motion.p>
         </div>
 
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, margin: "-40px" }}
-          className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
-        >
-          {services.map((service, index) => (
-            <motion.div
-              key={index}
-              variants={itemVariants}
-              whileHover={{
-                y: -8,
-                transition: { duration: 0.3, ease: "easeOut" },
-              }}
-              className="bg-gradient-to-br from-[#111111] to-[#0A0A0A] p-8 rounded-2xl border border-[#222222]/20 transition-all duration-300 group hover:shadow-xl hover:shadow-[#3CAAFF]/10 hover:border-[#3CAAFF]/20"
-            >
-              <div className="bg-gradient-to-br from-[#0A0A0A]/80 to-[#111111]/30 p-4 rounded-xl inline-block mb-6 transition-all duration-300 group-hover:bg-gradient-to-br group-hover:from-[#3CAAFF]/20 group-hover:to-[#0A0A0A]/20 transform group-hover:scale-105">
-                {service.icon}
+        {disableAnimations ? (
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
+            {services.map((service, index) => (
+              <div
+                key={index}
+                className="bg-gradient-to-br from-[#111111] to-[#0A0A0A] p-8 rounded-2xl border border-[#222222]/20 transition-all duration-300 group hover:shadow-xl hover:shadow-[#3CAAFF]/10 hover:border-[#3CAAFF]/20"
+              >
+                <div className="bg-gradient-to-br from-[#0A0A0A]/80 to-[#111111]/30 p-4 rounded-xl inline-block mb-6 transition-all duration-300 group-hover:bg-gradient-to-br group-hover:from-[#3CAAFF]/20 group-hover:to-[#0A0A0A]/20 transform group-hover:scale-105">
+                  {service.icon}
+                </div>
+                <h3 className="text-xl font-semibold mb-3 text-[#F5F5F7] group-hover:text-[#3CAAFF] transition-colors duration-300">
+                  {service.title}
+                </h3>
+                <p className="text-[#ABABAB] group-hover:text-[#CDCDCD] transition-colors duration-300">
+                  {service.description}
+                </p>
               </div>
-              <h3 className="text-xl font-semibold mb-3 text-[#F5F5F7] group-hover:text-[#3CAAFF] transition-colors duration-300">
-                {service.title}
-              </h3>
-              <p className="text-[#ABABAB] group-hover:text-[#CDCDCD] transition-colors duration-300">
-                {service.description}
-              </p>
-            </motion.div>
-          ))}
-        </motion.div>
+            ))}
+          </div>
+        ) : (
+          <motion.div
+            variants={containerVariants}
+            initial="hidden"
+            whileInView="visible"
+            viewport={{ once: true, margin: "-40px" }}
+            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8"
+          >
+            {services.map((service, index) => (
+              <motion.div
+                key={index}
+                variants={itemVariants}
+                whileHover={{
+                  y: -8,
+                  transition: { duration: 0.3, ease: "easeOut" },
+                }}
+                className="bg-gradient-to-br from-[#111111] to-[#0A0A0A] p-8 rounded-2xl border border-[#222222]/20 transition-all duration-300 group hover:shadow-xl hover:shadow-[#3CAAFF]/10 hover:border-[#3CAAFF]/20"
+              >
+                <div className="bg-gradient-to-br from-[#0A0A0A]/80 to-[#111111]/30 p-4 rounded-xl inline-block mb-6 transition-all duration-300 group-hover:bg-gradient-to-br group-hover:from-[#3CAAFF]/20 group-hover:to-[#0A0A0A]/20 transform group-hover:scale-105">
+                  {service.icon}
+                </div>
+                <h3 className="text-xl font-semibold mb-3 text-[#F5F5F7] group-hover:text-[#3CAAFF] transition-colors duration-300">
+                  {service.title}
+                </h3>
+                <p className="text-[#ABABAB] group-hover:text-[#CDCDCD] transition-colors duration-300">
+                  {service.description}
+                </p>
+              </motion.div>
+            ))}
+          </motion.div>
+        )}
       </div>
     </section>
   );
