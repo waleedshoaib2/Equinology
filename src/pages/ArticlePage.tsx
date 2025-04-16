@@ -5,6 +5,8 @@ import { articles, findArticleBySlug, Article } from '../data/articleData'; // U
 import ArticleList from '../components/article/ArticleList';
 import ArticleDetail from '../components/article/ArticleDetail';
 import { Helmet } from 'react-helmet-async';
+import ReactMarkdown from 'react-markdown';
+import { ArrowRight } from 'lucide-react';
 
 const ArticlePage = () => {
   const { slug } = useParams<{ slug: string }>();
@@ -59,7 +61,62 @@ const ArticlePage = () => {
         
         {/* --- Single Post View --- */}
         {showSinglePost && selectedPost && (
-          <ArticleDetail post={selectedPost} onBackClick={handleBackClick} />
+          <ArticleDetail post={selectedPost} onBackClick={handleBackClick}>
+            <div className="prose prose-invert max-w-none">
+              <ReactMarkdown 
+                components={{
+                  p: ({ children }) => <p className="text-[#ABABAB] leading-relaxed mb-6">{children}</p>,
+                  h2: ({ children }) => <h2 className="text-3xl font-semibold text-white mb-6 mt-12">{children}</h2>,
+                  h3: ({ children }) => <h3 className="text-2xl font-semibold text-white mb-4 mt-8">{children}</h3>,
+                  ul: ({ children }) => <ul className="list-disc list-inside text-[#ABABAB] mb-6 space-y-2">{children}</ul>,
+                  li: ({ children }) => <li className="text-[#ABABAB]">{children}</li>,
+                  a: ({ href, children }) => (
+                    <a 
+                      href={href} 
+                      className="text-blue-400 hover:text-blue-300 underline"
+                      target="_blank" 
+                      rel="noopener noreferrer"
+                    >
+                      {children}
+                    </a>
+                  ),
+                  img: ({ src, alt }) => (
+                    <div className="my-8">
+                      <img 
+                        src={src} 
+                        alt={alt} 
+                        className="rounded-xl shadow-2xl w-full h-auto"
+                      />
+                    </div>
+                  )
+                }}
+              >
+                {selectedPost.content}
+              </ReactMarkdown>
+
+              {/* Consistent Call-to-Action Section */}
+              <div className="mt-16 pt-8 border-t border-gray-800">
+                <div className="flex flex-col items-center text-center">
+                  <h3 className="text-2xl font-semibold text-white mb-4">
+                    Interested in learning more about how we can help your business?
+                  </h3>
+                  <p className="text-gray-400 mb-6 max-w-2xl">
+                    Contact us to discuss your digital needs and discover how we can create a tailored solution for your equestrian business.
+                  </p>
+                  <button 
+                    onClick={() => {
+                      navigate('/contact');
+                      setTimeout(() => window.scrollTo(0, 0), 100);
+                    }}
+                    className="inline-flex items-center px-8 py-3 rounded-full bg-blue-400 text-[#0A0A0A] font-medium text-lg hover:bg-blue-400/90 transition-colors duration-200 group"
+                  >
+                    Contact Us Now
+                    <ArrowRight className="ml-2 h-6 w-6 transition-transform group-hover:translate-x-1" />
+                  </button>
+                </div>
+              </div>
+            </div>
+          </ArticleDetail>
         )}
 
         {/* --- Articles List View Title --- */}

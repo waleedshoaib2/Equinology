@@ -5,9 +5,10 @@ import { Article } from '../../data/articleData';
 import rehypeRaw from 'rehype-raw';
 import rehypeSanitize from 'rehype-sanitize';
 import { motion } from 'framer-motion';
-import { ArrowLeft } from 'lucide-react';
+import { ArrowLeft, ArrowRight, Clock, User } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
 import TimeAgo from 'react-timeago';
+import { useNavigate } from 'react-router-dom';
 
 interface ArticleDetailProps {
   post: Article;
@@ -15,6 +16,8 @@ interface ArticleDetailProps {
 }
 
 const ArticleDetail: React.FC<ArticleDetailProps> = ({ post, onBackClick }) => {
+  const navigate = useNavigate();
+
   if (!post) {
     return <div className="text-center py-20">Article not found</div>;
   }
@@ -33,20 +36,27 @@ const ArticleDetail: React.FC<ArticleDetailProps> = ({ post, onBackClick }) => {
 
       <div className="mb-6">
         <button 
-          onClick={() => {
-            onBackClick();
-            window.scrollTo({ top: 0, behavior: 'smooth' });
-          }} 
-          className="inline-flex items-center text-[#3CAAFF] hover:text-[#00E0FF] hover:underline transition-colors"
+          onClick={onBackClick}
+          className="flex items-center text-blue-400 hover:text-blue-300 mb-8 group"
         >
-          <ArrowLeft size={18} className="mr-1" /> Back to articles
+          <ArrowLeft className="w-5 h-5 mr-2 group-hover:-translate-x-1 transition-transform" />
+          Back to Articles
         </button>
       </div>
       
       <div className="flex flex-col space-y-4 mb-8">
         <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white">{post.title}</h1>
         <div className="text-gray-400">
-          <span><TimeAgo date={post.timestamp} /></span> {post.readTime && <>• <span>{post.readTime} min read</span></>}
+          <div className="flex items-center gap-4">
+            <div className="flex items-center gap-2">
+              <User className="w-4 h-4" />
+              <span>{post.author}</span>
+            </div>
+            <div className="flex items-center gap-2">
+              <Clock className="w-4 h-4" />
+              <span>{post.readTime} min read</span>
+            </div>
+          </div>
         </div>
         {post.coverImage && (
           <div className="w-full relative overflow-hidden rounded-lg shadow-md">
@@ -109,6 +119,27 @@ const ArticleDetail: React.FC<ArticleDetailProps> = ({ post, onBackClick }) => {
         >
           {post.content}
         </ReactMarkdown>
+
+        <div className="mt-16 pt-8 border-t border-gray-800">
+          <div className="flex flex-col items-center text-center">
+            <h3 className="text-2xl font-semibold text-white mb-4">
+              Interested in learning more about how we can help your business?
+            </h3>
+            <p className="text-gray-400 mb-6 max-w-2xl">
+              Contact us to discuss your digital needs and discover how we can create a tailored solution for your equestrian business.
+            </p>
+            <button 
+              onClick={() => {
+                navigate('/contact');
+                setTimeout(() => window.scrollTo(0, 0), 100);
+              }}
+              className="inline-flex items-center px-8 py-3 rounded-full bg-blue-400 text-[#0A0A0A] font-medium text-lg hover:bg-blue-400/90 transition-colors duration-200 group"
+            >
+              Contact Us Now
+              <ArrowRight className="ml-2 h-6 w-6 transition-transform group-hover:translate-x-1" />
+            </button>
+          </div>
+        </div>
       </div>
     </motion.div>
   );

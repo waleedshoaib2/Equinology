@@ -2,6 +2,7 @@ import { ChevronRight, Code, Palette, ShoppingBag, Camera, Globe, MessageSquare,
 import { useNavigate } from 'react-router-dom';
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
 import { useEffect } from 'react';
+import { Link } from 'react-router-dom';
 
 const HeroSection = () => {
   const { scrollY } = useScroll();
@@ -460,6 +461,110 @@ function ServicesPage() {
         <BrandingIdentitySection />
         <ServicesSection />
         <GlobalReachSection />
+        <section className="py-32 px-4 bg-[#0A0A0A]">
+          <div className="max-w-7xl mx-auto">
+            <motion.h2 
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              transition={{ duration: 0.5 }}
+              viewport={{ once: true }}
+              className="text-5xl font-semibold text-center mb-16 text-white tracking-wide"
+            >
+              <span className="bg-gradient-to-r from-blue-400 to-cyan-300 bg-clip-text text-transparent">
+                Custom vs WordPress Solutions
+              </span>
+            </motion.h2>
+            
+            <div className="grid md:grid-cols-2 gap-16">
+              {/* Custom Solutions */}
+              <motion.div 
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                transition={{ duration: 0.5 }}
+                viewport={{ once: true }}
+                className="bg-[#0A0A0A] p-8 rounded-2xl border border-blue-400/20 hover:border-blue-400/40 transition-colors duration-300"
+              >
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="bg-[#0A0A0A] p-4 rounded-xl border border-blue-400/20">
+                    <Code className="w-8 h-8 text-blue-400" />
+                  </div>
+                  <h3 className="text-2xl font-medium text-white tracking-wide">Custom Solutions</h3>
+                </div>
+                <div className="space-y-4">
+                  <div className="flex items-center gap-3 text-[#ABABAB]">
+                    <Check className="w-5 h-5 text-blue-400" />
+                    <span>Tailored specifically to your equestrian business needs</span>
+                  </div>
+                  <div className="flex items-center gap-3 text-[#ABABAB]">
+                    <Check className="w-5 h-5 text-blue-400" />
+                    <span>Complete control over design and functionality</span>
+                  </div>
+                  <div className="flex items-center gap-3 text-[#ABABAB]">
+                    <Check className="w-5 h-5 text-blue-400" />
+                    <span>Optimized performance and security</span>
+                  </div>
+                  <div className="flex items-center gap-3 text-[#ABABAB]">
+                    <Check className="w-5 h-5 text-blue-400" />
+                    <span>Scalable as your business grows</span>
+                  </div>
+                </div>
+              </motion.div>
+
+              {/* WordPress Solutions */}
+              <motion.div 
+                initial={{ opacity: 0 }}
+                whileInView={{ opacity: 1 }}
+                transition={{ duration: 0.5, delay: 0.1 }}
+                viewport={{ once: true }}
+                className="bg-[#0A0A0A] p-8 rounded-2xl border border-blue-400/20 hover:border-blue-400/40 transition-colors duration-300"
+              >
+                <div className="flex items-center gap-4 mb-6">
+                  <div className="bg-[#0A0A0A] p-4 rounded-xl border border-blue-400/20">
+                    <Globe className="w-8 h-8 text-blue-400" />
+                  </div>
+                  <h3 className="text-2xl font-medium text-white tracking-wide">WordPress Solutions</h3>
+                </div>
+                <div className="space-y-4">
+                  <div className="flex items-center gap-3 text-[#ABABAB]">
+                    <Check className="w-5 h-5 text-blue-400" />
+                    <span>Quick setup and deployment</span>
+                  </div>
+                  <div className="flex items-center gap-3 text-[#ABABAB]">
+                    <Check className="w-5 h-5 text-blue-400" />
+                    <span>User-friendly content management</span>
+                  </div>
+                  <div className="flex items-center gap-3 text-[#ABABAB]">
+                    <Check className="w-5 h-5 text-blue-400" />
+                    <span>Cost-effective for smaller businesses</span>
+                  </div>
+                  <div className="flex items-center gap-3 text-[#ABABAB]">
+                    <Check className="w-5 h-5 text-blue-400" />
+                    <span>Large ecosystem of plugins and themes</span>
+                  </div>
+                </div>
+              </motion.div>
+            </div>
+
+            <motion.div 
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              transition={{ duration: 0.5, delay: 0.2 }}
+              viewport={{ once: true }}
+              className="mt-16 text-center"
+            >
+              <p className="text-gray-400 text-lg mb-6">
+                Not sure which solution is right for your equestrian business? Read our detailed comparison in our article:
+              </p>
+              <Link 
+                to="/articles/is-wordpress-suitable-for-equestrian-businesses"
+                className="inline-flex items-center text-blue-400 hover:text-blue-300 font-medium group"
+              >
+                Is WordPress Suitable for Equestrian Businesses?
+                <ArrowRight className="ml-2 h-6 w-6 transition-transform group-hover:translate-x-1" />
+              </Link>
+            </motion.div>
+          </div>
+        </section>
         <ContactSection navigate={navigate} />
       </motion.div>
     </AnimatePresence>
