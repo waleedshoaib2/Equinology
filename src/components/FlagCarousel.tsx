@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { motion, useAnimation, useMotionValue, useTransform, useScroll } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import { Globe, ChevronRight, ChevronDown } from 'lucide-react';
+import { Globe } from 'lucide-react';
 import { useAnimation as useAnimationContext } from '../contexts/AnimationContext';
 
 const countries = [
@@ -19,57 +19,61 @@ const countries = [
   { name: 'Belgium', flag: '🇧🇪', region: 'Europe' },
 ];
 
+// Duplicate the countries array to create a seamless loop
+const duplicatedCountries = [...countries, ...countries];
+
 const FlagCarousel = () => {
   const { disableAnimations } = useAnimationContext();
-  const [showAllFlags, setShowAllFlags] = useState(false);
-  const [viewportHeight, setViewportHeight] = useState('100vh');
-  const controls = useAnimation();
-  const { ref, inView } = useInView({
-    threshold: 0.1,
-    triggerOnce: false,
-  });
-
-  const x = useMotionValue(0);
-  const rotateY = useTransform(x, [-200, 0, 200], [-15, 0, 15]);
-  const scale = useTransform(x, [-200, 0, 200], [0.9, 1, 0.9]);
-  const opacity = useTransform(x, [-200, 0, 200], [0.7, 1, 0.7]);
-
   const containerRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: containerRef,
-    offset: ["start end", "end start"]
-  });
+  const [isHovered, setIsHovered] = useState(false);
 
-  useEffect(() => {
-    // Function to update viewport height
-    const updateViewportHeight = () => {
-      const vh = window.innerHeight * 0.01;
-      document.documentElement.style.setProperty('--vh', `${vh}px`);
-      setViewportHeight(`${vh * 100}px`);
-    };
-
-    // Initial update
-    updateViewportHeight();
-
-    // Update on resize and orientation change
-    window.addEventListener('resize', updateViewportHeight);
-    window.addEventListener('orientationchange', updateViewportHeight);
-
-    return () => {
-      window.removeEventListener('resize', updateViewportHeight);
-      window.removeEventListener('orientationchange', updateViewportHeight);
-    };
-  }, []);
-
-  React.useEffect(() => {
-    if (inView && !disableAnimations) {
-      controls.start({
-        opacity: 1,
-        y: 0,
-        transition: { duration: 0.8, ease: "easeOut" }
-      });
-    }
-  }, [inView, controls, disableAnimations]);
+  const renderDesktopVersion = () => (
+    <div 
+      className="relative h-[500px] overflow-hidden"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      <motion.div
+        className="absolute inset-0 flex items-center"
+        animate={{
+          x: [0, -1000],
+        }}
+        transition={{
+          x: {
+            repeat: Infinity,
+            repeatType: "loop",
+            duration: 20,
+            ease: "linear",
+          },
+        }}
+        style={{
+          animationPlayState: isHovered ? 'paused' : 'running'
+        }}
+      >
+        <div className="flex gap-6">
+          {duplicatedCountries.map((country, index) => (
+            <motion.div
+              key={`${country.name}-${index}`}
+              className="relative group flex-shrink-0"
+              whileHover={{ scale: 1.05, zIndex: 1 }}
+            >
+              <div className="bg-[#111111]/50 backdrop-blur-sm p-8 rounded-2xl border border-[#3CAAFF]/20 group-hover:border-[#3CAAFF]/50 transition-all duration-300 h-full flex flex-col items-center justify-center">
+                <div className="text-6xl mb-4 transform group-hover:scale-110 transition-transform duration-300">
+                  {country.flag}
+                </div>
+                <div className="text-white text-sm font-medium mb-1 text-center">
+                  {country.name}
+                </div>
+                <div className="text-[#3CAAFF] text-xs text-center">
+                  {country.region}
+                </div>
+              </div>
+            </motion.div>
+          ))}
+        </div>
+      </motion.div>
+    </div>
+  );
 
   const renderMobileVersion = () => (
     <div className="grid grid-cols-2 sm:grid-cols-3 gap-4">
@@ -89,55 +93,6 @@ const FlagCarousel = () => {
           </div>
         </div>
       ))}
-    </div>
-  );
-
-  const renderDesktopVersion = () => (
-    <div 
-      className="relative h-[500px]"
-    >
-      <motion.div
-        className="absolute inset-0 flex items-center justify-center"
-        style={{
-          x: disableAnimations ? 0 : x,
-          rotateY: disableAnimations ? 0 : rotateY,
-          scale: disableAnimations ? 1 : scale,
-          opacity: disableAnimations ? 1 : opacity,
-        }}
-        drag={disableAnimations ? false : "x"}
-        dragConstraints={{ left: -200, right: 200 }}
-        dragElastic={0.1}
-        whileHover={disableAnimations ? {} : { scale: 1.02 }}
-        transition={{ type: "spring", stiffness: 300, damping: 30 }}
-      >
-        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-4 lg:grid-cols-6 gap-6">
-          {countries.map((country, index) => (
-            <motion.div
-              key={country.name}
-              className="relative group"
-              initial={disableAnimations ? {} : { opacity: 0, y: 20 }}
-              animate={disableAnimations ? {} : {
-                opacity: 1,
-                y: 0,
-                transition: { delay: index * 0.1 }
-              }}
-              whileHover={disableAnimations ? {} : { scale: 1.05, zIndex: 1 }}
-            >
-              <div className="bg-[#111111]/50 backdrop-blur-sm p-8 rounded-2xl border border-[#3CAAFF]/20 group-hover:border-[#3CAAFF]/50 transition-all duration-300 h-full flex flex-col items-center justify-center">
-                <div className="text-6xl mb-4 transform group-hover:scale-110 transition-transform duration-300">
-                  {country.flag}
-                </div>
-                <div className="text-white text-sm font-medium mb-1 text-center">
-                  {country.name}
-                </div>
-                <div className="text-[#3CAAFF] text-xs text-center">
-                  {country.region}
-                </div>
-              </div>
-            </motion.div>
-          ))}
-        </div>
-      </motion.div>
     </div>
   );
 

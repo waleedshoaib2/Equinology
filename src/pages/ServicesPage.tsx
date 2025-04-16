@@ -1,4 +1,4 @@
-import { ChevronRight, Code, Palette, ShoppingBag, Camera, Globe, MessageSquare, Users, Award, Heart, ArrowRight, Check, Star, Clock, Zap } from 'lucide-react';
+import { ChevronRight, Code, Palette, ShoppingBag, Camera, Globe, MessageSquare, Users, Award, Heart, ArrowRight, Check, Star, Clock, Zap, Smartphone, Share2, Search } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import { motion, useScroll, useTransform, AnimatePresence } from 'framer-motion';
 import { useEffect } from 'react';
@@ -303,6 +303,73 @@ const ServicesSection = () => {
   );
 };
 
+const globalReachItems = [
+  {
+    title: "Digital Presence",
+    description: "Establish a strong online presence that works for you 24/7, reaching potential clients worldwide.",
+    icon: <Globe className="w-6 h-6 text-blue-400" />
+  },
+  {
+    title: "Mobile Accessibility",
+    description: "Ensure your services are accessible to clients on any device, anywhere in the world.",
+    icon: <Smartphone className="w-6 h-6 text-blue-400" />
+  },
+  {
+    title: "Social Media Integration",
+    description: "Seamlessly connect your website with social platforms to expand your reach and engagement.",
+    icon: <Share2 className="w-6 h-6 text-blue-400" />
+  },
+  {
+    title: "Search Visibility",
+    description: "Optimize your online presence to be easily found by those searching for your services.",
+    icon: <Search className="w-6 h-6 text-blue-400" />
+  }
+];
+
+function GlobalReachSection() {
+  return (
+    <section className="py-20 bg-gradient-to-b from-[#0A0A0A] to-[#111111] overflow-hidden">
+      <div className="container mx-auto px-4">
+        <div className="max-w-3xl mx-auto text-center mb-16">
+          <h2 className="text-4xl font-bold mb-6 bg-gradient-to-r from-blue-400 to-cyan-300 bg-clip-text text-transparent">
+            Digital Reach & Connectivity
+          </h2>
+          <p className="text-gray-300 text-lg">
+            Expand your influence and connect with clients globally through a powerful digital presence
+          </p>
+        </div>
+        
+        <div className="relative">
+          <div className="absolute left-0 top-0 bottom-0 w-24 bg-gradient-to-r from-[#0A0A0A] to-transparent z-10" />
+          <div className="absolute right-0 top-0 bottom-0 w-24 bg-gradient-to-l from-[#0A0A0A] to-transparent z-10" />
+          
+          <div className="flex overflow-x-auto pb-8 gap-8 scrollbar-hide">
+            {globalReachItems.map((item, index) => (
+              <div 
+                key={index}
+                className="group flex-shrink-0 w-[300px] p-6 rounded-lg bg-[#111111] border border-gray-800 hover:border-blue-400/30 transition-all duration-300"
+              >
+                <div className="absolute inset-0 bg-gradient-to-r from-blue-400/5 to-cyan-300/5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+                <div className="relative z-10">
+                  <div className="w-12 h-12 rounded-lg bg-blue-400/10 flex items-center justify-center mb-4 group-hover:bg-blue-400/20 transition-colors duration-300">
+                    {item.icon}
+                  </div>
+                  <h3 className="text-xl font-semibold mb-2 text-white group-hover:text-blue-400 transition-colors duration-300">
+                    {item.title}
+                  </h3>
+                  <p className="text-gray-400">
+                    {item.description}
+                  </p>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </section>
+  );
+}
+
 const ContactSection = ({ navigate }: { navigate: (path: string) => void }) => {
   const { scrollYProgress } = useScroll();
   const opacity = useTransform(scrollYProgress, [0.6, 0.8], [0, 1]);
@@ -392,6 +459,7 @@ function ServicesPage() {
         <HeroSection />
         <BrandingIdentitySection />
         <ServicesSection />
+        <GlobalReachSection />
         <ContactSection navigate={navigate} />
       </motion.div>
     </AnimatePresence>

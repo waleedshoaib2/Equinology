@@ -113,7 +113,7 @@ const Hero = () => {
           </motion.div>
 
           {/* Hero image/illustration */}
-          <div className="mt-12 lg:mt-0 relative">
+          <div className="mt-12 lg:mt-0 relative hidden lg:block">
             <div className="relative mx-auto max-w-[500px]">
               <div className="aspect-w-5 aspect-h-3 rounded-2xl overflow-hidden bg-gradient-to-br from-[#3CAAFF]/10 to-[#00E0FF]/10 backdrop-blur-3xl">
                 <img

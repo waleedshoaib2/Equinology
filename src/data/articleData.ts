@@ -1,16 +1,17 @@
 import { formatDistanceToNow } from 'date-fns';
+import { ARTICLE_TIMESTAMPS } from '../utils/timestampUtils';
 
 // Define Article interface
 export interface Article {
   id: number;
   title: string;
   slug: string;
-  timestamp: number; // Store timestamp instead of formatted date
+  timestamp: number;
   summary: string;
   content: string;
   image: string;
-  coverImage?: string; // Optional cover image
-  readTime?: string; // Optional read time
+  coverImage?: string;
+  readTime?: string;
   author: string;
 }
 
@@ -40,10 +41,106 @@ export const findArticleBySlug = (slug: string): Article | undefined => {
 // Article data
 export const articles: Article[] = [
   {
+    id: 5,
+    title: "Is WordPress Suitable for Equestrian Businesses?",
+    slug: slugify("Is WordPress Suitable for Equestrian Businesses?"),
+    timestamp: ARTICLE_TIMESTAMPS.WORDPRESS_ARTICLE,
+    summary: "A comprehensive analysis of WordPress's suitability for equestrian businesses, exploring its benefits, limitations, and key considerations for stable owners and equine professionals.",
+    content: `# Is WordPress Suitable for Equestrian Businesses?
+
+WordPress powers over 40% of all websites, but is it the right choice for your equestrian business? Let's compare WordPress with custom web design to help you make the best choice.
+
+## WordPress vs Custom Web Design
+
+### WordPress: Quick and Affordable
+- **Cost:** Lower initial cost, many free themes and plugins
+- **Setup:** Can be up and running in days
+- **Updates:** Easy to update content yourself
+- **Maintenance:** Regular updates needed for security
+- **Customisation:** Limited by available themes and plugins
+
+### Custom Design: Tailored to Your Needs
+- **Cost:** Higher initial investment
+- **Setup:** Takes longer to develop
+- **Updates:** Usually requires developer help
+- **Maintenance:** Less frequent, handled by professionals
+- **Customisation:** Complete freedom to build exactly what you need
+
+## When WordPress Works Well
+
+### For Small Stables and Riding Schools
+- Basic website needs
+- Simple booking systems
+- Photo galleries
+- News updates
+- Price lists
+
+### For Quick Online Presence
+- New businesses
+- Seasonal promotions
+- Event announcements
+- Basic information sharing
+
+## When Custom Design is Better
+
+### For Complex Needs
+- Specialised booking systems
+- Horse management features
+- Client portals
+- Competition scheduling
+- Custom reporting tools
+
+### For Growing Businesses
+- Scalable solutions
+- Unique features
+- Better performance
+- Enhanced security
+- Professional support
+
+## Key Points to Consider
+
+1. **Your Budget**
+   - WordPress: Lower cost to start, but add-ons can add up
+   - Custom: Higher initial cost, but often better long-term value
+
+2. **Technical Skills**
+   - WordPress: Easy to learn, good for DIY updates
+   - Custom: Requires professional help for changes
+
+3. **Future Growth**
+   - WordPress: Can be limiting as your business grows
+   - Custom: Built to scale with your business
+
+4. **Security**
+   - WordPress: Needs regular updates and security plugins
+   - Custom: More secure, less maintenance
+
+5. **Performance**
+   - WordPress: Can be slow with many plugins
+   - Custom: Optimised for speed and efficiency
+
+## Making the Right Choice
+
+For many equestrian businesses, WordPress is a good starting point. It's affordable and easy to use. But if you need special features or expect to grow quickly, custom web design might be a better investment.
+
+Think about:
+- How much you can spend
+- What features you really need
+- How tech-savvy you are
+- Your plans for growth
+- How important security is to you
+
+The best choice depends on your specific needs and goals. Some businesses start with WordPress and move to custom design later. Others go straight to custom for a more professional solution.`,
+    image: "https://i.ibb.co/rPmRbqX/3ced2984-6435-48b1-8de8-a41fad0cd221.webp",
+    coverImage: "https://i.ibb.co/rPmRbqX/3ced2984-6435-48b1-8de8-a41fad0cd221.webp",
+    readTime: "5",
+    author: "Equinology Team"
+  },
+  {
     id: 4,
     title: "Equinology is Expanding to More Industries",
     slug: slugify("Equinology is Expanding to More Industries"),
-    timestamp: new Date("2025-04-15T10:00:00").getTime(), // Fixed date: April 15, 2025
+    timestamp: ARTICLE_TIMESTAMPS.EXPANDING_INDUSTRIES,
     summary: "Discover how Equinology is broadening its expertise beyond equestrian businesses to help more industries with their digital transformation and branding needs.",
     content: `# Equinology is Expanding to More Industries
 
@@ -122,7 +219,7 @@ Interested in learning more about how we can help your business? [Contact us](/c
     id: 2,
     title: "Equine Website Design: Why Every Livery Yard and Riding School Needs a Professional Site",
     slug: slugify("Equine Website Design: Why Every Livery Yard and Riding School Needs a Professional Site"),
-    timestamp: new Date("2025-04-13T15:30:00").getTime(), // Fixed date: April 13, 2025
+    timestamp: ARTICLE_TIMESTAMPS.EQUINE_WEBSITE_DESIGN,
     summary: "Discover why professional equine web design is essential for your horse business. Learn how a well-designed website can help livery yards, riding schools, and equine professionals grow their business.",
     content: `Professional equine website design is more than just having an online presence — it's about creating a digital experience that reflects the quality of your horse business. While social media has its place, a well-designed website is crucial for growth, credibility, and better client service.
 
@@ -169,7 +266,7 @@ Professional equine website design isn't just about looking good — it's about 
     id: 1,
     title: "Equestrian Logo Design Tips for Horse Businesses",
     slug: slugify("Equestrian Logo Design Tips for Horse Businesses"),
-    timestamp: new Date("2025-04-11T09:15:00").getTime(), // Fixed date: April 11, 2025
+    timestamp: ARTICLE_TIMESTAMPS.LOGO_DESIGN_TIPS,
     summary: "Discover how to design a strong, professional equestrian logo that reflects your horse business. Practical advice tailored for UK-based stables, yards, and equine brands.",
     content: `A well-designed logo helps your horse business stand out while staying true to who you are. Whether you run a yard, a shop, or provide equine services, your logo should feel like a natural extension of your brand.
 
@@ -216,7 +313,7 @@ A smart equestrian logo doesn't just look good — it works hard behind the scen
     id: 3,
     title: "Branding for Equestrian Businesses What It Is and Why It Matters",
     slug: slugify("Branding for Equestrian Businesses What It Is and Why It Matters"),
-    timestamp: new Date("2025-04-11T09:15:00").getTime(), // Fixed date: April 11, 2025
+    timestamp: ARTICLE_TIMESTAMPS.BRANDING_MATTERS,
     summary: "Understand equestrian branding for UK-based businesses. From saddle fitters to riding schools, learn how good branding builds trust and recognition.",
     content: `Branding is more than just a logo. For horse businesses, it's about building trust, consistency, and a clear identity across everything you do.
 
@@ -253,4 +350,4 @@ Your brand doesn't need to be fancy or expensive. It just needs to be consistent
     readTime: "5",
     author: "Equinology Team"
   }
-]; 
+].sort((a, b) => b.timestamp - a.timestamp); 
