@@ -7,40 +7,40 @@ const WordPressArticle = () => {
     {
       icon: <DollarSign className="w-6 h-6 text-blue-400" />,
       title: "Cost-Effective",
-      description: "WordPress is free to use, with many themes and plugins available at low or no cost, making it an attractive option for budget-conscious equestrian businesses."
+      description: "Lower initial costs compared to custom development, making it accessible for smaller equestrian businesses."
     },
     {
       icon: <Palette className="w-6 h-6 text-blue-400" />,
-      title: "User-Friendly Design",
-      description: "The intuitive interface allows stable owners and equestrian professionals to manage their content without technical expertise."
+      title: "User-Friendly",
+      description: "Easy to use content management system, perfect for busy equestrian business owners who want to update their site without technical knowledge."
     },
     {
       icon: <Zap className="w-6 h-6 text-blue-400" />,
       title: "Quick Setup",
-      description: "WordPress sites can be set up relatively quickly, allowing equestrian businesses to establish an online presence faster than custom development."
+      description: "Faster deployment time compared to custom solutions, allowing you to get your equestrian business online quickly."
     },
     {
       icon: <Database className="w-6 h-6 text-blue-400" />,
-      title: "Content Management",
-      description: "Easy to update and manage content, perfect for sharing news, events, and horse-related information."
+      title: "Large Plugin Ecosystem",
+      description: "Wide range of plugins available for various equestrian business needs, from booking systems to e-commerce."
     }
   ];
 
   const cons = [
     {
       icon: <Shield className="w-6 h-6 text-red-400" />,
-      title: "Security Vulnerabilities",
-      description: "As the most popular CMS, WordPress is a frequent target for hackers. Equestrian businesses handling sensitive client data need additional security measures."
+      title: "Security Concerns",
+      description: "Regular updates and maintenance are required to keep WordPress secure, which can be challenging for busy equestrian business owners."
     },
     {
       icon: <Clock className="w-6 h-6 text-red-400" />,
       title: "Performance Issues",
-      description: "Plugin bloat and unoptimized themes can lead to slow loading times, which is crucial for mobile users at stables or shows."
+      description: "Plugin bloat and unoptimised themes can lead to slow loading times, which is crucial for mobile users at stables or shows."
     },
     {
       icon: <Code className="w-6 h-6 text-red-400" />,
-      title: "Limited Customization",
-      description: "While flexible, WordPress can be restrictive for unique equestrian business needs, especially for specialized booking systems or horse management features."
+      title: "Limited Customisation",
+      description: "While flexible, WordPress can be restrictive for unique equestrian business needs, especially for specialised booking systems or horse management features."
     },
     {
       icon: <DollarSign className="w-6 h-6 text-red-400" />,
@@ -52,10 +52,15 @@ const WordPressArticle = () => {
   const recommendations = [
     "Consider your specific business needs before choosing WordPress",
     "Invest in proper security measures and regular maintenance",
-    "Optimize for mobile users who may be accessing your site from stables",
+    "Optimise for mobile users who may be accessing your site from stables",
     "Plan for scalability as your equestrian business grows",
     "Consider hybrid solutions that combine WordPress with custom features"
   ];
+
+  const conclusion = {
+    title: "Final Verdict",
+    content: "WordPress is an excellent choice for equestrian businesses with straightforward needs and limited technical resources. However, businesses requiring specialised features or high performance may benefit from a custom solution. Consider your specific needs, budget, and technical capabilities when making this decision."
+  };
 
   return (
     <article className="max-w-4xl mx-auto px-4 py-16">
@@ -139,13 +144,8 @@ const WordPressArticle = () => {
             <div className="flex items-start gap-3">
               <AlertTriangle className="w-6 h-6 text-blue-400 flex-shrink-0 mt-1" />
               <div>
-                <h3 className="text-xl font-semibold text-white mb-2">Final Verdict</h3>
-                <p className="text-gray-300">
-                  WordPress can be a suitable solution for many equestrian businesses, particularly those with 
-                  straightforward needs and limited technical resources. However, businesses requiring specialized 
-                  features, handling sensitive data, or expecting significant growth should carefully consider 
-                  their options and potentially invest in a custom solution.
-                </p>
+                <h3 className="text-xl font-semibold text-white mb-2">{conclusion.title}</h3>
+                <p className="text-gray-300">{conclusion.content}</p>
               </div>
             </div>
           </div>
