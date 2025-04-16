@@ -1,4 +1,4 @@
-import React, { useRef } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { motion, useScroll, useTransform, MotionValue, useSpring } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
 import { useNavigate, Link } from 'react-router-dom';
@@ -33,18 +33,24 @@ const Facilities = () => {
   const { disableAnimations } = useAnimation();
   const navigate = useNavigate();
   const facilitiesRef = useRef<HTMLDivElement>(null);
+  const [isMounted, setIsMounted] = useState(false);
+  
+  useEffect(() => {
+    setIsMounted(true);
+  }, []);
   
   const { scrollYProgress } = useScroll({
     target: facilitiesRef,
-    offset: ["start end", "end start"]
+    offset: ["start end", "end start"],
+    layoutEffect: false
   });
   
-  // Smooth scroll and parallax (copied logic from Services.tsx)
+  // Smooth scroll and parallax
   const smoothScroll = useSpring(scrollYProgress, { stiffness: 100, damping: 30 });
-  const parallaxUp = useTransform(smoothScroll, [0, 1], [0, 25]); // Slightly more movement
+  const parallaxUp = useTransform(smoothScroll, [0, 1], [0, 25]);
   const parallaxDown = useTransform(smoothScroll, [0, 1], [25, 0]);
 
-  // Parallax effect values (kept original topY/bottomY for background layer)
+  // Parallax effect values
   const topY = useTransform(scrollYProgress, [0, 1], ['0%', '15%']);
   const bottomY = useTransform(scrollYProgress, [0, 1], ['0%', '-15%']);
 
@@ -67,7 +73,7 @@ const Facilities = () => {
   ];
 
   return (
-    <section className="relative py-32 overflow-hidden">
+    <section className="relative py-32 overflow-hidden" ref={facilitiesRef} style={{ position: 'relative' }}>
       {/* Animated Orbs - adjusted opacity and animation */}
       <AnimatedOrb
         className="bg-gradient-to-r from-[#3CAAFF]/10 to-[#00E0FF]/10"
