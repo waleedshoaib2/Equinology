@@ -7,6 +7,7 @@ import rehypeSanitize from 'rehype-sanitize';
 import { motion } from 'framer-motion';
 import { ArrowLeft } from 'lucide-react';
 import { Helmet } from 'react-helmet-async';
+import TimeAgo from 'react-timeago';
 
 interface ArticleDetailProps {
   post: Article;
@@ -45,7 +46,7 @@ const ArticleDetail: React.FC<ArticleDetailProps> = ({ post, onBackClick }) => {
       <div className="flex flex-col space-y-4 mb-8">
         <h1 className="text-3xl md:text-4xl lg:text-5xl font-bold text-white">{post.title}</h1>
         <div className="text-gray-400">
-          <span>{post.date}</span> {post.readTime && <>• <span>{post.readTime} min read</span></>}
+          <span><TimeAgo date={post.timestamp} /></span> {post.readTime && <>• <span>{post.readTime} min read</span></>}
         </div>
         {post.coverImage && (
           <div className="w-full">

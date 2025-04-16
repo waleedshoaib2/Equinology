@@ -1,9 +1,11 @@
+import { formatDistanceToNow } from 'date-fns';
+
 // Define Article interface
 export interface Article {
   id: number;
   title: string;
   slug: string;
-  date: string;
+  timestamp: number; // Store timestamp instead of formatted date
   summary: string;
   content: string;
   image: string;
@@ -20,14 +22,8 @@ export const slugify = (text: string): string =>
     .replace(/[^\w-]+/g, '');
 
 // Helper function to get formatted date strings
-export const getFormattedDate = (daysAgo: number): string => {
-  const date = new Date();
-  date.setDate(date.getDate() - daysAgo);
-  return date.toLocaleDateString('en-GB', {
-    year: 'numeric',
-    month: 'long',
-    day: 'numeric',
-  });
+export const getFormattedDate = (timestamp: number): string => {
+  return formatDistanceToNow(timestamp, { addSuffix: true });
 };
 
 // Helper function to find an article by ID
@@ -44,10 +40,136 @@ export const findArticleBySlug = (slug: string): Article | undefined => {
 // Article data
 export const articles: Article[] = [
   {
+    id: 4,
+    title: "Equinology is Expanding to More Industries",
+    slug: slugify("Equinology is Expanding to More Industries"),
+    timestamp: new Date("2025-04-15T10:00:00").getTime(), // Fixed date: April 15, 2025
+    summary: "Discover how Equinology is broadening its expertise beyond equestrian businesses to help more industries with their digital transformation and branding needs.",
+    content: `# Equinology is Expanding to More Industries
+
+We're excited to announce that Equinology is expanding our services beyond the equestrian world to help more businesses achieve their digital potential. While our roots remain firmly in the equestrian industry, we're now bringing our expertise in web design, branding, and digital solutions to a wider range of sectors.
+
+## Why We're Expanding
+
+Our journey in the equestrian industry has taught us valuable lessons about:
+- Building strong, memorable brands
+- Creating user-friendly digital experiences
+- Developing effective online strategies
+- Crafting compelling visual identities
+
+These principles are universal, and we're now applying them to help businesses across different industries.
+
+## New Industries We're Serving
+
+### Animal Care & Veterinary
+- Veterinary clinics and practices
+- Pet care services and grooming
+- Animal shelters and rescue centers
+- Pet product retailers
+
+### Agriculture & Rural Businesses
+- Farm and agricultural enterprises
+- Rural tourism and accommodation
+- Farm-to-table businesses
+- Agricultural equipment suppliers
+
+### Outdoor & Adventure
+- Adventure tourism companies
+- Outdoor equipment retailers
+- Activity centers and clubs
+- Nature-based tourism
+
+### Professional Services
+- Legal and financial services
+- Consulting firms
+- Educational institutions
+- Healthcare providers
+
+### Retail & E-commerce
+- Specialty retail stores
+- Online marketplaces
+- Boutique businesses
+- Service-based retailers
+
+### Hospitality & Tourism
+- Hotels and accommodations
+- Restaurants and cafes
+- Travel agencies
+- Event venues
+
+## What Stays the Same
+
+While we're expanding our reach, our core values remain unchanged:
+- Commitment to quality and excellence
+- Focus on user experience
+- Attention to detail
+- Personalized service
+- Results-driven approach
+
+## Our Promise to New Clients
+
+We bring the same level of dedication and expertise that has made us successful in the equestrian industry to every new sector we serve. Each industry has its unique challenges and requirements, and we're committed to understanding these nuances to deliver the best possible solutions.
+
+---
+
+Interested in learning more about how we can help your business? [Contact us](/contact) to discuss your digital needs.`,
+    image: "https://images.pexels.com/photos/2047905/pexels-photo-2047905.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+    coverImage: "https://images.pexels.com/photos/2047905/pexels-photo-2047905.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+    readTime: "4",
+    author: "Equinology Team"
+  },
+  {
+    id: 2,
+    title: "Equine Website Design: Why Every Livery Yard and Riding School Needs a Professional Site",
+    slug: slugify("Equine Website Design: Why Every Livery Yard and Riding School Needs a Professional Site"),
+    timestamp: new Date("2025-04-13T15:30:00").getTime(), // Fixed date: April 13, 2025
+    summary: "Discover why professional equine web design is essential for your horse business. Learn how a well-designed website can help livery yards, riding schools, and equine professionals grow their business.",
+    content: `Professional equine website design is more than just having an online presence — it's about creating a digital experience that reflects the quality of your horse business. While social media has its place, a well-designed website is crucial for growth, credibility, and better client service.
+
+---
+
+## The Power of Professional Equine Web Design
+
+Your website is your digital stable door — it's often the first impression potential clients have of your business. A professionally designed equine website should showcase your facilities, services, and expertise clearly and effectively.
+
+## Essential Elements of Equine Website Design
+
+### Mobile-First Approach
+Most equestrian clients search on their phones while at the yard or on the go. Your equine web design must be responsive and easy to navigate on all devices.
+
+### High-Quality Visual Content
+Showcase your facilities and horses with professional photography. Even well-composed phone photos can work wonders with the right equine website design.
+
+### Key Features for Equine Websites
+- Online booking systems for lessons and clinics
+- Interactive facility tours
+- Photo galleries of horses and events
+- Clear pricing and service information
+- Contact forms with location maps
+- FAQ sections addressing common queries
+
+## Why Invest in Professional Equine Web Design?
+
+A well-designed website:
+- Builds trust and credibility
+- Makes your business more discoverable
+- Reduces administrative workload
+- Provides 24/7 information access
+- Creates a professional first impression
+
+---
+
+Professional equine website design isn't just about looking good — it's about creating a functional, user-friendly platform that helps your business grow and serve your clients better.`,
+    image: "https://images.pexels.com/photos/15923755/pexels-photo-15923755/free-photo-of-mouth-of-a-horse-standing-in-a-paddock.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+    coverImage: "https://images.pexels.com/photos/15923755/pexels-photo-15923755/free-photo-of-mouth-of-a-horse-standing-in-a-paddock.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
+    readTime: "3",
+    author: "Equinology Team"
+  },
+  {
     id: 1,
-    title: "Equestrian Logo Design Tips for UK Horse Businesses",
-    slug: slugify("Equestrian Logo Design Tips for UK Horse Businesses"),
-    date: getFormattedDate(1),
+    title: "Equestrian Logo Design Tips for Horse Businesses",
+    slug: slugify("Equestrian Logo Design Tips for Horse Businesses"),
+    timestamp: new Date("2025-04-11T09:15:00").getTime(), // Fixed date: April 11, 2025
     summary: "Discover how to design a strong, professional equestrian logo that reflects your horse business. Practical advice tailored for UK-based stables, yards, and equine brands.",
     content: `A well-designed logo helps your horse business stand out while staying true to who you are. Whether you run a yard, a shop, or provide equine services, your logo should feel like a natural extension of your brand.
 
@@ -91,51 +213,10 @@ A smart equestrian logo doesn't just look good — it works hard behind the scen
     author: "Equinology Team"
   },
   {
-    id: 2,
-    title: "Why Every UK Livery Yard and Riding School Needs a Website",
-    slug: slugify("Why Every UK Livery Yard and Riding School Needs a Website"),
-    date: getFormattedDate(3),
-    summary: "Learn why a professional website is essential for UK equestrian businesses — from livery yards to instructors and saddle fitters. Mobile-friendly tips included.",
-    content: `Social media can be useful — but it's not a full digital presence. A professional website helps your equestrian business grow, look more credible, and serve your clients better.
-
----
-
-## Your Website Is Your Digital Yard Gate
-
-Potential clients want to see who you are, what you offer, and how to contact you — quickly and clearly. First impressions count!
-
-## Make the Most of Your Photos
-
-You don't need a professional photographer constantly. Even good quality, authentic photos taken on a phone can shine with the right layout and website design. Show off your facilities and happy horses!
-
-## Mobile Friendly for Life on the Yard
-
-Most people visit your site on their phones while out and about. It *needs* to be fast, responsive, and simple to navigate on smaller screens.
-
-## Add Useful Features
-
-Consider adding features that genuinely help your clients and reduce your admin:
-
-### Potential Features:
-- Lesson and clinic booking forms
-- Downloadable price lists
-- Clear photo galleries (facilities, events, horses for sale)
-- Integrated contact forms with maps
-- FAQs section to answer common questions
-
----
-
-A good website doesn't just look the part — it makes your day-to-day easier and more professional.`,
-    image: "https://images.unsplash.com/photo-1598056600024-43c18ef3c6a0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80",
-    coverImage: "https://images.unsplash.com/photo-1598056600024-43c18ef3c6a0?ixlib=rb-4.0.3&auto=format&fit=crop&w=1470&q=80",
-    readTime: "3",
-    author: "Equinology Team"
-  },
-  {
     id: 3,
-    title: "Branding for UK Equestrian Businesses What It Is and Why It Matters",
-    slug: slugify("Branding for UK Equestrian Businesses What It Is and Why It Matters"),
-    date: getFormattedDate(5),
+    title: "Branding for Equestrian Businesses What It Is and Why It Matters",
+    slug: slugify("Branding for Equestrian Businesses What It Is and Why It Matters"),
+    timestamp: new Date("2025-04-11T09:15:00").getTime(), // Fixed date: April 11, 2025
     summary: "Understand equestrian branding for UK-based businesses. From saddle fitters to riding schools, learn how good branding builds trust and recognition.",
     content: `Branding is more than just a logo. For horse businesses, it's about building trust, consistency, and a clear identity across everything you do.
 

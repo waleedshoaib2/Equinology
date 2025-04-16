@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
-import { Article } from '../../data/articleData'; // Updated import path
+import { Article } from '../../data/articleData';
+import TimeAgo from 'react-timeago';
 
 interface ArticleListProps {
   posts: Article[];
@@ -39,7 +40,9 @@ const ArticleList: React.FC<ArticleListProps> = ({ posts }) => {
               />
               <div className="absolute inset-0 bg-gradient-to-t from-black/70 to-transparent opacity-80"></div>
               <div className="absolute bottom-0 left-0 p-4 flex items-center gap-2">
-                <p className="text-[#3CAAFF] text-xs uppercase tracking-wider font-medium bg-black/40 px-3 py-1 rounded-full inline-block">{post.date}</p>
+                <p className="text-[#3CAAFF] text-xs uppercase tracking-wider font-medium bg-black/40 px-3 py-1 rounded-full inline-block">
+                  <TimeAgo date={post.timestamp} />
+                </p>
                 {post.readTime && (
                   <p className="text-white text-xs font-medium bg-black/40 px-3 py-1 rounded-full inline-flex items-center">
                     <svg className="w-3 h-3 mr-1" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">

@@ -31,7 +31,11 @@ const ArticlePage = () => {
 
   // Handler to navigate back to the list view
   const handleBackClick = () => {
-    navigate('/articles');
+    if (location.pathname.includes('/articles/')) {
+      navigate('/articles');
+    } else {
+      navigate('/');
+    }
   };
 
   // Determine which view to show

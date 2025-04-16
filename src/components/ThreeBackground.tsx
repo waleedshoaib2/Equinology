@@ -11,7 +11,7 @@ function AnimatedSphere({ pauseAnimation }: { pauseAnimation: boolean }) {
 
   useFrame(({ clock }) => {
     if (!sphereRef.current) return;
-    // If scrolling is happening, skip updates to reduce GPU load
+    // If scrolling is happening and we're on mobile, skip updates to reduce GPU load
     if (pauseAnimation) return;
     
     // Throttle updates to every other frame
@@ -42,11 +42,20 @@ export default function ThreeBackground() {
   const [mounted, setMounted] = useState(false);
   // Track whether the page is being scrolled.
   const [isScrolling, setIsScrolling] = useState(false);
+  // Track if we're on a mobile device
+  const [isMobile, setIsMobile] = useState(false);
   // We'll use a timeout to debounce the scroll event.
   let scrollTimeout: ReturnType<typeof setTimeout>;
 
   useEffect(() => {
     setMounted(true);
+    // Check if we're on a mobile device
+    const checkMobile = () => {
+      setIsMobile(window.innerWidth < 768);
+    };
+    checkMobile();
+    window.addEventListener('resize', checkMobile);
+    return () => window.removeEventListener('resize', checkMobile);
   }, []);
 
   useEffect(() => {
@@ -81,7 +90,7 @@ export default function ThreeBackground() {
       >
         <ambientLight intensity={0.3} />
         <pointLight position={[10, 10, 10]} intensity={0.5} />
-        <AnimatedSphere pauseAnimation={isScrolling} />
+        <AnimatedSphere pauseAnimation={isMobile && isScrolling} />
       </Canvas>
     </div>
   );
