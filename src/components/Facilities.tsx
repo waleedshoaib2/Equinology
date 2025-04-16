@@ -45,14 +45,8 @@ const Facilities = () => {
     layoutEffect: false
   });
   
-  // Smooth scroll and parallax
-  const smoothScroll = useSpring(scrollYProgress, { stiffness: 100, damping: 30 });
-  const parallaxUp = useTransform(smoothScroll, [0, 1], [0, 25]);
-  const parallaxDown = useTransform(smoothScroll, [0, 1], [25, 0]);
-
-  // Parallax effect values
-  const topY = useTransform(scrollYProgress, [0, 1], ['0%', '15%']);
-  const bottomY = useTransform(scrollYProgress, [0, 1], ['0%', '-15%']);
+  // Simplified parallax effect
+  const parallax = useTransform(scrollYProgress, [0, 1], [0, 20]);
 
   const facilities = [
     {
@@ -73,27 +67,29 @@ const Facilities = () => {
   ];
 
   return (
-    <section className="relative py-32 overflow-hidden" ref={facilitiesRef} style={{ position: 'relative' }}>
-      {/* Animated Orbs - adjusted opacity and animation */}
+    <section 
+      className="relative py-32 overflow-hidden" 
+      ref={facilitiesRef} 
+      style={{ position: 'relative' }}
+    >
+      {/* Simplified Animated Orbs */}
       <AnimatedOrb
         className="bg-gradient-to-r from-[#3CAAFF]/10 to-[#00E0FF]/10"
         style={{ width: 450, height: 450, top: "10%", left: "-200px" }}
         customAnimation={{
-          scale: [1, 1.03, 1],
-          x: [-15, 15, -15],
-          opacity: [0.2, 0.3, 0.2],
+          scale: [1, 1.02, 1],
+          opacity: [0.2, 0.25, 0.2],
         }}
-        parallaxValue={parallaxUp}
+        parallaxValue={parallax}
       />
       <AnimatedOrb
         className="bg-gradient-to-r from-[#00E0FF]/10 to-[#3CAAFF]/10"
         style={{ width: 400, height: 400, bottom: "5%", right: "-150px" }}
         customAnimation={{
           scale: [1, 1.02, 1],
-          x: [10, -10, 10],
-          opacity: [0.25, 0.35, 0.25],
+          opacity: [0.25, 0.3, 0.25],
         }}
-        parallaxValue={parallaxDown}
+        parallaxValue={parallax}
       />
       
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
