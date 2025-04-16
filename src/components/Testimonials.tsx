@@ -96,22 +96,36 @@ const Testimonials = () => {
   const testimonials = [
     {
       id: 1,
-      quote: "Henry at Equinology really understood what I needed. My previous website had a checkout and basket feature, which didn't make sense for selling horses. He helped create a system that actually worked for my business. It was great to work with someone who understands the equestrian world.",
-      author: "Sarah",
-      position: "Dressage Facility Owner",
+      quote: "It was such an amazing opportunity to work with Henry. He has a collaborative approach to projects and has the utmost patience for changes, big or small, that you ask for. I'm always nervous going into projects where I feel as though I don't know what I'm doing, but Henry made it very easy to provide feedback and articulate what I wanted. It was such a pleasure working with him!",
+      author: "Ben S",
+      position: "Client",
       rating: 5
     },
     {
       id: 2,
-      quote: "Working with the Equinology team was a seamless experience from concept to completion. They created a space that perfectly balances luxury and functionality.",
-      author: "Michael",
-      position: "Equestrian Estate Developer",
+      quote: "Henry's creativity and dedication shone through as he designed a new logo from scratch for our construction industry product. He presented several innovative concepts, which we refined together to achieve the final artwork. I am delighted with the outcome and look forward to collaborating with Henry on future projects across different brands. Thank you!",
+      author: "Rachel G",
+      position: "Construction Industry Client",
       rating: 5
     },
     {
       id: 3,
+      quote: "Henry at Equinology really understood what I needed. My previous website had a checkout and basket feature, which didn't make sense for selling horses. He helped create a system that actually worked for my business. It was great to work with someone who understands the equestrian world.",
+      author: "Sarah M",
+      position: "Dressage Facility Owner",
+      rating: 5
+    },
+    {
+      id: 4,
+      quote: "Working with the Equinology team was a seamless experience from concept to completion. They created a space that perfectly balances luxury and functionality.",
+      author: "Michael R",
+      position: "Equestrian Estate Developer",
+      rating: 5
+    },
+    {
+      id: 5,
       quote: "It was great to work with a UK-based team who really understands the equestrian world. I didn't have to keep explaining things, which made the process so much easier. The pricing was also clear and reasonable, with no unexpected costs.",
-      author: "Elizabeth",
+      author: "Elizabeth K",
       position: "Thoroughbred Breeder",
       rating: 5
     }

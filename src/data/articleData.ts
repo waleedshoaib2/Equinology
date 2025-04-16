@@ -161,7 +161,7 @@ These principles are universal, and we're now applying them to help businesses a
 ### Animal Care & Veterinary
 - Veterinary clinics and practices
 - Pet care services and grooming
-- Animal shelters and rescue centers
+- Animal shelters and rescue centres
 - Pet product retailers
 
 ### Agriculture & Rural Businesses
@@ -173,7 +173,7 @@ These principles are universal, and we're now applying them to help businesses a
 ### Outdoor & Adventure
 - Adventure tourism companies
 - Outdoor equipment retailers
-- Activity centers and clubs
+- Activity centres and clubs
 - Nature-based tourism
 
 ### Professional Services
@@ -200,7 +200,7 @@ While we're expanding our reach, our core values remain unchanged:
 - Commitment to quality and excellence
 - Focus on user experience
 - Attention to detail
-- Personalized service
+- Personalised service
 - Results-driven approach
 
 ## Our Promise to New Clients
@@ -260,82 +260,6 @@ Professional equine website design isn't just about looking good — it's about 
     image: "https://images.pexels.com/photos/15923755/pexels-photo-15923755/free-photo-of-mouth-of-a-horse-standing-in-a-paddock.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
     coverImage: "https://images.pexels.com/photos/15923755/pexels-photo-15923755/free-photo-of-mouth-of-a-horse-standing-in-a-paddock.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
     readTime: "3",
-    author: "Equinology Team"
-  },
-  {
-    id: 1,
-    title: "Is WordPress Suitable for Equestrian Businesses?",
-    slug: "is-wordpress-suitable-for-equestrian-businesses",
-    timestamp: ARTICLE_TIMESTAMPS.WORDPRESS_ARTICLE,
-    summary: "A comprehensive analysis of WordPress's suitability for equestrian businesses, examining its pros, cons, and key considerations.",
-    content: `
-# Is WordPress Suitable for Equestrian Businesses?
-
-## Introduction
-
-WordPress has become one of the most popular content management systems (CMS) worldwide, powering millions of websites. But is it the right choice for equestrian businesses? This article explores the advantages and limitations of WordPress for equestrian enterprises, helping you make an informed decision.
-
-## The Pros of WordPress for Equestrian Businesses
-
-### 1. User-Friendly Interface
-WordPress offers an intuitive interface that allows stable owners and equestrian professionals to manage their content without technical expertise. This is particularly valuable for busy equestrian business owners who need to update their websites regularly.
-
-### 2. Cost-Effective Solution
-With many free themes and plugins available, WordPress can be a budget-friendly option for equestrian businesses. The initial setup costs are typically lower than custom development, making it accessible for smaller enterprises.
-
-### 3. Quick Deployment
-WordPress sites can be set up relatively quickly, allowing equestrian businesses to establish an online presence faster than with custom development. This rapid deployment can be crucial for seasonal businesses or time-sensitive promotions.
-
-### 4. Extensive Plugin Ecosystem
-The vast WordPress plugin ecosystem offers solutions for various equestrian business needs, from booking systems to e-commerce functionality. This flexibility allows businesses to add features as they grow.
-
-## The Cons of WordPress for Equestrian Businesses
-
-### 1. Performance Considerations
-Plugin bloat and unoptimised themes can lead to slow loading times, which is crucial for mobile users at stables or shows. Performance optimisation requires careful management of plugins and themes.
-
-### 2. Limited Customisation
-While flexible, WordPress can be restrictive for unique equestrian business needs, especially for specialised booking systems or horse management features. Custom solutions might be necessary for specific requirements.
-
-### 3. Security Concerns
-As a popular platform, WordPress is a frequent target for hackers. Equestrian businesses handling sensitive client data need additional security measures and regular maintenance.
-
-### 4. Mobile Responsiveness
-While WordPress themes are generally mobile-friendly, ensuring optimal performance across all devices requires additional attention and potentially custom development.
-
-## Key Considerations for Equestrian Businesses
-
-1. **Business Size and Complexity**
-   - Small to medium-sized equestrian businesses may find WordPress sufficient
-   - Larger operations with complex needs might require custom solutions
-
-2. **Technical Resources**
-   - Consider your team's technical capabilities
-   - Factor in ongoing maintenance requirements
-
-3. **Growth Plans**
-   - Assess your scalability needs
-   - Plan for future feature requirements
-
-4. **Security Requirements**
-   - Evaluate data sensitivity
-   - Consider compliance needs
-
-## Conclusion
-
-WordPress can be an excellent choice for equestrian businesses with straightforward needs and limited technical resources. However, businesses requiring specialised features or handling sensitive data should carefully consider their options. A hybrid approach, combining WordPress with custom features, might be the ideal solution for many equestrian enterprises.
-
-## Recommendations
-
-1. Start with a clear assessment of your business needs
-2. Consider your technical capabilities and resources
-3. Plan for future growth and scalability
-4. Invest in proper security measures
-5. Consider professional support for setup and maintenance
-`,
-    image: "https://i.ibb.co/rPmRbqX/3ced2984-6435-48b1-8de8-a41fad0cd221.webp",
-    coverImage: "https://i.ibb.co/rPmRbqX/3ced2984-6435-48b1-8de8-a41fad0cd221.webp",
-    readTime: "8",
     author: "Equinology Team"
   },
   {

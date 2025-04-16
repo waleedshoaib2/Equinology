@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import { motion, useScroll, useTransform, MotionValue, useSpring } from 'framer-motion';
 import { ArrowRight } from 'lucide-react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, Link } from 'react-router-dom';
 import { useAnimation } from '../contexts/AnimationContext';
 
 // Define types for AnimatedOrb props (copied from Services.tsx)
@@ -95,7 +95,7 @@ const Facilities = () => {
           {disableAnimations ? (
             <>
               <h2 className="text-3xl sm:text-4xl font-bold mb-4">
-                <span className="bg-gradient-to-r from-[#3CAAFF] to-[#00E0FF] bg-clip-text text-transparent">Our Facilities</span>
+                <span className="bg-gradient-to-r from-[#3CAAFF] to-[#00E0FF] bg-clip-text text-transparent">Our Examples</span>
               </h2>
               <p className="text-[#ABABAB] max-w-2xl mx-auto">
                 Explore our tailored services designed specifically for equestrian businesses. See what's possible for your project.
@@ -110,7 +110,7 @@ const Facilities = () => {
                 transition={{ duration: 0.7, ease: [0.165, 0.84, 0.44, 1] }}
                 className="text-3xl sm:text-4xl font-bold mb-4"
               >
-                <span className="bg-gradient-to-r from-[#3CAAFF] to-[#00E0FF] bg-clip-text text-transparent">Our Facilities</span>
+                <span className="bg-gradient-to-r from-[#3CAAFF] to-[#00E0FF] bg-clip-text text-transparent">Our Examples</span>
               </motion.h2>
               <motion.p
                 initial={{ opacity: 0 }}
@@ -256,6 +256,39 @@ const Facilities = () => {
             )
           ))}
         </div>
+      </div>
+
+      {/* New section for other businesses */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10 mt-16">
+        {disableAnimations ? (
+          <div className="text-center">
+            <p className="text-[#ABABAB] text-lg">
+              We also work with a variety of other businesses beyond the equestrian industry. 
+              <br className="hidden sm:block" />
+              <Link to="/contact" className="text-[#3CAAFF] font-medium hover:text-[#F5F5F7] transition-colors duration-300">Contact us</Link> to discuss your project.
+            </p>
+          </div>
+        ) : (
+          <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true, margin: "-100px" }}
+            transition={{ duration: 0.7, ease: [0.165, 0.84, 0.44, 1] }}
+            className="text-center"
+          >
+            <motion.p 
+              initial={{ opacity: 0 }}
+              whileInView={{ opacity: 1 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.7, delay: 0.2, ease: [0.165, 0.84, 0.44, 1] }}
+              className="text-[#ABABAB] text-lg"
+            >
+              We also work with a variety of other businesses beyond the equestrian industry. 
+              <br className="hidden sm:block" />
+              <Link to="/contact" className="text-[#3CAAFF] font-medium hover:text-[#F5F5F7] transition-colors duration-300">Contact us</Link> to discuss your project.
+            </motion.p>
+          </motion.div>
+        )}
       </div>
     </section>
   );
