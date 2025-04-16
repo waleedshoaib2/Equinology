@@ -37,7 +37,6 @@ const Header = () => {
 
   // Memoize nav items to prevent unnecessary re-renders
   const navItems = useMemo(() => [
-    { label: "About", action: () => handleNavigation("about") },
     { 
       label: "Services", 
       action: () => {

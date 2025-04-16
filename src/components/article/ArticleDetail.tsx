@@ -49,13 +49,15 @@ const ArticleDetail: React.FC<ArticleDetailProps> = ({ post, onBackClick }) => {
           <span><TimeAgo date={post.timestamp} /></span> {post.readTime && <>• <span>{post.readTime} min read</span></>}
         </div>
         {post.coverImage && (
-          <div className="w-full">
+          <div className="w-full relative overflow-hidden rounded-lg shadow-md">
             <img
               src={post.coverImage}
               alt={post.title}
-              className="w-full h-auto rounded-lg shadow-md object-cover"
+              className="w-full h-auto object-cover"
               style={{ maxHeight: '600px' }}
             />
+            <div className="absolute inset-0 bg-gradient-to-t from-[#121212]/95 via-[#0A0A0A]/80 to-transparent opacity-85"></div>
+            <div className="absolute inset-0 bg-gradient-to-t from-[#3CAAFF]/10 via-[#00E0FF]/5 to-transparent mix-blend-overlay"></div>
           </div>
         )}
       </div>

@@ -11,6 +11,11 @@ const ArticlePage = () => {
   const navigate = useNavigate();
   const location = useLocation();
   const [selectedPost, setSelectedPost] = useState<Article | null>(null);
+  const [isGridView, setIsGridView] = useState(() => {
+    // Default to grid view, but check localStorage if preference exists
+    const savedPreference = localStorage.getItem('articleViewPreference');
+    return savedPreference ? savedPreference === 'grid' : true;
+  });
 
   // Scroll to top whenever component mounts or location changes
   useEffect(() => {
@@ -36,6 +41,13 @@ const ArticlePage = () => {
     } else {
       navigate('/');
     }
+  };
+
+  // Handler to toggle between grid and list views
+  const handleViewToggle = () => {
+    const newView = !isGridView;
+    setIsGridView(newView);
+    localStorage.setItem('articleViewPreference', newView ? 'grid' : 'list');
   };
 
   // Determine which view to show
@@ -77,7 +89,11 @@ const ArticlePage = () => {
         {/* --- Articles List Grid --- */}
         {!showSinglePost && (
           <div className="w-full px-2 sm:px-0">
-            <ArticleList posts={articles} />
+            <ArticleList 
+              posts={articles} 
+              isGridView={isGridView}
+              onViewToggle={handleViewToggle}
+            />
           </div>
         )}
       </div>
