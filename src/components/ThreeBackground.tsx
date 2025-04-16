@@ -40,6 +40,8 @@ function AnimatedSphere({ pauseAnimation }: { pauseAnimation: boolean }) {
 
 export default function ThreeBackground() {
   const [mounted, setMounted] = useState(false);
+  const [isVisible, setIsVisible] = useState(false);
+  const canvasRef = useRef<HTMLDivElement>(null);
   // Track whether the page is being scrolled.
   const [isScrolling, setIsScrolling] = useState(false);
   // Track if we're on a mobile device
@@ -55,7 +57,26 @@ export default function ThreeBackground() {
     };
     checkMobile();
     window.addEventListener('resize', checkMobile);
-    return () => window.removeEventListener('resize', checkMobile);
+
+    // Add a small delay before showing the background
+    const timer = setTimeout(() => {
+      setIsVisible(true);
+    }, 100);
+    
+    return () => {
+      clearTimeout(timer);
+      setMounted(false);
+      setIsVisible(false);
+      window.removeEventListener('resize', checkMobile);
+      // Ensure canvas is properly disposed
+      if (canvasRef.current) {
+        const canvas = canvasRef.current.querySelector('canvas');
+        if (canvas) {
+          canvas.style.opacity = '0';
+          canvas.style.transition = 'opacity 0.3s ease-out';
+        }
+      }
+    };
   }, []);
 
   useEffect(() => {
@@ -79,14 +100,23 @@ export default function ThreeBackground() {
   }
 
   return (
-    <div
-      className="absolute inset-0 -z-10"
-      style={{ willChange: "transform" }} // Hints browser for better GPU optimization
+    <div 
+      ref={canvasRef}
+      className={`absolute inset-0 -z-10 transition-opacity duration-500 ${isVisible ? 'opacity-100' : 'opacity-0'}`}
+      style={{ 
+        willChange: "transform",
+        transform: "translateZ(0)",
+        backfaceVisibility: "hidden"
+      }}
     >
       <Canvas 
         camera={{ position: [0, 0, 5] }}
-        dpr={[1, 1]} // Limit device pixel ratio to reduce load on mobile devices
-        gl={{ antialias: false }}
+        dpr={[1, 1.5]}
+        gl={{ 
+          antialias: false,
+          alpha: true,
+          powerPreference: "high-performance"
+        }}
       >
         <ambientLight intensity={0.3} />
         <pointLight position={[10, 10, 10]} intensity={0.5} />
