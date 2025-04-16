@@ -82,7 +82,18 @@ const Hero = () => {
                 <div>
                   <div className="flex items-center">
                     {[...Array(5)].map((_, i) => (
-                      <Star key={i} className="w-5 h-5 text-[#3CAAFF] fill-current" />
+                      <motion.div
+                        key={i}
+                        initial={{ opacity: 0, scale: 0.5 }}
+                        animate={{ opacity: 1, scale: 1 }}
+                        transition={{ 
+                          duration: 0.5,
+                          delay: i * 0.2,
+                          ease: "easeOut"
+                        }}
+                      >
+                        <Star className="w-5 h-5 text-[#3CAAFF] fill-current" />
+                      </motion.div>
                     ))}
                   </div>
                   <p className="mt-2 text-sm text-[#777777]">Trusted by 100+ equestrians</p>
