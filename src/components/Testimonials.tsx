@@ -1,8 +1,8 @@
-import React, { useRef } from 'react';
-import { motion, useScroll, useTransform, MotionValue, useSpring } from 'framer-motion';
-import { Star, Quote } from 'lucide-react';
+import React, { useRef, useState } from 'react';
+import { motion, useScroll, useTransform, useSpring, MotionValue } from 'framer-motion';
+import { Star, Quote, ChevronLeft, ChevronRight } from 'lucide-react';
 
-// Define types for AnimatedOrb props (copied from Services.tsx)
+// Define types for AnimatedOrb props
 interface AnimatedOrbProps {
   style?: React.CSSProperties;
   customAnimation?: { [key: string]: any };
@@ -10,7 +10,7 @@ interface AnimatedOrbProps {
   parallaxValue?: number | MotionValue<number>;
 }
 
-// Reusable AnimatedOrb component (copied from Services.tsx)
+// Reusable AnimatedOrb component
 const AnimatedOrb: React.FC<AnimatedOrbProps> = ({ style, customAnimation, className, parallaxValue = 0 }) => {
   return (
     <motion.div
@@ -27,7 +27,7 @@ const AnimatedOrb: React.FC<AnimatedOrbProps> = ({ style, customAnimation, class
   );
 };
 
-// New component for individual testimonial card with scroll focus effect
+// Testimonial card component
 interface TestimonialCardProps {
   testimonial: {
     id: number;
@@ -36,59 +36,35 @@ interface TestimonialCardProps {
     position: string;
     rating: number;
   };
+  isActive: boolean;
 }
 
-const TestimonialCard: React.FC<TestimonialCardProps> = ({ testimonial }) => {
-  const cardRef = useRef<HTMLDivElement>(null);
-  const { scrollYProgress } = useScroll({
-    target: cardRef,
-    offset: ['start end', 'end start'] // Track from bottom entering to top leaving
-  });
-
-  // Create a value that maps scroll progress to viewport position
-  // 0 = bottom of viewport, 0.5 = center, 1 = top of viewport
-  const viewportProgress = useTransform(scrollYProgress, [0, 1], [0, 1]);
-
-  // Scale and opacity based on proximity to center (0.5)
-  const scale = useTransform(viewportProgress, [0, 0.4, 0.5, 0.6, 1], [0.85, 0.95, 1, 0.95, 0.85]);
-  const opacity = useTransform(viewportProgress, [0, 0.4, 0.5, 0.6, 1], [0.5, 0.9, 1, 0.9, 0.5]);
-  // Optional: Parallax effect for the content *within* the card
-  const contentY = useTransform(viewportProgress, [0, 1], ['5%', '-5%']);
-
-  // Item variants for initial appearance (if needed, but scroll handles main effect)
-  const itemVariants = {
-    hidden: { opacity: 0, y: 50 },
-    visible: {
-      opacity: 1,
-      y: 0,
-      transition: { duration: 0.8, ease: [0.165, 0.84, 0.44, 1] },
-    },
-  };
-
+const TestimonialCard: React.FC<TestimonialCardProps> = ({ testimonial, isActive }) => {
   return (
-    <motion.div 
-      ref={cardRef} 
-      style={{ scale, opacity }} // Apply scroll-based scale and opacity
-      className="origin-center" // Ensure scaling happens from the center
-      variants={itemVariants} // Apply initial animation variant if container uses them
+    <motion.div
+      initial={{ opacity: 0, scale: 0.95 }}
+      animate={{ opacity: isActive ? 1 : 0.5, scale: isActive ? 1 : 0.95 }}
+      transition={{ duration: 0.3 }}
+      className={`flex-shrink-0 w-[90vw] md:w-[600px] mx-4 transition-all duration-300 ${
+        isActive ? 'cursor-default' : 'cursor-pointer'
+      }`}
     >
-      <div className="bg-gradient-to-br from-[#111111]/80 to-[#0A0A0A]/80 p-8 rounded-2xl border border-[#222222]/30 backdrop-blur-sm shadow-lg relative overflow-hidden">
+      <div className="bg-gradient-to-br from-[#111111]/80 to-[#0A0A0A]/80 p-8 rounded-2xl border border-[#222222]/30 backdrop-blur-sm shadow-lg relative overflow-hidden h-full">
         <Quote className="absolute top-4 right-4 w-10 h-10 text-[#3CAAFF]/20" strokeWidth={1.5} />
-
-        {/* Apply inner parallax to this content div */}
-        <motion.div className="relative z-10" style={{ y: contentY }}>
-          {/* Star Rating - Changed filled star color to blue */}
-          <div className="flex items-center mb-4">
+        
+        <div className="relative z-10">
+          {/* Star Rating */}
+          <div className="flex items-center mb-6">
             {[...Array(testimonial.rating)].map((_, i) => (
-              <Star key={i} className="w-5 h-5 text-[#3CAAFF] fill-current mr-1" />
+              <Star key={i} className="w-6 h-6 text-[#3CAAFF] fill-current mr-1" />
             ))}
             {[...Array(5 - testimonial.rating)].map((_, i) => (
-              <Star key={i} className="w-5 h-5 text-[#444444] fill-current mr-1" />
+              <Star key={i} className="w-6 h-6 text-[#444444] fill-current mr-1" />
             ))}
           </div>
 
-          {/* Quote Text - Removed italic and medium weight, changed color */}
-          <p className="text-xl md:text-2xl text-[#F5F5F7] mb-6 leading-relaxed">
+          {/* Quote Text */}
+          <p className="text-xl md:text-2xl text-[#F5F5F7] mb-8 leading-relaxed">
             &ldquo;{testimonial.quote}&rdquo;
           </p>
 
@@ -96,7 +72,7 @@ const TestimonialCard: React.FC<TestimonialCardProps> = ({ testimonial }) => {
           <div className="text-right">
             <p className="font-semibold text-lg text-[#F5F5F7]">{testimonial.author}</p>
           </div>
-        </motion.div>
+        </div>
       </div>
     </motion.div>
   );
@@ -104,19 +80,19 @@ const TestimonialCard: React.FC<TestimonialCardProps> = ({ testimonial }) => {
 
 const Testimonials = () => {
   const testimonialRef = useRef<HTMLDivElement>(null);
+  const [activeIndex, setActiveIndex] = useState(0);
 
-  // Scroll progress for the *entire section* (used for orbs)
+  // Scroll progress for the entire section (used for orbs)
   const { scrollYProgress: sectionScroll } = useScroll({
     target: testimonialRef,
     offset: ['start end', 'end start']
   });
 
-  // Parallax for orbs (using sectionScroll)
+  // Parallax for orbs
   const smoothScroll = useSpring(sectionScroll, { stiffness: 100, damping: 30 });
   const parallaxUp = useTransform(smoothScroll, [0, 1], [0, 20]);
   const parallaxDown = useTransform(smoothScroll, [0, 1], [20, 0]);
 
-  // Restore original testimonial data
   const testimonials = [
     {
       id: 1,
@@ -141,13 +117,12 @@ const Testimonials = () => {
     }
   ];
 
-  // Container variants (can keep for initial stagger if desired)
-  const containerVariants = {
-    hidden: { opacity: 0 },
-    visible: {
-      opacity: 1,
-      transition: { staggerChildren: 0.2, delayChildren: 0.3 },
-    },
+  const handlePrev = () => {
+    setActiveIndex((prev) => (prev === 0 ? testimonials.length - 1 : prev - 1));
+  };
+
+  const handleNext = () => {
+    setActiveIndex((prev) => (prev === testimonials.length - 1 ? 0 : prev + 1));
   };
 
   return (
@@ -156,13 +131,7 @@ const Testimonials = () => {
       className="py-20 -mt-16 relative overflow-hidden"
       ref={testimonialRef}
     >
-      {/* Removed the explicit parallax background div, as the main gradient shows through */}
-      {/* <motion.div
-        className="absolute inset-0 bg-gradient-to-b from-[#101010]/50 to-[#0A0A0A]"
-        style={{ y: bgY }}
-      /> */}
-      
-      {/* Animated Orbs - adjusted opacity and animation */}
+      {/* Animated Orbs */}
       <AnimatedOrb
         className="bg-gradient-to-r from-[#3CAAFF]/10 to-[#00E0FF]/10"
         style={{ width: 350, height: 350, top: "15%", left: "-100px" }}
@@ -184,7 +153,7 @@ const Testimonials = () => {
         parallaxValue={parallaxDown}
       />
       
-      <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
         <motion.div
           initial={{ opacity: 0, y: -20 }}
           whileInView={{ opacity: 1, y: 0 }}
@@ -202,18 +171,40 @@ const Testimonials = () => {
           </p>
         </motion.div>
 
-        {/* Use the TestimonialCard component with restored data */}
-        <motion.div
-          variants={containerVariants}
-          initial="hidden"
-          whileInView="visible"
-          viewport={{ once: true, amount: 0.2 }}
-          className="space-y-12"
-        >
-          {testimonials.map((testimonial) => (
-            <TestimonialCard key={testimonial.id} testimonial={testimonial} />
-          ))}
-        </motion.div>
+        {/* Testimonials Carousel */}
+        <div className="relative">
+          <div className="w-full max-w-3xl mx-auto overflow-hidden">
+            <motion.div 
+              className="flex"
+              animate={{ x: `-${activeIndex * 100}%` }}
+              transition={{ type: "spring", stiffness: 300, damping: 30 }}
+            >
+              {testimonials.map((testimonial, index) => (
+                <div key={testimonial.id} className="w-full flex-shrink-0 px-4">
+                  <TestimonialCard
+                    testimonial={testimonial}
+                    isActive={index === activeIndex}
+                  />
+                </div>
+              ))}
+            </motion.div>
+          </div>
+
+          {/* Dots Navigation */}
+          <div className="flex justify-center mt-8 space-x-2">
+            {testimonials.map((_, index) => (
+              <button
+                key={index}
+                onClick={() => setActiveIndex(index)}
+                className={`w-2 h-2 rounded-full transition-all duration-300 ${
+                  index === activeIndex
+                    ? 'bg-[#3CAAFF] w-4'
+                    : 'bg-[#444444] hover:bg-[#666666]'
+                }`}
+              />
+            ))}
+          </div>
+        </div>
       </div>
     </section>
   );
