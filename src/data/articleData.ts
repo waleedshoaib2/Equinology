@@ -1,5 +1,6 @@
 import { formatDistanceToNow } from 'date-fns';
-import { ARTICLE_TIMESTAMPS } from '../utils/timestampUtils';
+import { getArticleTimestamps } from '../utils/timestampUtils';
+import { getRelativeTime } from '../utils/timestampUtils';
 
 // Define Article interface
 export interface Article {
@@ -24,7 +25,7 @@ export const slugify = (text: string): string =>
 
 // Helper function to get formatted date strings
 export const getFormattedDate = (timestamp: number): string => {
-  return formatDistanceToNow(timestamp, { addSuffix: true });
+  return getRelativeTime(timestamp);
 };
 
 // Helper function to find an article by ID
@@ -44,7 +45,7 @@ export const articles: Article[] = [
     id: 5,
     title: "WordPress vs Custom Web Development: Making the Right Choice",
     slug: slugify("WordPress vs Custom Web Development: Making the Right Choice"),
-    timestamp: ARTICLE_TIMESTAMPS.WORDPRESS_ARTICLE,
+    timestamp: getArticleTimestamps.WORDPRESS_ARTICLE(),
     summary: "A comprehensive analysis comparing WordPress and custom web development, exploring their benefits, limitations, and key considerations for businesses of all types.",
     content: `# WordPress vs Custom Web Development: Making the Right Choice
 
@@ -140,7 +141,7 @@ The best choice depends on your specific needs and goals. Some businesses start 
     id: 4,
     title: "Equinology is Expanding to More Industries",
     slug: slugify("Equinology is Expanding to More Industries"),
-    timestamp: ARTICLE_TIMESTAMPS.EXPANDING_INDUSTRIES,
+    timestamp: getArticleTimestamps.EXPANDING_INDUSTRIES(),
     summary: "Discover how Equinology is broadening its expertise beyond equestrian businesses to help more industries with their digital transformation and branding needs.",
     content: `# Equinology is Expanding to More Industries
 
@@ -219,7 +220,7 @@ Interested in learning more about how we can help your business? [Contact us](/c
     id: 2,
     title: "Equine Website Design: Why Every Livery Yard and Riding School Needs a Professional Site",
     slug: slugify("Equine Website Design: Why Every Livery Yard and Riding School Needs a Professional Site"),
-    timestamp: ARTICLE_TIMESTAMPS.EQUINE_WEBSITE_DESIGN,
+    timestamp: getArticleTimestamps.EQUINE_WEBSITE_DESIGN(),
     summary: "Discover why professional equine web design is essential for your horse business. Learn how a well-designed website can help livery yards, riding schools, and equine professionals grow their business.",
     content: `Professional equine website design is more than just having an online presence — it's about creating a digital experience that reflects the quality of your horse business. While social media has its place, a well-designed website is crucial for growth, credibility, and better client service.
 
@@ -266,7 +267,7 @@ Professional equine website design isn't just about looking good — it's about 
     id: 3,
     title: "Branding for Equestrian Businesses What It Is and Why It Matters",
     slug: slugify("Branding for Equestrian Businesses What It Is and Why It Matters"),
-    timestamp: ARTICLE_TIMESTAMPS.BRANDING_MATTERS,
+    timestamp: getArticleTimestamps.BRANDING_MATTERS(),
     summary: "Understand equestrian branding for UK-based businesses. From saddle fitters to riding schools, learn how good branding builds trust and recognition.",
     content: `Branding is more than just a logo. For horse businesses, it's about building trust, consistency, and a clear identity across everything you do.
 

@@ -1,10 +1,13 @@
+import React, { useState, useEffect } from 'react';
+import { formatDistanceToNow } from 'date-fns';
+
 // Timestamp constants for articles
-export const ARTICLE_TIMESTAMPS = {
-  WORDPRESS_ARTICLE: new Date("2025-04-16T16:10:00").getTime(),
-  EXPANDING_INDUSTRIES: new Date("2025-04-15T10:00:00").getTime(),
-  EQUINE_WEBSITE_DESIGN: new Date("2025-04-13T15:30:00").getTime(),
-  LOGO_DESIGN_TIPS: new Date("2025-04-11T09:15:00").getTime(),
-  BRANDING_MATTERS: new Date("2025-04-11T09:15:00").getTime(),
+export const getArticleTimestamps = {
+  WORDPRESS_ARTICLE: () => new Date().getTime() - (24 * 60 * 60 * 1000), // 1 day ago
+  EXPANDING_INDUSTRIES: () => new Date().getTime() - (2 * 24 * 60 * 60 * 1000), // 2 days ago
+  EQUINE_WEBSITE_DESIGN: () => new Date().getTime() - (4 * 24 * 60 * 60 * 1000), // 4 days ago
+  LOGO_DESIGN_TIPS: () => new Date().getTime() - (6 * 24 * 60 * 60 * 1000), // 6 days ago
+  BRANDING_MATTERS: () => new Date().getTime() - (6 * 24 * 60 * 60 * 1000), // 6 days ago
 } as const;
 
 // Helper function to format timestamps for display
@@ -20,18 +23,23 @@ export const formatTimestamp = (timestamp: number): string => {
   });
 };
 
-// Helper function to get relative time (e.g., "2 hours ago")
+// Helper function to get relative time
 export const getRelativeTime = (timestamp: number): string => {
-  const now = Date.now();
-  const diff = now - timestamp;
-  
-  const seconds = Math.floor(diff / 1000);
-  const minutes = Math.floor(seconds / 60);
-  const hours = Math.floor(minutes / 60);
-  const days = Math.floor(hours / 24);
-  
-  if (days > 0) return `${days} day${days > 1 ? 's' : ''} ago`;
-  if (hours > 0) return `${hours} hour${hours > 1 ? 's' : ''} ago`;
-  if (minutes > 0) return `${minutes} minute${minutes > 1 ? 's' : ''} ago`;
-  return 'just now';
+  return formatDistanceToNow(timestamp, { addSuffix: true });
+};
+
+// Custom hook for real-time timestamp updates
+export const useRealTimeTimestamp = (timestamp: number) => {
+  const [relativeTime, setRelativeTime] = useState(getRelativeTime(timestamp));
+
+  useEffect(() => {
+    // Update every minute
+    const interval = setInterval(() => {
+      setRelativeTime(getRelativeTime(timestamp));
+    }, 60000); // 60 seconds
+
+    return () => clearInterval(interval);
+  }, [timestamp]);
+
+  return relativeTime;
 }; 
