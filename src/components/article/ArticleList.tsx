@@ -1,3 +1,4 @@
+import React, { useEffect, useState } from 'react';
 import { motion } from 'framer-motion';
 import { Link } from 'react-router-dom';
 import { Article } from '../../data/articleData';
@@ -21,6 +22,16 @@ const itemAnimation = {
 };
 
 const ArticleList: React.FC<ArticleListProps> = ({ posts, isGridView, onViewToggle }) => {
+  const [currentTime, setCurrentTime] = useState(Date.now());
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentTime(Date.now());
+    }, 60000); // Update every minute
+
+    return () => clearInterval(interval);
+  }, []);
+
   return (
     <div>
       <div className="flex justify-end mb-6">
