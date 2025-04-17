@@ -115,7 +115,7 @@ const Facilities = () => {
                 <span className="bg-gradient-to-r from-[#3CAAFF] to-[#00E0FF] bg-clip-text text-transparent">Our Examples</span>
               </motion.h2>
               <motion.p
-                initial={{ opacity: 0 }}
+                initial={{ nacity: 0 }}
                 whileInView={{ opacity: 1 }}
                 viewport={{ once: true, margin: "-100px" }}
                 transition={{ duration: 0.7, delay: 0.2, ease: [0.165, 0.84, 0.44, 1] }}

@@ -158,7 +158,7 @@ const ContactInfo = () => {
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           transition={{ duration: 0.8 }}
-          viewport={{ once: true }}
+          viewport={{ once: true, margin: "-100px" }}
           className="grid md:grid-cols-2 gap-12"
         >
           {features.map((feature, index) => (
@@ -166,8 +166,12 @@ const ContactInfo = () => {
               key={index}
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
-              transition={{ duration: 0.5, delay: index * 0.2 }}
-              viewport={{ once: true }}
+              transition={{ 
+                duration: 0.5, 
+                delay: index * 0.2,
+                ease: [0.165, 0.84, 0.44, 1]
+              }}
+              viewport={{ once: true, margin: "-100px" }}
               className="bg-gradient-to-br from-[#0A0A0A] to-[#111111] p-8 rounded-2xl border border-[#3CAAFF]/10 hover:border-[#3CAAFF]/20 transition-all duration-300"
             >
               <div className="bg-[#3CAAFF]/5 p-3 rounded-xl w-fit mb-6">
