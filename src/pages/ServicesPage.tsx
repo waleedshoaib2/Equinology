@@ -222,28 +222,28 @@ const ServicesSection = () => {
     },
     {
       title: 'Software Development',
-      description: 'We develop custom software solutions that streamline your business operations. Our expertise in equestrian management systems helps businesses optimize their workflow.',
+      description: 'We develop custom software solutions that streamline your business operations. Our expertise in business management systems helps optimise your workflow.',
       icon: <Camera className="w-6 h-6" />,
       category: 'software',
       features: ['Booking Systems', 'Client Management', 'Inventory Tracking', 'Reporting Tools']
     },
     {
-      title: 'SEO Optimization',
-      description: 'We help businesses improve their online visibility and reach their target audience. Our specialised knowledge in equestrian SEO ensures your business stands out in search results.',
+      title: 'SEO Optimisation',
+      description: 'We help businesses improve their online visibility and reach their target audience. Our specialised knowledge ensures your business stands out in search results.',
       icon: <Globe className="w-6 h-6" />,
       category: 'marketing',
       features: ['Keyword Research', 'Content Strategy', 'Technical SEO', 'Local SEO']
     },
     {
       title: 'Social Media Management',
-      description: 'We help businesses build and maintain a strong social media presence. Our experience in equestrian marketing helps create engaging content that resonates with your audience.',
+      description: 'We help businesses build and maintain a strong social media presence. Our experience helps create engaging content that resonates with your audience.',
       icon: <MessageSquare className="w-6 h-6" />,
       category: 'marketing',
       features: ['Content Creation', 'Community Management', 'Analytics', 'Campaign Strategy']
     },
     {
       title: 'Client Management Systems',
-      description: 'We create custom client management solutions that streamline your business operations. Our expertise in equestrian business management helps optimize your workflow.',
+      description: 'We create custom client management solutions that streamline your business operations. Our expertise in business management helps optimise your workflow.',
       icon: <Users className="w-6 h-6" />,
       category: 'software',
       features: ['Client Database', 'Appointment Scheduling', 'Payment Processing', 'Communication Tools']
@@ -322,7 +322,7 @@ const globalReachItems = [
   },
   {
     title: "Search Visibility",
-    description: "Optimize your online presence to be easily found by those searching for your services.",
+    description: "Optimise your online presence to be easily found by those searching for your services.",
     icon: <Search className="w-6 h-6 text-blue-400" />
   }
 ];
@@ -540,7 +540,7 @@ function ServicesPage() {
                     <div className="space-y-3 sm:space-y-4">
                       <div className="flex items-start gap-3 text-[#ABABAB] text-sm sm:text-base">
                         <Check className="w-4 h-4 sm:w-5 sm:h-5 text-blue-400 mt-1" />
-                        <span>Tailored specifically to your equestrian business needs</span>
+                        <span>Tailored specifically to your business needs</span>
                       </div>
                       <div className="flex items-start gap-3 text-[#ABABAB] text-sm sm:text-base">
                         <Check className="w-4 h-4 sm:w-5 sm:h-5 text-blue-400 mt-1" />
@@ -595,13 +595,13 @@ function ServicesPage() {
               className="mt-8 md:mt-16 text-center px-4"
             >
               <p className="text-gray-400 text-base md:text-lg mb-4 md:mb-6">
-                Not sure which solution is right for your equestrian business? Read our detailed comparison in our article:
+                Not sure which solution is right for your business? Read our detailed comparison in our article:
               </p>
               <Link 
-                to="/articles/is-wordpress-suitable-for-equestrian-businesses"
+                to="/articles/wordpress-vs-custom-web-development-making-the-right-choice"
                 className="inline-flex items-center text-blue-400 hover:text-blue-300 font-medium group text-sm md:text-base"
               >
-                Is WordPress Suitable for Equestrian Businesses?
+                WordPress vs Custom Web Development: Making the Right Choice
                 <ArrowRight className="ml-2 h-4 w-4 md:h-6 md:w-6 transition-transform group-hover:translate-x-1" />
               </Link>
             </motion.div>

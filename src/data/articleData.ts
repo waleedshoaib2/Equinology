@@ -42,15 +42,15 @@ export const findArticleBySlug = (slug: string): Article | undefined => {
 export const articles: Article[] = [
   {
     id: 5,
-    title: "Is WordPress Suitable for Equestrian Businesses?",
-    slug: slugify("Is WordPress Suitable for Equestrian Businesses?"),
+    title: "WordPress vs Custom Web Development: Making the Right Choice",
+    slug: slugify("WordPress vs Custom Web Development: Making the Right Choice"),
     timestamp: ARTICLE_TIMESTAMPS.WORDPRESS_ARTICLE,
-    summary: "A comprehensive analysis of WordPress's suitability for equestrian businesses, exploring its benefits, limitations, and key considerations for stable owners and equine professionals.",
-    content: `# Is WordPress Suitable for Equestrian Businesses?
+    summary: "A comprehensive analysis comparing WordPress and custom web development, exploring their benefits, limitations, and key considerations for businesses of all types.",
+    content: `# WordPress vs Custom Web Development: Making the Right Choice
 
-WordPress powers over 40% of all websites, but is it the right choice for your equestrian business? Let's compare WordPress with custom web design to help you make the best choice.
+WordPress powers over 40% of all websites, but is it the right choice for your business? Let's compare WordPress with custom web development to help you make the best choice.
 
-## WordPress vs Custom Web Design
+## WordPress vs Custom Web Development
 
 ### WordPress: Quick and Affordable
 - **Cost:** Lower initial cost, many free themes and plugins
@@ -68,7 +68,7 @@ WordPress powers over 40% of all websites, but is it the right choice for your e
 
 ## When WordPress Works Well
 
-### For Small Stables and Riding Schools
+### For Small Businesses
 - Basic website needs
 - Simple booking systems
 - Photo galleries
@@ -85,9 +85,9 @@ WordPress powers over 40% of all websites, but is it the right choice for your e
 
 ### For Complex Needs
 - Specialised booking systems
-- Horse management features
+- Custom management features
 - Client portals
-- Competition scheduling
+- Advanced scheduling
 - Custom reporting tools
 
 ### For Growing Businesses
@@ -121,7 +121,7 @@ WordPress powers over 40% of all websites, but is it the right choice for your e
 
 ## Making the Right Choice
 
-For many equestrian businesses, WordPress is a good starting point. It's affordable and easy to use. But if you need special features or expect to grow quickly, custom web design might be a better investment.
+For many businesses, WordPress is a good starting point. It's affordable and easy to use. But if you need special features or expect to grow quickly, custom web development might be a better investment.
 
 Think about:
 - How much you can spend
@@ -130,7 +130,7 @@ Think about:
 - Your plans for growth
 - How important security is to you
 
-The best choice depends on your specific needs and goals. Some businesses start with WordPress and move to custom design later. Others go straight to custom for a more professional solution.`,
+The best choice depends on your specific needs and goals. Some businesses start with WordPress and move to custom development later. Others go straight to custom for a more professional solution.`,
     image: "https://i.ibb.co/rPmRbqX/3ced2984-6435-48b1-8de8-a41fad0cd221.webp",
     coverImage: "https://i.ibb.co/rPmRbqX/3ced2984-6435-48b1-8de8-a41fad0cd221.webp",
     readTime: "5",
