@@ -170,7 +170,7 @@ const BrandingIdentitySection = () => {
                   <img
                     src={item.image}
                     alt={item.title}
-                    className="rounded-2xl shadow-2xl relative z-10 group-hover:scale-[1.01] transition-transform duration-300"
+                    className="w-full h-auto max-h-[400px] object-cover rounded-2xl shadow-2xl relative z-10 group-hover:scale-[1.01] transition-all duration-500 ease-in-out filter grayscale group-hover:grayscale-0"
                   />
                 </div>
               </div>
@@ -348,14 +348,13 @@ function GlobalReachSection() {
             {globalReachItems.map((item, index) => (
               <div 
                 key={index}
-                className="group flex-shrink-0 w-[300px] p-6 rounded-lg bg-[#111111] border border-gray-800 hover:border-blue-400/30 transition-all duration-300"
+                className="group flex-shrink-0 w-[300px] p-6 rounded-lg bg-[#111111] border border-gray-800 hover:border-blue-400/30 transition-colors duration-200"
               >
-                <div className="absolute inset-0 bg-gradient-to-r from-blue-400/5 to-cyan-300/5 rounded-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
                 <div className="relative z-10">
-                  <div className="w-12 h-12 rounded-lg bg-blue-400/10 flex items-center justify-center mb-4 group-hover:bg-blue-400/20 transition-colors duration-300">
+                  <div className="w-12 h-12 rounded-lg bg-blue-400/10 flex items-center justify-center mb-4 group-hover:bg-blue-400/20 transition-colors duration-200">
                     {item.icon}
                   </div>
-                  <h3 className="text-xl font-semibold mb-2 text-white group-hover:text-blue-400 transition-colors duration-300">
+                  <h3 className="text-xl font-semibold mb-2 text-white group-hover:text-blue-400 transition-colors duration-200">
                     {item.title}
                   </h3>
                   <p className="text-gray-400">
