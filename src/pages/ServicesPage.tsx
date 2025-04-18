@@ -100,7 +100,7 @@ const BrandingIdentitySection = () => {
   const items = [
     {
       title: "Logo Design",
-      desc: "We create unique, eye-catching logos that capture the essence of your equestrian brand. Whether you run a livery yard, riding school, equestrian photography business, or any other equestrian venture, we design highly technical logos that seamlessly intertwine text and icons or opt for a more simplistic, elegant approach tailored to your brand.",
+      desc: "We create unique, eye-catching logos that capture the essence of what you. Whether you run a riding school, competition yard or from another industry we design highly technical logos that seamlessly intertwine text and icons or opt for a more simplistic, elegant approach tailored to your brand.",
       image: "https://i.ibb.co/HLZ3VMKb/GALLOP.webp",
       icon: <Palette className="w-8 h-8 text-blue-400" />,
       features: [

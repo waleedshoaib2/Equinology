@@ -165,7 +165,7 @@ const Services = () => {
             transition={{ duration: 0.7, delay: 0.2, ease: [0.165, 0.84, 0.44, 1] }}
             className="text-[#ABABAB] max-w-2xl mx-auto"
           >
-            We offer an extensive range of design and personalised services tailored to the unique needs of equestrians.
+            We offer an extensive range of design and personalised services tailored to the unique needs of every individual industry, from equestrian to construction, we have it covered.
           </motion.p>
         </div>
 
