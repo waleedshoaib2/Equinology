@@ -1,6 +1,6 @@
 import { ArrowRight, Star, Compass } from 'lucide-react';
 import { motion, useAnimation } from 'framer-motion';
-import { useEffect, useRef, Suspense } from 'react';
+import { useEffect, useRef, Suspense, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { useInView } from 'framer-motion';
 import image from "../images/Hero-Image.webp"
@@ -11,6 +11,7 @@ const Hero = () => {
   const controls = useAnimation();
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
+  const [imageLoaded, setImageLoaded] = useState(false);
   
   useEffect(() => {
     if (isInView) {
@@ -56,7 +57,7 @@ const Hero = () => {
 
             {/* Description */}
             <p className="text-lg text-[#ABABAB] max-w-3xl">
-              Get in touch today for a no-obligation, one-to-one consultation about your project. Depending on the scope of the project, we aim to deliver your perfect website within approximately a week. We won't consider it complete until you're 100% satisfied, and we offer a transparent, fixed and affordable price. No business is complete without a professional website
+              Get in touch today for a no-obligation, one-to-one consultation about your project. Depending on the scope of the project, we aim to deliver your perfected project within approximately a week. We won't consider it complete until you're satisfied, and we offer a transparent, fixed and affordable price. No business is complete without a professional website
             </p>
 
             {/* CTA buttons */}
@@ -119,11 +120,17 @@ const Hero = () => {
                 <img
                   src={image}
                   alt="Elegant Horse"
-                  className="object-cover w-full h-full rounded-2xl mix-blend-luminosity opacity-80"
+                  className={`object-cover w-full h-full rounded-2xl mix-blend-luminosity opacity-80 transition-opacity duration-300 ${
+                    imageLoaded ? 'opacity-100' : 'opacity-0'
+                  }`}
                   loading="lazy"
                   width={500}
                   height={300}
+                  onLoad={() => setImageLoaded(true)}
                 />
+                {!imageLoaded && (
+                  <div className="absolute inset-0 bg-gradient-to-tr from-[#0A0A0A] via-transparent to-transparent animate-pulse" />
+                )}
                 <div className="absolute inset-0 bg-gradient-to-tr from-[#0A0A0A] via-transparent to-transparent"></div>
               </div>
             </div>

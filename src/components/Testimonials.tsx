@@ -49,22 +49,13 @@ const TestimonialCard: React.FC<TestimonialCardProps> = ({ testimonial, isActive
         isActive ? 'cursor-default scale-100' : 'cursor-pointer scale-95'
       }`}
     >
-      <div className="group relative">
-        {/* Animated border effect */}
-        <div className="absolute -inset-0.5 bg-gradient-to-r from-[#3CAAFF] via-[#00E0FF] to-[#3CAAFF] rounded-xl blur opacity-30 group-hover:opacity-50 transition duration-1000 group-hover:duration-300 animate-gradient-xy"></div>
-        
-        <div className="relative bg-gradient-to-br from-black/90 to-black/80 p-6 sm:p-8 rounded-xl backdrop-blur-xl shadow-2xl overflow-hidden">
-          {/* Futuristic grid background */}
-          <div className="absolute inset-0 bg-[url('/grid.svg')] opacity-[0.02] bg-repeat"></div>
-          
-          {/* Animated gradient overlay */}
-          <div className="absolute inset-0 bg-gradient-to-br from-[#3CAAFF]/10 via-transparent to-[#00E0FF]/5 animate-pulse-slow"></div>
-          
+      <div className="relative">
+        <div className="relative bg-[#111111] p-6 sm:p-8 rounded-xl border border-[#222222]/30 shadow-lg overflow-hidden">
           <div className="relative z-10">
             {/* Quote Text */}
             <div className="relative mb-6">
-              <Quote className="absolute -top-3 -left-2 w-8 h-8 text-[#3CAAFF]/20 group-hover:text-[#3CAAFF]/30 transition-colors" />
-              <p className="text-lg sm:text-xl text-white/90 leading-relaxed pl-6 group-hover:text-white transition-colors">
+              <Quote className="absolute -top-3 -left-2 w-8 h-8 text-[#3CAAFF]/10" />
+              <p className="text-lg sm:text-xl text-white/90 leading-relaxed pl-6">
                 {testimonial.quote}
               </p>
             </div>
@@ -72,16 +63,16 @@ const TestimonialCard: React.FC<TestimonialCardProps> = ({ testimonial, isActive
             {/* Author Info */}
             <div className="flex items-center justify-between pt-3 border-t border-white/10">
               <div>
-                <p className="text-lg font-semibold bg-gradient-to-r from-[#3CAAFF] to-[#00E0FF] bg-clip-text text-transparent">
+                <p className="text-lg font-semibold text-white">
                   {testimonial.author}
                 </p>
-                <p className="text-base text-[#ABABAB] group-hover:text-white/70 transition-colors">
+                <p className="text-base text-[#ABABAB]">
                   {testimonial.position}
                 </p>
               </div>
               <div className="flex gap-1">
                 {[...Array(testimonial.rating)].map((_, i) => (
-                  <Star key={i} className="w-5 h-5 text-[#3CAAFF] fill-current animate-pulse-slow" />
+                  <Star key={i} className="w-5 h-5 text-[#3CAAFF]" />
                 ))}
               </div>
             </div>
@@ -214,10 +205,8 @@ const Testimonials = () => {
           transition={{ duration: 0.7, ease: [0.165, 0.84, 0.44, 1] }}
           className="text-center mb-16"
         >
-          <h2 className="text-3xl sm:text-4xl font-bold mb-4">
-            <span className="bg-gradient-to-r from-[#3CAAFF] to-[#00E0FF] bg-clip-text text-transparent">
-              Hear From Our Clients
-            </span>
+          <h2 className="text-3xl sm:text-4xl font-bold mb-4 text-white">
+            Hear From Our Clients
           </h2>
           <p className="text-[#ABABAB] max-w-xl mx-auto">
             Discover how we've helped equestrian businesses thrive with tailored digital solutions.
@@ -249,14 +238,14 @@ const Testimonials = () => {
           {/* Navigation Arrows */}
           <button
             onClick={handlePrev}
-            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 sm:-translate-x-8 p-3 rounded-full bg-black/50 backdrop-blur-sm border border-white/10 hover:border-[#3CAAFF]/50 hover:bg-black/70 transition-all duration-300 group shadow-lg"
+            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 sm:-translate-x-8 p-3 rounded-full bg-black/50 backdrop-blur-sm border border-white/10 hover:border-[#3CAAFF]/50 hover:bg-black/70 transition-all duration-300 group"
             aria-label="Previous testimonial"
           >
             <ChevronLeft className="w-6 h-6 text-white/70 group-hover:text-[#3CAAFF] transition-colors" />
           </button>
           <button
             onClick={handleNext}
-            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 sm:translate-x-8 p-3 rounded-full bg-black/50 backdrop-blur-sm border border-white/10 hover:border-[#3CAAFF]/50 hover:bg-black/70 transition-all duration-300 group shadow-lg"
+            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 sm:translate-x-8 p-3 rounded-full bg-black/50 backdrop-blur-sm border border-white/10 hover:border-[#3CAAFF]/50 hover:bg-black/70 transition-all duration-300 group"
             aria-label="Next testimonial"
           >
             <ChevronRight className="w-6 h-6 text-white/70 group-hover:text-[#3CAAFF] transition-colors" />
@@ -272,7 +261,6 @@ const Testimonials = () => {
                   index === activeIndex ? 'w-10' : 'w-3'
                 } h-3 transition-all duration-300`}
               >
-                <div className={`absolute inset-0 bg-gradient-to-r from-[#3CAAFF] to-[#00E0FF] rounded-full blur opacity-50 group-hover:opacity-70 transition-opacity`}></div>
                 <div className={`relative h-full rounded-full ${
                   index === activeIndex
                     ? 'bg-[#3CAAFF]'
