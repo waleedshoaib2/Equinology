@@ -18,7 +18,7 @@ const services = [
   },
   {
     title: "Performance Enhancement",
-    description: "Specialized programs to improve equine athletic performance and recovery.",
+    description: "Specialised programs to improve equine athletic performance and recovery.",
     icon: "🏆"
   }
 ];

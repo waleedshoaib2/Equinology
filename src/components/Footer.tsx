@@ -1,6 +1,7 @@
 import { motion } from 'framer-motion';
-import { Compass, Mail, Phone, Instagram, Facebook } from 'lucide-react';
+import { Mail, Phone, Instagram, Facebook } from 'lucide-react';
 import { Link } from 'react-router-dom'; // Use Link for internal navigation
+import logo from "../images/logo.webp";
 
 const FooterLink = ({ to, children }: { to: string; children: React.ReactNode }) => (
   <li>
@@ -32,13 +33,10 @@ const Footer = () => {
           {/* Column 1: Brand & Description */}
           <div className="col-span-1 md:col-span-2">
             <Link to="/" className="inline-flex items-center mb-6 group">
-              <Compass className="w-8 h-8 mr-2 text-[#3CAAFF] group-hover:text-[#00E0FF] transition-colors duration-300" />
-              <span className="text-2xl font-light tracking-wider bg-gradient-to-r from-[#3CAAFF] to-[#00E0FF] bg-clip-text text-transparent group-hover:opacity-80 transition-opacity duration-300">
-                EQUINOLOGY
-              </span>
+              <img src={logo} className="w-64 h-auto drop-shadow-lg" alt="Logo" />
             </Link>
             <p className="text-[#777777] text-sm leading-relaxed">
-              Expert equine web design services for horse businesses worldwide. Specializing in custom websites, equine sales platforms, and software solutions that combine equestrian expertise with modern web design.
+              Expert web design services for businesses worldwide. Specialising in custom websites, equine sales platforms, and software solutions that combine our expertise with modern web design.
             </p>
           </div>
 
@@ -48,7 +46,6 @@ const Footer = () => {
             <ul className="space-y-3">
               <FooterLink to="/">Home</FooterLink>
               <FooterLink to="/#services">Services</FooterLink> {/* Assuming Services section has id="services" */}
-              <FooterLink to="/#facilities">Facilities</FooterLink> {/* Assuming Facilities section has id="facilities" */}
               <FooterLink to="/#testimonials">Testimonials</FooterLink> {/* Assuming Testimonials section has id="testimonials" */}
               <FooterLink to="/blog">Blog</FooterLink>
               <FooterLink to="/contact">Contact</FooterLink>

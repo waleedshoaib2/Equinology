@@ -1,9 +1,10 @@
-import React, { lazy, Suspense } from 'react';
-import { Routes, Route } from 'react-router-dom';
+import React, { lazy } from 'react';
+import { Routes, Route, Outlet } from 'react-router-dom';
 import Header from './components/Header';
 import Footer from './components/Footer';
 import HomePage from './pages/HomePage';
-import LoadingSpinner from './components/LoadingSpinner';
+import NotFoundPage from './pages/NotFoundPage';
+import ErrorBoundary from './components/ErrorBoundary';
 
 // Lazy load pages (except HomePage)
 const ServicesPage = lazy(() => import('./pages/ServicesPage'));
@@ -11,42 +12,48 @@ const ArticlePage = lazy(() => import('./pages/ArticlePage'));
 const BlogPage = lazy(() => import('./pages/BlogPage'));
 const ContactPage = lazy(() => import('./pages/ContactPage'));
 
+// Layout component that provides consistent structure
+const Layout: React.FC = () => (
+  <>
+    <Header />
+    <main className="min-h-screen">
+      <Outlet />
+    </main>
+    <Footer />
+  </>
+);
+
 const AppRoutes: React.FC = () => {
   return (
-    <>
-      <Header />
-      <main>
-        <Routes>
-          <Route path="/" element={<HomePage />} />
-          <Route path="/services" element={
-            <Suspense fallback={<LoadingSpinner />}>
-              <ServicesPage />
-            </Suspense>
-          } />
-          <Route path="/articles" element={
-            <Suspense fallback={<LoadingSpinner />}>
-              <ArticlePage />
-            </Suspense>
-          } />
-          <Route path="/articles/:slug" element={
-            <Suspense fallback={<LoadingSpinner />}>
-              <ArticlePage />
-            </Suspense>
-          } />
-          <Route path="/blog" element={
-            <Suspense fallback={<LoadingSpinner />}>
-              <BlogPage />
-            </Suspense>
-          } />
-          <Route path="/contact" element={
-            <Suspense fallback={<LoadingSpinner />}>
-              <ContactPage />
-            </Suspense>
-          } />
-        </Routes>
-      </main>
-      <Footer />
-    </>
+    <Routes>
+      <Route element={<Layout />}>
+        {/* Home */}
+        <Route index element={<HomePage />} />
+
+        {/* Services */}
+        <Route path="services" element={<ServicesPage />} />
+
+        {/* Articles */}
+        <Route path="articles" element={<ArticlePage />} />
+        <Route path="articles/:slug" element={<ArticlePage />} />
+
+        {/* Blog */}
+        <Route path="blog" element={<BlogPage />} />
+
+        {/* Contact */}
+        <Route path="contact" element={<ContactPage />} />
+
+        {/* 404 - Catch all */}
+        <Route
+          path="*"
+          element={
+            <ErrorBoundary>
+              <NotFoundPage />
+            </ErrorBoundary>
+          }
+        />
+      </Route>
+    </Routes>
   );
 };
 

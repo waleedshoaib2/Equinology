@@ -108,7 +108,7 @@ const FlagCarousel = () => {
                 <span className="bg-gradient-to-r from-[#3CAAFF] to-[#00E0FF] bg-clip-text text-transparent">Global Reach</span>
               </h2>
               <p className="text-gray-400 text-base sm:text-lg max-w-2xl mx-auto">
-                Trusted by equestrian businesses across the globe, from small yards to international brands
+                Trusted by businesses across the globe, from small yards to international brands
               </p>
             </>
           ) : (

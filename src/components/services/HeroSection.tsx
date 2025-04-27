@@ -29,7 +29,7 @@ const HeroSection = () => {
         </div>
 
         <p className="text-gray-400 max-w-2xl mx-auto text-lg">
-          Specializing in custom websites, equine sales platforms, and software solutions for horse businesses worldwide. 
+         Specialising in custom websites, equine sales platforms, and software solutions for businesses worldwide. 
           Where equestrian expertise meets modern web design.
         </p>
       </div>
