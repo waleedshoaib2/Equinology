@@ -1,5 +1,5 @@
-import React, { useRef, useState } from 'react';
-import { motion, useScroll, useTransform, useSpring, MotionValue } from 'framer-motion';
+import React, { useRef, useState, useEffect } from 'react';
+import { motion, useScroll, useTransform, useSpring } from 'framer-motion';
 import { Star, Quote, ChevronLeft, ChevronRight } from 'lucide-react';
 
 // Define types for AnimatedOrb props
@@ -41,62 +41,64 @@ interface TestimonialCardProps {
 
 const TestimonialCard: React.FC<TestimonialCardProps> = ({ testimonial, isActive }) => {
   return (
-    <motion.div
-      initial={{ opacity: 0, y: 20 }}
-      animate={{ opacity: isActive ? 1 : 0.3, y: isActive ? 0 : 20 }}
-      transition={{ duration: 0.4, ease: "easeOut" }}
-      className={`flex-shrink-0 w-[90vw] sm:w-[500px] md:w-[600px] mx-auto transition-all duration-300 ${
-        isActive ? 'cursor-default scale-100' : 'cursor-pointer scale-95'
-      }`}
+    <div
+      className={`flex-shrink-0 w-[90vw] sm:w-[500px] md:w-[600px] mx-auto ${
+        isActive ? 'opacity-100' : 'opacity-30'
+      } transition-opacity duration-300`}
     >
-      <div className="relative">
-        <div className="relative bg-[#111111] p-6 sm:p-8 rounded-xl border border-[#222222]/30 shadow-lg overflow-hidden">
-          <div className="relative z-10">
-            {/* Quote Text */}
-            <div className="relative mb-6">
-              <Quote className="absolute -top-3 -left-2 w-8 h-8 text-[#3CAAFF]/10" />
-              <p className="text-lg sm:text-xl text-white/90 leading-relaxed pl-6">
-                {testimonial.quote}
-              </p>
-            </div>
+      <div className="bg-[#111111] p-6 sm:p-8 rounded-xl border border-[#222222]/30">
+        {/* Quote Text */}
+        <div className="relative mb-6">
+          <Quote className="absolute -top-3 -left-2 w-8 h-8 text-[#3CAAFF]/10" />
+          <p className="text-lg sm:text-xl text-white/90 leading-relaxed pl-6">
+            {testimonial.quote}
+          </p>
+        </div>
 
-            {/* Author Info */}
-            <div className="flex items-center justify-between pt-3 border-t border-white/10">
-              <div>
-                <p className="text-lg font-semibold text-white">
-                  {testimonial.author}
-                </p>
-                <p className="text-base text-[#ABABAB]">
-                  {testimonial.position}
-                </p>
-              </div>
-              <div className="flex gap-1">
-                {[...Array(testimonial.rating)].map((_, i) => (
-                  <Star key={i} className="w-5 h-5 text-[#3CAAFF]" />
-                ))}
-              </div>
-            </div>
+        {/* Author Info */}
+        <div className="flex items-center justify-between pt-3 border-t border-white/10">
+          <div>
+            <p className="text-lg font-semibold text-white">
+              {testimonial.author}
+            </p>
+            <p className="text-base text-[#ABABAB]">
+              {testimonial.position}
+            </p>
+          </div>
+          <div className="flex gap-1">
+            {[...Array(testimonial.rating)].map((_, i) => (
+              <Star key={i} className="w-5 h-5 text-[#3CAAFF]" />
+            ))}
           </div>
         </div>
       </div>
-    </motion.div>
+    </div>
   );
 };
 
 const Testimonials = () => {
   const testimonialRef = useRef<HTMLDivElement>(null);
   const [activeIndex, setActiveIndex] = useState(0);
+  const [isVisible, setIsVisible] = useState(false);
 
-  // Scroll progress for the entire section (used for orbs)
-  const { scrollYProgress: sectionScroll } = useScroll({
-    target: testimonialRef,
-    offset: ['start end', 'end start']
-  });
+  // Simple intersection observer for lazy loading
+  useEffect(() => {
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.disconnect();
+        }
+      },
+      { threshold: 0.1 }
+    );
 
-  // Parallax for orbs
-  const smoothScroll = useSpring(sectionScroll, { stiffness: 100, damping: 30 });
-  const parallaxUp = useTransform(smoothScroll, [0, 1], [0, 20]);
-  const parallaxDown = useTransform(smoothScroll, [0, 1], [20, 0]);
+    if (testimonialRef.current) {
+      observer.observe(testimonialRef.current);
+    }
+
+    return () => observer.disconnect();
+  }, []);
 
   const testimonials = [
     {
@@ -172,54 +174,25 @@ const Testimonials = () => {
   return (
     <section 
       id="testimonials"
-      className="py-16 md:py-24 relative overflow-hidden"
+      className="py-16 md:py-24 relative"
       ref={testimonialRef}
     >
-      {/* Animated background orbs */}
-      <AnimatedOrb
-        className="bg-gradient-to-r from-[#3CAAFF]/10 to-[#00E0FF]/10"
-        style={{ width: 350, height: 350, top: "15%", left: "-100px" }}
-        customAnimation={{
-          scale: [1, 1.02, 1],
-          x: [-8, 8, -8],
-          opacity: [0.25, 0.35, 0.25],
-        }}
-        parallaxValue={parallaxUp}
-      />
-      <AnimatedOrb
-        className="bg-gradient-to-r from-[#00E0FF]/10 to-[#3CAAFF]/10"
-        style={{ width: 320, height: 320, bottom: "12%", right: "-80px" }}
-        customAnimation={{
-          scale: [1, 1.01, 1],
-          x: [6, -6, 6],
-          opacity: [0.3, 0.4, 0.3],
-        }}
-        parallaxValue={parallaxDown}
-      />
-      
-      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <motion.div
-          initial={{ opacity: 0, y: -20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true, margin: "-100px" }}
-          transition={{ duration: 0.7, ease: [0.165, 0.84, 0.44, 1] }}
-          className="text-center mb-16"
-        >
+      <div className="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+        <div className="text-center mb-16">
           <h2 className="text-3xl sm:text-4xl font-bold mb-4 text-white">
             Hear From Our Clients
           </h2>
           <p className="text-[#ABABAB] max-w-xl mx-auto">
             Discover how we've helped equestrian businesses thrive with tailored digital solutions.
           </p>
-        </motion.div>
+        </div>
 
         {/* Testimonials Carousel */}
         <div className="relative">
           <div className="w-full max-w-4xl mx-auto overflow-hidden">
-            <motion.div 
-              className="flex items-center"
-              animate={{ x: `-${activeIndex * 100}%` }}
-              transition={{ type: "spring", stiffness: 300, damping: 30 }}
+            <div 
+              className="flex items-center transition-transform duration-300"
+              style={{ transform: `translateX(-${activeIndex * 100}%)` }}
             >
               {testimonials.map((testimonial, index) => (
                 <div key={testimonial.id} className="w-full flex-shrink-0 px-4">
@@ -232,23 +205,23 @@ const Testimonials = () => {
                   />
                 </div>
               ))}
-            </motion.div>
+            </div>
           </div>
 
           {/* Navigation Arrows */}
           <button
             onClick={handlePrev}
-            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 sm:-translate-x-8 p-3 rounded-full bg-black/50 backdrop-blur-sm border border-white/10 hover:border-[#3CAAFF]/50 hover:bg-black/70 transition-all duration-300 group"
+            className="absolute left-0 top-1/2 -translate-y-1/2 -translate-x-4 sm:-translate-x-8 p-3 rounded-full bg-black/50 backdrop-blur-sm border border-white/10 hover:border-[#3CAAFF]/50 hover:bg-black/70 transition-all duration-300"
             aria-label="Previous testimonial"
           >
-            <ChevronLeft className="w-6 h-6 text-white/70 group-hover:text-[#3CAAFF] transition-colors" />
+            <ChevronLeft className="w-6 h-6 text-white/70" />
           </button>
           <button
             onClick={handleNext}
-            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 sm:translate-x-8 p-3 rounded-full bg-black/50 backdrop-blur-sm border border-white/10 hover:border-[#3CAAFF]/50 hover:bg-black/70 transition-all duration-300 group"
+            className="absolute right-0 top-1/2 -translate-y-1/2 translate-x-4 sm:translate-x-8 p-3 rounded-full bg-black/50 backdrop-blur-sm border border-white/10 hover:border-[#3CAAFF]/50 hover:bg-black/70 transition-all duration-300"
             aria-label="Next testimonial"
           >
-            <ChevronRight className="w-6 h-6 text-white/70 group-hover:text-[#3CAAFF] transition-colors" />
+            <ChevronRight className="w-6 h-6 text-white/70" />
           </button>
 
           {/* Dots Navigation */}
@@ -257,15 +230,15 @@ const Testimonials = () => {
               <button
                 key={index}
                 onClick={() => setActiveIndex(index)}
-                className={`relative group ${
+                className={`relative ${
                   index === activeIndex ? 'w-10' : 'w-3'
                 } h-3 transition-all duration-300`}
               >
                 <div className={`relative h-full rounded-full ${
                   index === activeIndex
                     ? 'bg-[#3CAAFF]'
-                    : 'bg-white/20 group-hover:bg-white/30'
-                } transition-all duration-300`}></div>
+                    : 'bg-white/20'
+                }`}></div>
               </button>
             ))}
           </div>
