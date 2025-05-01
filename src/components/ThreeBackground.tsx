@@ -2,35 +2,43 @@ import { useRef, useEffect, useState } from 'react';
 import { Canvas, useFrame } from '@react-three/fiber';
 import { Sphere } from '@react-three/drei';
 import * as THREE from 'three';
+import { useAnimation } from '../contexts/AnimationContext';
 
-// AnimatedSphere now takes a `pauseAnimation` prop.
-// When true, we skip updating the position and rotation.
-function AnimatedSphere({ pauseAnimation }: { pauseAnimation: boolean }) {
+// AnimatedSphere component with mobile optimizations
+function AnimatedSphere({ isMobile }: { isMobile: boolean }) {
   const sphereRef = useRef<THREE.Mesh>(null);
   const frameCount = useRef(0);
 
   useFrame(({ clock }) => {
     if (!sphereRef.current) return;
-    // If scrolling is happening and we're on mobile, skip updates to reduce GPU load
-    if (pauseAnimation) return;
     
-    // Throttle updates to every other frame
-    frameCount.current = (frameCount.current + 1) % 2;
+    // On mobile, update every 3rd frame for better performance
+    frameCount.current = (frameCount.current + 1) % (isMobile ? 3 : 1);
     if (frameCount.current !== 0) return;
 
     const elapsed = clock.getElapsedTime();
-    // Apply subtle movement and rotation
-    sphereRef.current.position.y = Math.sin(elapsed * 0.5) * 0.15;
-    sphereRef.current.position.x = Math.cos(elapsed * 0.3) * 0.1;
-    sphereRef.current.rotation.x = elapsed * 0.1;
-    sphereRef.current.rotation.y = elapsed * 0.05;
+    
+    // Reduced movement amplitude for mobile
+    const amplitudeY = isMobile ? 0.08 : 0.15;
+    const amplitudeX = isMobile ? 0.05 : 0.1;
+    const rotationSpeed = isMobile ? 0.05 : 0.1;
+    
+    // Apply subtle movement
+    sphereRef.current.position.y = Math.sin(elapsed * 0.5) * amplitudeY;
+    sphereRef.current.position.x = Math.cos(elapsed * 0.3) * amplitudeX;
+    sphereRef.current.rotation.x = elapsed * (rotationSpeed * 0.5);
+    sphereRef.current.rotation.y = elapsed * (rotationSpeed * 0.25);
   });
 
   return (
-    <Sphere ref={sphereRef} args={[1.5, 32, 32]} position={[1, 0, -1]}>
+    <Sphere 
+      ref={sphereRef} 
+      args={[isMobile ? 1.2 : 1.5, isMobile ? 24 : 32, isMobile ? 24 : 32]} 
+      position={[1, 0, -1]}
+    >
       <meshPhongMaterial
         color="#3CAAFF"
-        opacity={0.08}
+        opacity={isMobile ? 0.06 : 0.08}
         transparent
         wireframe
       />
@@ -39,65 +47,38 @@ function AnimatedSphere({ pauseAnimation }: { pauseAnimation: boolean }) {
 }
 
 export default function ThreeBackground() {
+  const { isMobile } = useAnimation();
   const [mounted, setMounted] = useState(false);
-  const [isVisible, setIsVisible] = useState(false);
+  const [isVisible, setIsVisible] = useState(true);
   const canvasRef = useRef<HTMLDivElement>(null);
-  // Track whether the page is being scrolled.
-  const [isScrolling, setIsScrolling] = useState(false);
-  // Track if we're on a mobile device
-  const [isMobile, setIsMobile] = useState(false);
-  // We'll use a timeout to debounce the scroll event.
-  let scrollTimeout: ReturnType<typeof setTimeout>;
+  const lastScrollY = useRef(0);
+  const ticking = useRef(false);
 
   useEffect(() => {
     setMounted(true);
-    // Check if we're on a mobile device
-    const checkMobile = () => {
-      setIsMobile(window.innerWidth < 768);
-    };
-    checkMobile();
-    window.addEventListener('resize', checkMobile);
 
-    // Add a small delay before showing the background
-    const timer = setTimeout(() => {
-      setIsVisible(true);
-    }, 100);
-    
-    return () => {
-      clearTimeout(timer);
-      setMounted(false);
-      setIsVisible(false);
-      window.removeEventListener('resize', checkMobile);
-      // Ensure canvas is properly disposed
-      if (canvasRef.current) {
-        const canvas = canvasRef.current.querySelector('canvas');
-        if (canvas) {
-          canvas.style.opacity = '0';
-          canvas.style.transition = 'opacity 0.3s ease-out';
-        }
-      }
-    };
-  }, []);
-
-  useEffect(() => {
     const handleScroll = () => {
-      setIsScrolling(true);
-      clearTimeout(scrollTimeout);
-      scrollTimeout = setTimeout(() => {
-        setIsScrolling(false);
-      }, 100); // 100ms debounce after scrolling stops
+      if (!ticking.current) {
+        window.requestAnimationFrame(() => {
+          if (canvasRef.current) {
+            const scrollY = window.scrollY;
+            // Reduce opacity based on scroll position
+            const opacity = Math.max(0, 1 - (scrollY / window.innerHeight));
+            canvasRef.current.style.opacity = opacity.toString();
+            setIsVisible(opacity > 0.1);
+          }
+          lastScrollY.current = window.scrollY;
+          ticking.current = false;
+        });
+        ticking.current = true;
+      }
     };
 
     window.addEventListener('scroll', handleScroll, { passive: true });
-    return () => {
-      window.removeEventListener('scroll', handleScroll);
-      clearTimeout(scrollTimeout);
-    };
+    return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  if (!mounted) {
-    return <div className="absolute inset-0 bg-[#0A0A0A]" />;
-  }
+  if (!mounted) return null;
 
   return (
     <div 
@@ -111,16 +92,18 @@ export default function ThreeBackground() {
     >
       <Canvas 
         camera={{ position: [0, 0, 5] }}
-        dpr={[1, 1.5]}
+        dpr={[1, isMobile ? 1.5 : 2]} // Lower DPR on mobile
         gl={{ 
           antialias: false,
           alpha: true,
-          powerPreference: "high-performance"
+          powerPreference: "high-performance",
+          depth: false // Disable depth testing for better performance
         }}
+        style={{ mixBlendMode: 'screen' }}
       >
         <ambientLight intensity={0.3} />
         <pointLight position={[10, 10, 10]} intensity={0.5} />
-        <AnimatedSphere pauseAnimation={isMobile && isScrolling} />
+        <AnimatedSphere isMobile={isMobile} />
       </Canvas>
     </div>
   );
