@@ -47,7 +47,14 @@ const HeroSection = () => {
           animate={{ opacity: 1 }}
           exit={{ opacity: 0 }}
           transition={{ duration: 0.3 }}
-          className="absolute inset-0 bg-gradient-to-b from-blue-400/5 to-transparent"
+          className="absolute inset-0 bg-gradient-to-b from-blue-400/10 via-transparent to-transparent"
+        />
+        <motion.div 
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          exit={{ opacity: 0 }}
+          transition={{ duration: 0.3, delay: 0.1 }}
+          className="absolute inset-0 bg-gradient-to-r from-[#3CAAFF]/5 via-transparent to-[#00E0FF]/5"
         />
         
         <div className="relative z-10 px-4 max-w-6xl mx-auto">

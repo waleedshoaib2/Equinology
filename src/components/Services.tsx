@@ -102,27 +102,52 @@ const Services = () => {
 
   return (
     <section id="services" className="relative py-20 sm:py-32 overflow-hidden bg-[#0A0A0A]" ref={containerRef}>
-      {/* Background orbs with reduced blur and opacity on mobile */}
+      {/* Background orbs with subtle glare effect */}
       <AnimatedOrb
-        className={`${isMobile ? 'opacity-30' : 'opacity-50'} bg-[#3CAAFF]`}
+        className={`${isMobile ? 'opacity-10' : 'opacity-15'} bg-[#3CAAFF]`}
         style={{
-          width: isMobile ? '300px' : '600px',
-          height: isMobile ? '300px' : '600px',
-          filter: `blur(${isMobile ? '80px' : '100px'})`,
+          width: isMobile ? '200px' : '400px',
+          height: isMobile ? '200px' : '400px',
+          filter: `blur(${isMobile ? '60px' : '80px'})`,
           left: '-20%',
-          top: '20%'
+          top: '15%'
         }}
         parallaxValue={parallaxUp}
       />
 
       <AnimatedOrb
-        className={`${isMobile ? 'opacity-30' : 'opacity-50'} bg-[#00E0FF]`}
+        className={`${isMobile ? 'opacity-10' : 'opacity-15'} bg-[#00E0FF]`}
         style={{
-          width: isMobile ? '300px' : '600px',
-          height: isMobile ? '300px' : '600px',
-          filter: `blur(${isMobile ? '80px' : '100px'})`,
+          width: isMobile ? '200px' : '400px',
+          height: isMobile ? '200px' : '400px',
+          filter: `blur(${isMobile ? '60px' : '80px'})`,
           right: '-20%',
-          bottom: '20%'
+          bottom: '15%'
+        }}
+        parallaxValue={parallaxDown}
+      />
+
+      {/* Additional very subtle orbs */}
+      <AnimatedOrb
+        className="opacity-5 bg-[#3CAAFF]"
+        style={{
+          width: isMobile ? '150px' : '300px',
+          height: isMobile ? '150px' : '300px',
+          filter: `blur(${isMobile ? '40px' : '60px'})`,
+          left: '25%',
+          top: '45%'
+        }}
+        parallaxValue={parallaxUp}
+      />
+
+      <AnimatedOrb
+        className="opacity-5 bg-[#00E0FF]"
+        style={{
+          width: isMobile ? '150px' : '300px',
+          height: isMobile ? '150px' : '300px',
+          filter: `blur(${isMobile ? '40px' : '60px'})`,
+          right: '25%',
+          bottom: '45%'
         }}
         parallaxValue={parallaxDown}
       />
