@@ -90,6 +90,26 @@ const ArticleDetail: React.FC<ArticleDetailProps> = ({ post, onBackClick }) => {
             blockquote: ({ node, ...props }) => (
               <blockquote className="border-l-4 border-[#3CAAFF]/50 pl-4 italic my-4 text-gray-400" {...props} />
             ),
+            table: ({ node, ...props }) => (
+              <div className="overflow-x-auto my-8 rounded-lg border border-gray-700 shadow-lg">
+                <table className="min-w-full divide-y divide-gray-700" {...props} />
+              </div>
+            ),
+            thead: ({ node, ...props }) => (
+              <thead className="bg-gray-800/50" {...props} />
+            ),
+            tbody: ({ node, ...props }) => (
+              <tbody className="divide-y divide-gray-700/50 bg-gray-900/50" {...props} />
+            ),
+            tr: ({ node, ...props }) => (
+              <tr className="bg-gray-900/50 hover:bg-gray-800/50 transition-colors duration-200" {...props} />
+            ),
+            th: ({ node, ...props }) => (
+              <th className="px-6 py-4 text-left text-sm font-semibold text-white border-b border-gray-700/50" {...props} />
+            ),
+            td: ({ node, ...props }) => (
+              <td className="px-6 py-4 text-sm text-gray-300 border-b border-gray-700/50" {...props} />
+            ),
             code: ({ node, className, children, ...props }) => {
               const match = /language-(\w+)/.exec(className || '');
               return match ? (

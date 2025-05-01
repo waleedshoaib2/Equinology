@@ -1,3 +1,5 @@
+import { timestampDaysAgo, randomTimestampLast } from '../utils/dates';
+
 // Define Article interface
 export interface Article {
   id: number;
@@ -19,11 +21,6 @@ export const slugify = (text: string): string =>
     .replace(/ /g, '-')
     .replace(/[^\w-]+/g, '');
 
-// Helper function to get current timestamp with offset
-export const getTimestamp = (daysAgo: number): number => {
-  return Date.now() - (daysAgo * 24 * 60 * 60 * 1000);
-};
-
 // Helper function to find an article by ID
 export const findArticleById = (id: string): Article | undefined => {
   const numericId = parseInt(id, 10);
@@ -35,13 +32,105 @@ export const findArticleBySlug = (slug: string): Article | undefined => {
   return articles.find(post => post.slug === slug);
 };
 
-// Article data
-export const articles: Article[] = [
+// Raw article data with fixed timestamps
+const rawArticles = [
   {
     id: 1,
+    title: "WordPress vs Custom Web Development: Making the Right Choice",
+    summary: "A comprehensive comparison of WordPress and custom web development approaches, helping you make the right choice for your project based on budget, timeline, and technical requirements.",
+    content: `# WordPress vs Custom Web Development: Making the Right Choice
+
+## Introduction
+Choosing the right approach for your website can shape your online success. Two common paths are WordPress and custom web development. This article outlines their differences, highlights strengths and weaknesses, and helps you decide which suits your project best.
+
+---
+
+## What Is WordPress?
+WordPress is an open-source content-management system (CMS). It powers over 40 per cent of all websites worldwide. You install a theme, add plugins and start publishing — no coding skills required.
+
+### Pros of WordPress
+- **Speed to market**  
+  Ready-made themes and plugins let you launch quickly.
+- **Cost-effective**  
+  Many themes and plugins are free or low-cost.
+- **Easy maintenance**  
+  Automatic updates and a large support community simplify upkeep.
+- **Extensibility**  
+  Thousands of plugins cover SEO, e-commerce, analytics and more.
+
+### Cons of WordPress
+- **Performance limits**  
+  Too many plugins can slow page loads.
+- **Security risks**  
+  Popularity makes it a frequent target; timely updates are vital.
+- **Customisation constraints**  
+  Deep design or functionality changes may require custom coding anyway.
+- **Plugin dependency**  
+  Reliant on third-party code quality; conflicts can occur.
+
+---
+
+## What Is Custom Web Development?
+Custom development means building a site from the ground up using languages like HTML, CSS, JavaScript and back-end frameworks (e.g. Django, Ruby on Rails, Node.js). It offers full control over design, features and performance.
+
+### Pros of Custom Development
+- **Unlimited flexibility**  
+  Tailor every detail to your brand and user needs.
+- **Optimised performance**  
+  Lean codebase results in faster load times.
+- **Enhanced security**  
+  Unique code reduces risks from common CMS exploits.
+- **Scalability**  
+  Architect for growth; integrate complex systems smoothly.
+
+### Cons of Custom Development
+- **Higher cost**  
+  Skilled developers take time and budget.
+- **Longer timeline**  
+  Building from scratch extends development and testing phases.
+- **Ongoing maintenance**  
+  You'll need developers for updates, bug fixes and new features.
+- **Dependency on experts**  
+  Harder to switch agencies without detailed documentation.
+
+---
+
+## Key Factors to Consider
+
+| Factor | WordPress | Custom Development |
+|--------|-----------|-------------------|
+| Budget | Low initial cost | Medium to high |
+| Timeline | Weeks | Months |
+| Technical skill | Minimal | Advanced |
+| Custom needs | Limited by themes/plugins | Unlimited |
+| Performance | Good, but plugin-dependent | Optimised |
+| Security | Needs frequent updates | Inherent, but still requires vigilance |
+| Maintenance | Easy updates via dashboard | Requires developer support |
+
+---
+
+## Making the Right Choice
+1. **Assess your budget and timeline**  
+   If you need a site fast and cheaply, WordPress wins. If you have time and funds, custom pays off.  
+2. **Define your technical needs**  
+   For simple blogs, portfolios or small shops, WordPress is ideal. For unique applications (custom portals, advanced integrations), choose custom.  
+3. **Evaluate future growth**  
+   WordPress scales, but complex scaling can become costly. Custom solutions can be built with growth in mind.  
+4. **Consider maintenance resources**  
+   If you lack in-house developers, WordPress's simplicity is a plus. If you have a tech team, custom lends itself to deeper control.
+
+---
+
+## Conclusion
+WordPress and custom web development each have a clear place. WordPress offers speed, ease and affordability, while custom development delivers flexibility, performance and security. Weigh your project's scope, budget, timeline and growth plans, then choose the path that aligns best with your goals.`,
+    image: "https://i.ibb.co/rPmRbqX/3ced2984-6435-48b1-8de8-a41fad0cd221.webp",
+    coverImage: "https://i.ibb.co/rPmRbqX/3ced2984-6435-48b1-8de8-a41fad0cd221.webp",
+    readTime: "5",
+    timestamp: new Date('2025-05-01').getTime()
+  },
+  {
+    id: 2,
     title: "Product Development: Using Mockups to Visualize Your Equine Products",
-    slug: slugify("Product Development: Using Mockups to Visualize Your Equine Products"),
-    timestamp: 0,
     summary: "Learn how to use mockups to visualize and refine your equine product designs before production. Discover tools and techniques for creating realistic product previews.",
     content: `# Product Development: Using Mockups to Visualize Your Equine Products
 
@@ -169,13 +258,11 @@ Mockups are a powerful tool in product development. They help you visualize, ref
     image: "https://images.pexels.com/photos/1181673/pexels-photo-1181673.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
     coverImage: "https://images.pexels.com/photos/1181673/pexels-photo-1181673.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
     readTime: "8",
-    author: "Equinology Team"
+    timestamp: timestampDaysAgo() // 1 second ago
   },
   {
-    id: 2,
+    id: 3,
     title: "Equine Website Design: Why Every Livery Yard and Riding School Needs a Professional Site",
-    slug: slugify("Equine Website Design: Why Every Livery Yard and Riding School Needs a Professional Site"),
-    timestamp: 0,
     summary: "Discover why professional equine web design is essential for your horse business. Learn how a well-designed website can help livery yards, riding schools, and equine professionals grow their business.",
     content: `# Equine Website Design: Why Every Livery Yard and Riding School Needs a Professional Site
 
@@ -320,13 +407,11 @@ A professional website is an investment that pays off through increased visibili
     image: "https://images.pexels.com/photos/15923755/pexels-photo-15923755/free-photo-of-mouth-of-a-horse-standing-in-a-paddock.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
     coverImage: "https://images.pexels.com/photos/15923755/pexels-photo-15923755/free-photo-of-mouth-of-a-horse-standing-in-a-paddock.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
     readTime: "3",
-    author: "Equinology Team"
+    timestamp: timestampDaysAgo() // 1 second ago
   },
   {
-    id: 3,
+    id: 4,
     title: "Branding for Equestrian Businesses What It Is and Why It Matters",
-    slug: slugify("Branding for Equestrian Businesses What It Is and Why It Matters"),
-    timestamp: 0,
     summary: "Understand equestrian branding for UK-based businesses. From saddle fitters to riding schools, learn how good branding builds trust and recognition.",
     content: `Branding is more than just a logo. For horse businesses, it's about building trust, consistency, and a clear identity across everything you do.
 
@@ -361,13 +446,11 @@ Your brand doesn't need to be fancy or expensive. It just needs to be consistent
     image: "https://cdn.pixabay.com/photo/2018/05/18/15/30/web-design-3411373_1280.jpg",
     coverImage: "https://cdn.pixabay.com/photo/2018/05/18/15/30/web-design-3411373_1280.jpg",
     readTime: "3",
-    author: "Equinology Team"
+    timestamp: randomTimestampLast() // 1 second ago
   },
   {
-    id: 4,
+    id: 5,
     title: "Equinology is Expanding to More Industries",
-    slug: slugify("Equinology is Expanding to More Industries"),
-    timestamp: 0,
     summary: "Discover how Equinology is broadening its expertise beyond equestrian businesses to help more industries with their digital transformation and branding needs.",
     content: `# Equinology is Expanding to More Industries
 
@@ -440,102 +523,13 @@ Interested in learning more about how we can help your business? [Contact us](/c
     image: "https://images.pexels.com/photos/2047905/pexels-photo-2047905.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
     coverImage: "https://images.pexels.com/photos/2047905/pexels-photo-2047905.jpeg?auto=compress&cs=tinysrgb&w=1260&h=750&dpr=2",
     readTime: "4",
-    author: "Equinology Team"
-  },
-  {
-    id: 5,
-    title: "WordPress vs Custom Web Development: Making the Right Choice",
-    slug: slugify("WordPress vs Custom Web Development: Making the Right Choice"),
-    timestamp: 0,
-    summary: "A comprehensive analysis comparing WordPress and custom web development, exploring their benefits, limitations, and key considerations for businesses of all types.",
-    content: `# WordPress vs Custom Web Development: Making the Right Choice
-
-WordPress powers over 40% of all websites, but is it the right choice for your business? Let's compare WordPress with custom web development to help you make the best choice.
-
-## WordPress vs Custom Web Development
-
-### WordPress: Quick and Affordable
-- **Cost:** Lower initial cost, many free themes and plugins
-- **Setup:** Can be up and running in days
-- **Updates:** Easy to update content yourself
-- **Maintenance:** Regular updates needed for security
-- **Customisation:** Limited by available themes and plugins
-
-### Custom Design: Tailored to Your Needs
-- **Cost:** Higher initial investment
-- **Setup:** Takes longer to develop
-- **Updates:** Usually requires developer help
-- **Maintenance:** Less frequent, handled by professionals
-- **Customisation:** Complete freedom to build exactly what you need
-
-## When WordPress Works Well
-
-### For Small Businesses
-- Basic website needs
-- Simple booking systems
-- Photo galleries
-- News updates
-- Price lists
-
-### For Quick Online Presence
-- New businesses
-- Seasonal promotions
-- Event announcements
-- Basic information sharing
-
-## When Custom Design is Better
-
-### For Complex Needs
-- Specialised booking systems
-- Custom management features
-- Client portals
-- Advanced scheduling
-- Custom reporting tools
-
-### For Growing Businesses
-- Scalable solutions
-- Unique features
-- Better performance
-- Enhanced security
-- Professional support
-
-## Key Points to Consider
-
-1. **Your Budget**
-   - WordPress: Lower cost to start, but add-ons can add up
-   - Custom: Higher initial cost, but often better long-term value
-
-2. **Technical Skills**
-   - WordPress: Easy to learn, good for DIY updates
-   - Custom: Requires professional help for changes
-
-3. **Future Growth**
-   - WordPress: Can be limiting as your business grows
-   - Custom: Built to scale with your business
-
-4. **Security**
-   - WordPress: Needs regular updates and security plugins
-   - Custom: More secure, less maintenance
-
-5. **Performance**
-   - WordPress: Can be slow with many plugins
-   - Custom: Optimised for speed and efficiency
-
-## Making the Right Choice
-
-For many businesses, WordPress is a good starting point. It's affordable and easy to use. But if you need special features or expect to grow quickly, custom web development might be a better investment.
-
-Think about:
-- How much you can spend
-- What features you really need
-- How tech-savvy you are
-- Your plans for growth
-- How important security is to you
-
-The best choice depends on your specific needs and goals. Some businesses start with WordPress and move to custom development later. Others go straight to custom for a more professional solution.`,
-    image: "https://i.ibb.co/rPmRbqX/3ced2984-6435-48b1-8de8-a41fad0cd221.webp",
-    coverImage: "https://i.ibb.co/rPmRbqX/3ced2984-6435-48b1-8de8-a41fad0cd221.webp",
-    readTime: "5",
-    author: "Equinology Team"
+    timestamp: randomTimestampLast() // 1 second ago
   }
-].sort((a, b) => b.timestamp - a.timestamp); 
+];
+
+// Seed each article with consistent timestamps
+export const articles: Article[] = rawArticles.map(a => ({
+  ...a,
+  slug: slugify(a.title),
+  author: 'Equinology Team',
+})).sort((a, b) => b.timestamp - a.timestamp); 
