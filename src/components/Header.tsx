@@ -133,12 +133,12 @@ const Header = () => {
                 >
                   <div className="flex justify-between items-center mb-12">
                     <img src={logo} className="w-32 h-auto drop-shadow-lg" alt="Logo" />
-                    <button
+                  <button
                       className="text-gray-400 hover:text-white p-2 rounded-full bg-white/5 hover:bg-white/10 border border-white/5 hover:border-[#3CAAFF]/20 transition-all duration-300"
-                      onClick={() => setIsSidebarOpen(false)}
-                    >
+                    onClick={() => setIsSidebarOpen(false)}
+                  >
                       <X className="w-5 h-5" />
-                    </button>
+                  </button>
                   </div>
 
                   <nav className="flex flex-col space-y-8">
@@ -155,7 +155,7 @@ const Header = () => {
                         className="text-white text-xl font-medium tracking-wide hover:text-[#3CAAFF] transition-all duration-300 text-left group flex items-center"
                       >
                         <span className="relative">
-                          {item.label}
+                        {item.label}
                           <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-[#3CAAFF] to-[#00E0FF] group-hover:w-full transition-all duration-300"></span>
                         </span>
                       </motion.button>
@@ -175,7 +175,7 @@ const Header = () => {
                     }}
                   >
                     <span className="flex items-center justify-center">
-                      Contact Us
+                    Contact Us
                       <ChevronRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
                     </span>
                   </motion.button>
@@ -256,12 +256,12 @@ const Header = () => {
                 >
                   <div className="flex justify-between items-center mb-12">
                     <img src={logo} className="w-32 h-auto drop-shadow-lg" alt="Logo" />
-                    <button
+                  <button
                       className="text-gray-400 hover:text-white p-2 rounded-full bg-white/5 hover:bg-white/10 border border-white/5 hover:border-[#3CAAFF]/20 transition-all duration-300"
-                      onClick={() => setIsSidebarOpen(false)}
-                    >
+                    onClick={() => setIsSidebarOpen(false)}
+                  >
                       <X className="w-5 h-5" />
-                    </button>
+                  </button>
                   </div>
 
                   <nav className="flex flex-col space-y-8">
@@ -278,7 +278,7 @@ const Header = () => {
                         className="text-white text-xl font-medium tracking-wide hover:text-[#3CAAFF] transition-all duration-300 text-left group flex items-center"
                       >
                         <span className="relative">
-                          {item.label}
+                        {item.label}
                           <span className="absolute -bottom-1 left-0 w-0 h-0.5 bg-gradient-to-r from-[#3CAAFF] to-[#00E0FF] group-hover:w-full transition-all duration-300"></span>
                         </span>
                       </motion.button>
@@ -298,7 +298,7 @@ const Header = () => {
                     }}
                   >
                     <span className="flex items-center justify-center">
-                      Contact Us
+                    Contact Us
                       <ChevronRight className="ml-2 w-5 h-5 group-hover:translate-x-1 transition-transform duration-300" />
                     </span>
                   </motion.button>

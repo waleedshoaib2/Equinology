@@ -1,6 +1,6 @@
 import { motion, useScroll, useTransform, useSpring, MotionValue } from 'framer-motion';
 import { PenTool, Layout, Compass, Lightbulb, Ruler, Users } from 'lucide-react';
-import { useRef } from 'react';
+import { useRef, useState, useEffect } from 'react';
 import React from 'react';
 import { useAnimation } from '../contexts/AnimationContext';
 
@@ -100,58 +100,16 @@ const Services = () => {
     },
   ];
 
+  const [showCards, setShowCards] = useState(isReducedMotion);
+  useEffect(() => {
+    if (!isReducedMotion) {
+      const timeout = setTimeout(() => setShowCards(true), 100);
+      return () => clearTimeout(timeout);
+    }
+  }, [isReducedMotion]);
+
   return (
     <section id="services" className="relative py-20 sm:py-32 overflow-hidden bg-[#0A0A0A]" ref={containerRef}>
-      {/* Background orbs with subtle glare effect */}
-      <AnimatedOrb
-        className={`${isMobile ? 'opacity-10' : 'opacity-15'} bg-[#3CAAFF]`}
-        style={{
-          width: isMobile ? '200px' : '400px',
-          height: isMobile ? '200px' : '400px',
-          filter: `blur(${isMobile ? '60px' : '80px'})`,
-          left: '-20%',
-          top: '15%'
-        }}
-        parallaxValue={parallaxUp}
-      />
-
-      <AnimatedOrb
-        className={`${isMobile ? 'opacity-10' : 'opacity-15'} bg-[#00E0FF]`}
-        style={{
-          width: isMobile ? '200px' : '400px',
-          height: isMobile ? '200px' : '400px',
-          filter: `blur(${isMobile ? '60px' : '80px'})`,
-          right: '-20%',
-          bottom: '15%'
-        }}
-        parallaxValue={parallaxDown}
-      />
-
-      {/* Additional very subtle orbs */}
-      <AnimatedOrb
-        className="opacity-5 bg-[#3CAAFF]"
-        style={{
-          width: isMobile ? '150px' : '300px',
-          height: isMobile ? '150px' : '300px',
-          filter: `blur(${isMobile ? '40px' : '60px'})`,
-          left: '25%',
-          top: '45%'
-        }}
-        parallaxValue={parallaxUp}
-      />
-
-      <AnimatedOrb
-        className="opacity-5 bg-[#00E0FF]"
-        style={{
-          width: isMobile ? '150px' : '300px',
-          height: isMobile ? '150px' : '300px',
-          filter: `blur(${isMobile ? '40px' : '60px'})`,
-          right: '25%',
-          bottom: '45%'
-        }}
-        parallaxValue={parallaxDown}
-      />
-
       <div className="max-w-7xl mx-auto relative z-10 px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-16">
           {isReducedMotion ? (
@@ -190,19 +148,20 @@ const Services = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 sm:gap-10">
           {services.map((service, index) => (
-            <motion.div
+            <div
               key={service.title}
-              {...(isReducedMotion ? {} : animationConfig)}
-              transition={{
-                duration: isMobile ? 0.3 : 0.5,
-                delay: isMobile ? index * 0.1 : index * 0.2
+              style={{
+                opacity: showCards ? 1 : 0,
+                transition: isReducedMotion
+                  ? 'none'
+                  : `opacity 0.7s cubic-bezier(0.4,0,0.2,1) ${0.15 * index + 0.1}s`
               }}
               className="bg-[#111111]/50 backdrop-blur-sm p-8 rounded-2xl border border-[#3CAAFF]/20 hover:border-[#3CAAFF]/50 transition-all duration-300"
             >
               {service.icon}
               <h3 className="text-xl font-semibold text-white mt-6 mb-4">{service.title}</h3>
               <p className="text-[#ABABAB]">{service.description}</p>
-            </motion.div>
+            </div>
           ))}
         </div>
       </div>

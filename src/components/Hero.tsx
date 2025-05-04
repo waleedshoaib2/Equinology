@@ -12,12 +12,31 @@ const Hero = () => {
   const ref = useRef(null);
   const isInView = useInView(ref, { once: true, margin: "-100px" });
   const [imageLoaded, setImageLoaded] = useState(false);
+  const [hasLoaded, setHasLoaded] = useState(false);
+  const [reduceMotion, setReduceMotion] = useState(false);
   
   useEffect(() => {
-    if (isInView) {
+    // Check prefers-reduced-motion
+    const media = window.matchMedia('(prefers-reduced-motion: reduce)');
+    setReduceMotion(media.matches);
+    const handler = () => setReduceMotion(media.matches);
+    media.addEventListener('change', handler);
+    // Delay animations until after first paint
+    const timeout = setTimeout(() => setHasLoaded(true), 100);
+    return () => {
+      media.removeEventListener('change', handler);
+      clearTimeout(timeout);
+    };
+  }, []);
+
+  useEffect(() => {
+    if (isInView && hasLoaded && !reduceMotion) {
       controls.start("visible");
     }
-  }, [isInView, controls]);
+    if (reduceMotion) {
+      controls.set("visible");
+    }
+  }, [isInView, controls, hasLoaded, reduceMotion]);
 
   return (
     <div className="relative min-h-screen overflow-hidden" ref={ref}>
@@ -38,7 +57,7 @@ const Hero = () => {
               hidden: { opacity: 0 },
               visible: { opacity: 1 }
             }}
-            transition={{ duration: 0.5 }}
+            transition={{ duration: reduceMotion ? 0 : 0.5 }}
             className="space-y-8"
           >
             {/* Badge */}
